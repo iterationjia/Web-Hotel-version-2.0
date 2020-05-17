@@ -5,6 +5,7 @@ import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: chenyizong
@@ -38,5 +39,7 @@ public interface OrderService {
      * @return
      */
     ResponseVO annulOrder(int orderid);
+
+    List<Order> getHotelOrders(Integer hotelId);
 
 }

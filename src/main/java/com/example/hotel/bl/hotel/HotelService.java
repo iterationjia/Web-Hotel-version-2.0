@@ -8,7 +8,7 @@ import com.example.hotel.vo.HotelVO;
 
 import java.util.List;
 
-public interface HotelService {
+public interface    HotelService {
 
     /**
      * 添加酒店
@@ -52,7 +52,7 @@ public interface HotelService {
      * @param hotelId
      * @return
      */
-    List<Order> getHotelOrders(Integer hotelId);
+
 
 
 }

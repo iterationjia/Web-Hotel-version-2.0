@@ -8,6 +8,17 @@
         @cancel="cancel"
     >
         <!-- 这里是模态框内容区域，请编写列表代码与添加策略按钮 -->
+        <div style="width: 100%; text-align: right; margin:20px 0">
+            <a-button type="primary" @click="addCoupon"><a-icon type="plus"/>添加优惠策略</a-button>
+        </div>
+        <a-table :columns="columns" :dataSource="couponList">
+            <span slot="couponType" slot-scope="value">
+                <a-tag color="red" v-if="value==1">生日特惠</a-tag>
+                <a-tag color="red" v-if="value==2">多间特惠</a-tag>
+                <a-tag color="red" v-if="value==3">满减优惠</a-tag>
+                <a-tag color="red" v-if="value==4">限时优惠</a-tag>
+            </span>
+        </a-table>
     </a-modal>
     <AddCoupon></AddCoupon>
    </div>
@@ -18,6 +29,23 @@ import AddCoupon from './addCoupon'
 
 const columns = [
     // 这里定义列表头
+    {
+        title: '优惠类型',
+        dataIndex: 'couponType',
+        scopedSlots: { customRender: 'couponType' }
+    },
+    {
+        title: '折扣',
+        dataIndex: 'discount'
+    },
+    {
+        title: '优惠简介',
+        dataIndex: 'description'
+    },
+    {
+        title: '优惠金额',
+        dataIndex: 'discountMoney'
+    }
   ];
 export default {
     name: 'coupon',

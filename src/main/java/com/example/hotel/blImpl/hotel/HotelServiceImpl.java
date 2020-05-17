@@ -95,9 +95,5 @@ public class HotelServiceImpl implements HotelService {
      * @param hotelId
      * @return
      */
-    @Override
-    public List<Order> getHotelOrders(Integer hotelId) {
-        List<Order> orders = orderService.getAllOrders();
-        return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
-    }
+
 }

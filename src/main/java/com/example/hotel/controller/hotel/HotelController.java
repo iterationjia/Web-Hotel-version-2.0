@@ -42,9 +42,5 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
     }
 
-    @GetMapping("/{hotelId}/allOrders")
-    public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
-        return ResponseVO.buildSuccess(hotelService.getHotelOrders(hotelId));
-    }
 
 }

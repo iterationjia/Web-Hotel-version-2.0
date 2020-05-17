@@ -120,14 +120,20 @@ const hotelManager = {
             const res = await hotelAllCouponsAPI(state.activeHotelId)
             if(res) {
                 // 获取到酒店策略之后的操作（将获取到的数组赋值给couponList）
+                commit('set_couponList', res)
             }
         },
         addHotelCoupon: async({ commit, dispatch }, data) => {
             const res = await hotelTargetMoneyAPI(data)
             if(res){
                 // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）
+                message.success('添加成功')
+                commit('set_addCouponVisible', false)
+                commit('set_couponVisible', true)
+                dispatch('getHotelCoupon')
             }else{
                 // 添加失败后的操作
+                message.error('添加失败')
             }
         }
     }

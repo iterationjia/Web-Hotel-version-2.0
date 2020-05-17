@@ -15,9 +15,10 @@
     <select id="getOrderById" resultMap="Order">
         select * from OrderList where id=#{orderid}
     </select>
-   <!--取消订单的数据库操作-->
-
-
+   <!--取消订单的数据库操作,返回值int怎么操作-->
+    <delete id = "annulOrder">
+    delete from OrderList where id=#{orderid}
+    </delete>
 
     <resultMap id="Order" type="com.example.hotel.po.Order">
     </resultMap>
