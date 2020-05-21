@@ -2,7 +2,8 @@ import { message } from 'ant-design-vue'
 import store from '@/store'
 import {
     getHotelsAPI,
-    getHotelByIdAPI
+    getHotelByIdAPI,
+    getHotelListBySearchAPI
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -75,6 +76,13 @@ const hotel = {
             if(res){
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
+            }
+        },
+        getHotelListBySearch: async ({commit, state}, data) => {
+            const res = await getHotelListBySearchAPI(data)
+            if(res){
+                commit('set_hotelList', res)
+                commit('set_hotelListLoading', false) // ?
             }
         },
         getHotelById: async({commit, state}) => {

@@ -31,6 +31,15 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotels());
     }
 
+    @GetMapping("/search")
+    public ResponseVO retrieveSearchedHotels(@RequestParam String region,
+                                             @RequestParam String address,
+                                             @RequestParam String name,
+                                             @RequestParam String star,
+                                             @RequestParam Integer rate0, @RequestParam Integer rate1){
+        return ResponseVO.buildSuccess(hotelService.retrieveSearchedHotels(region,address,name,star,rate0,rate1));
+    }
+
     @PostMapping("/roomInfo")
     public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
         roomService.insertRoomInfo(hotelRoom);

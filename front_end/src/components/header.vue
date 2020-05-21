@@ -6,6 +6,11 @@
             
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
+            <a-menu-item key="0" @click="selectMenu">
+                <router-link :to="{ name: 'hotelSearch' }">
+                    <a-icon type="home" />新首页
+                </router-link>
+            </a-menu-item>
             <a-menu-item key="1" @click="selectMenu">
                 <router-link to="/hotel/hotelList">
                     <a-icon type="home" />首页
@@ -19,7 +24,7 @@
                      <a-icon type="switcher" />酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Admin'">
+            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Manager'">
                 <router-link :to="{ name: 'manageUser'}">
                      <a-icon type="user" />账户管理
                 </router-link>
@@ -74,6 +79,8 @@ export default {
             this.current = ['2']
         }else if(this.$route.name == 'manageHotel') {
             this.current = ['3']
+        }else if (this.$route.name == 'hotelSearch'){
+            this.current = ['0']
         }else {
             this.current = ['4']
         }

@@ -27,6 +27,14 @@
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="订单管理" key="2">
+                <div style="margin:20px 0">
+
+                    <a-radio-group default-value="ordered" button-style="solid">
+                        <a-radio-button value="ordered">已预订</a-radio-button>
+                        <a-radio-button value="executed">已执行</a-radio-button>
+                        <a-radio-button value="undone">已撤销/异常</a-radio-button>
+                    </a-radio-group>
+                </div>
                 <a-table
                     :columns="columns2"
                     :dataSource="orderList"
@@ -41,7 +49,7 @@
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small">订单详情</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetail">订单详情</a-button>
                         <a-divider type="vertical"></a-divider>
                         <a-popconfirm
                             title="确定想删除该订单吗？"
@@ -59,6 +67,7 @@
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
         <Coupon></Coupon>
+        <OrderDetail></OrderDetail>
     </div>
 </template>
 <script>
@@ -66,6 +75,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddHotelModal from './components/addHotelModal'
 import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
+import OrderDetail from './components/orderDetail'
 const moment = require('moment')
 const columns1 = [
     {  
@@ -102,6 +112,10 @@ const columns2 = [
     {  
         title: '订单号',
         dataIndex: 'id',
+    },
+    {
+        title: '订单状态',
+        dataIndex: 'orderState'
     },
     {  
         title: '酒店名',
@@ -151,6 +165,7 @@ export default {
         AddHotelModal,
         AddRoomModal,
         Coupon,
+        OrderDetail,
     },
     computed: {
         ...mapGetters([
@@ -172,6 +187,7 @@ export default {
             'set_addRoomModalVisible',
             'set_couponVisible',
             'set_activeHotelId',
+            'set_orderDetailVisible',
         ]),
         ...mapActions([
             'getHotelList',
@@ -196,6 +212,9 @@ export default {
         deleteOrder(){
 
         },
+        showOrderDetail(){
+            this.set_orderDetailVisible(true)
+        }
     }
 }
 </script>

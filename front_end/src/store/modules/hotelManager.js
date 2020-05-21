@@ -37,6 +37,7 @@ const hotelManager = {
         addCouponVisible: false,
         activeHotelId: 0,
         couponList: [],
+        orderDetailVisible: false,
     },
     mutations: {
         set_orderList: function(state, data) {
@@ -71,6 +72,9 @@ const hotelManager = {
         },
         set_addCouponVisible: function(state, data) {
             state.addCouponVisible =data
+        },
+        set_orderDetailVisible: function (state, data) {
+            state.orderDetailVisible = data
         }
     },
     actions: {
