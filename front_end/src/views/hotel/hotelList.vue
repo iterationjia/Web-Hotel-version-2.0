@@ -28,9 +28,9 @@ export default {
       emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}]
     }
   },
-  async mounted() {
-    await this.getHotelList()
-  },
+  // async mounted() {
+  //   await this.getHotelList()
+  // },
   computed: {
     ...mapGetters([
       'hotelList',
@@ -42,9 +42,6 @@ export default {
       'set_hotelListParams',
       'set_hotelListLoading'
     ]),
-    ...mapActions([
-      'getHotelList'
-    ]),
 
     pageChange(page, pageSize) {
       const data = {
@@ -52,7 +49,6 @@ export default {
       }
       this.set_hotelListParams(data)
       this.set_hotelListLoading(true)
-      this.getHotelList()
     },
     jumpToDetails(id){
       this.$router.push({ name: 'hotelDetail', params: { hotelId: id }})

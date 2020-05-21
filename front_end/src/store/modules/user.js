@@ -66,7 +66,7 @@ const user = {
                 setToken(res.id)
                 commit('set_userId', res.id)
                 dispatch('getUserInfo')
-                router.push('/hotel/hotelList')
+                router.push('/')
             }
         },
         register: async({ commit }, data) => {

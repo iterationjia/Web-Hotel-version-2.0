@@ -1,5 +1,5 @@
 <template>
-    <div class="newhotelList">
+    <div class="oldHotelList">
         <a-layout>
             <a-layout-content style="min-width: 800px">
                 <a-spin :spinning="hotelListLoading">
@@ -19,7 +19,7 @@
     import HotelCard from './components/hotelCard'
     import { mapGetters, mapActions, mapMutations } from 'vuex'
     export default {
-        name: "newhotelList",
+        name: "oldHotelList",
         components: {
             HotelCard
         },
@@ -27,6 +27,9 @@
             return{
                 emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}]
             }
+        },
+        async mounted() {
+          await this.getHotelList()
         },
         computed: {
             ...mapGetters([
@@ -39,6 +42,9 @@
                 'set_hotelListParams',
                 'set_hotelListLoading'
             ]),
+            ...mapActions([
+                'getHotelList'
+            ]),
 
             pageChange(page, pageSize) {
                 const data = {
@@ -46,7 +52,7 @@
                 }
                 this.set_hotelListParams(data)//
                 this.set_hotelListLoading(true)// 这个是干什么的？
-                // this.getHotelList()
+                this.getHotelList()
             },
             jumpToDetails(id){
                 this.$router.push({ name: 'hotelDetail', params: { hotelId: id }})
@@ -55,7 +61,7 @@
     }
 </script>
 <style scoped lang="less">
-    .newhotelList {
+    .oldHotelList {
         text-align: center;
         padding: 50px 0;
         .emptyBox {

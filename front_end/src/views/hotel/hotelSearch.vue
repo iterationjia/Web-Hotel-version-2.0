@@ -98,7 +98,7 @@
                         }
                         // console.log(data);
                         this.getHotelListBySearch(data)
-                        this.$router.push({ name: 'searchList'})
+                        this.$router.push({ name: 'hotelList'})
                         // this.addHotelCoupon(data)
                     }
                     else{
