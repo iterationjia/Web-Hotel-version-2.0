@@ -7,7 +7,7 @@
                 </div>
                  <a-table
                     :columns="columns1"
-                    :dataSource="hotelList"
+                    :dataSource="managerHotelList"
                     bordered
                 >
                     <span slot="action" slot-scope="record">
@@ -29,15 +29,15 @@
             <a-tab-pane tab="订单管理" key="2">
                 <div style="margin:20px 0">
 
-                    <a-radio-group default-value="ordered" button-style="solid">
-                        <a-radio-button value="ordered">已预订</a-radio-button>
+                    <a-radio-group default-value="scheduled" button-style="solid" @change="changeManagerOrderListType">
+                        <a-radio-button value="scheduled">已预订</a-radio-button>
                         <a-radio-button value="executed">已执行</a-radio-button>
-                        <a-radio-button value="undone">已撤销/异常</a-radio-button>
+                        <a-radio-button value="error">已撤销/异常</a-radio-button>
                     </a-radio-group>
                 </div>
                 <a-table
                     :columns="columns2"
-                    :dataSource="orderList"
+                    :dataSource="managerOrderTypeList"
                     bordered
                 >
                     <span slot="price" slot-scope="text">
@@ -115,7 +115,7 @@ const columns2 = [
     },
     {
         title: '订单状态',
-        dataIndex: 'orderState'
+        dataIndex: 'orderState',
     },
     {  
         title: '酒店名',
@@ -169,8 +169,13 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'orderList',
+            // 'orderList',
             'hotelList',
+            'managerHotelList',
+            'managerOrderTypeList',
+            'managerScheduledOrderList',
+            'managerExecutedOrderList',
+            'managerErrorOrderList',
             'addHotelModalVisible',
             'addRoomModalVisible',
             'activeHotelId',
@@ -178,8 +183,10 @@ export default {
         ]),
     },
     async mounted() {
-        await this.getHotelList()
-        await this.getAllOrders()
+        // await this.getHotelList()
+        await this.getManagerHotelList()
+        // await this.getAllOrders()
+        await this.getManagerOrderList()
     },
     methods: {
         ...mapMutations([
@@ -188,10 +195,13 @@ export default {
             'set_couponVisible',
             'set_activeHotelId',
             'set_orderDetailVisible',
+            'set_managerOrderListType',
         ]),
         ...mapActions([
             'getHotelList',
-            'getAllOrders',
+            'getManagerHotelList',
+            'getManagerOrderList',
+            // 'getAllOrders',
             'getHotelCoupon'
         ]),
         addHotel() {
@@ -211,6 +221,9 @@ export default {
         },
         deleteOrder(){
 
+        },
+        changeManagerOrderListType(param){
+            this.set_managerOrderListType(param.target.value)
         },
         showOrderDetail(){
             this.set_orderDetailVisible(true)

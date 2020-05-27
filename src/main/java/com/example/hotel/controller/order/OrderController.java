@@ -31,8 +31,14 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
+    @GetMapping("/{managerid}/getManagerOrders")
+    public ResponseVO retrieveManagerOrders(@PathVariable Integer managerid){
+        // 检索某个酒店管理员已预订的订单
+        return ResponseVO.buildSuccess(orderService.getManagerOrders(managerid));
+    }
+
     @GetMapping("/{userid}/getUserOrders")
-    public  ResponseVO retrieveUserOrders(@PathVariable int userid){
+    public  ResponseVO retrieveUserOrders(@PathVariable Integer userid){
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 

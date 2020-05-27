@@ -7,6 +7,7 @@ import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
+import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,6 +72,17 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderService.getAllOrders();
         return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Order> getManagerOrders(Integer managerid){
+        List<HotelVO> managerHotels = hotelService.retrieveManagerHotels(managerid);
+        List<Order> managerOrders = new ArrayList<>();
+        for (int i=0;i<managerHotels.size();i++){
+            managerOrders.addAll(getHotelOrders(managerHotels.get(i).getId()));
+        }
+        return managerOrders;
+    }
+
     @Override
     public List<Order> getUserOrders(int userid) {
         return orderMapper.getUserOrders(userid);

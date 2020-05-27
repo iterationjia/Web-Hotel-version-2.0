@@ -31,6 +31,12 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotels());
     }
 
+    @GetMapping("/{managerId}/managerHotels")
+    public ResponseVO retrieveManagerAllHotels(@PathVariable Integer managerId){
+        // 根据managerId获得他管理的酒店
+        return ResponseVO.buildSuccess(hotelService.retrieveManagerHotels(managerId));
+    }
+
     @GetMapping("/search")
     public ResponseVO retrieveSearchedHotels(@RequestParam String region,
                                              @RequestParam String address,

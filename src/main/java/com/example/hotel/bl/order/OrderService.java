@@ -26,6 +26,8 @@ public interface OrderService {
      */
     List<Order> getAllOrders();
 
+    List<Order> getManagerOrders(Integer managerid);
+
     /**
      * 获得指定用户的所有订单信息
      * @param userid

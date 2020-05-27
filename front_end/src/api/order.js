@@ -9,9 +9,15 @@ export function reserveHotelAPI(data) {
         data,
     })
 }
-export function getAllOrdersAPI() {
+// export function getAllOrdersAPI() {
+//     return axios({
+//         url: `${api.orderPre}/getAllOrders`,
+//         method: 'GET',
+//     })
+// }
+export function getManagerOrdersAPI(param) {
     return axios({
-        url: `${api.orderPre}/getAllOrders`,
+        url: `${api.orderPre}/${param.managerId}/getManagerOrders`,
         method: 'GET',
     })
 }

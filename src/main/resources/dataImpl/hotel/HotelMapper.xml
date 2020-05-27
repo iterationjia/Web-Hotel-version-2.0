@@ -13,6 +13,9 @@
     <select id="selectById" resultMap="Hotel">
         select * from Hotel where id=#{id}
     </select>
+    <select id="selectManagerHotels" resultMap="Hotel">
+        select * from Hotel where manager_id=#{managerId}
+    </select>
     <select id="selectSearchedHotel" resultMap="Hotel">
         select * from Hotel
         where bizRegion=#{region}

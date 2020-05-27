@@ -16,6 +16,8 @@ public interface HotelMapper {
 
     List<HotelVO> selectAllHotel();
 
+    List<HotelVO> selectManagerHotels(@Param("managerId") Integer managerId);
+
     HotelVO selectById(@Param("id") Integer id);
 
     List<HotelVO> selectSearchedHotel(@Param("region") String region,

@@ -38,6 +38,11 @@ const hotel = {
         set_hotelList: function(state, data) {
             state.hotelList = data
         },
+        set_hotelListSortedByRate: function(state) {
+            state.hotelList.sort(function(a,b){
+                return b.rate-a.rate
+            })
+        },
         set_hotelListParams: function(state, data) {
             state.hotelListParams = {
                 ...state.hotelListParams,
@@ -82,7 +87,7 @@ const hotel = {
             const res = await getHotelListBySearchAPI(data)
             if(res){
                 commit('set_hotelList', res)
-                commit('set_hotelListLoading', false) // ?
+                commit('set_hotelListLoading', false)
             }
         },
         getHotelById: async({commit, state}) => {

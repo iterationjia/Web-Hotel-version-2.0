@@ -16,12 +16,24 @@ const getters = {
   addManagerModalVisible: state => state.admin.addManagerModalVisible,
   addManagerParams: state => state.admin.addManagerParams,
   //hotelManager
-  orderList: state => state.hotelManager.orderList,
+  // orderList: state => state.hotelManager.orderList,
   addHotelModalVisible: state => state.hotelManager.addHotelModalVisible,
   addRoomModalVisible: state => state.hotelManager.addRoomModalVisible,
   couponVisible: state => state.hotelManager.couponVisible,
   addCouponVisible: state => state.hotelManager.addCouponVisible,
   activeHotelId: state => state.hotelManager.activeHotelId,
+  managerHotelList: state => state.hotelManager.managerHotelList,
+  managerOrderList: state => state.hotelManager.managerOrderList,
+  managerOrderTypeList: state => state.hotelManager.managerOrderTypeList,
+  managerScheduledOrderList: state => {
+     return state.hotelManager.managerOrderList.filter(order => (order.orderState=='已预订'))
+  },
+  managerExecutedOrderList: state => {
+    return state.hotelManager.managerOrderList.filter(order => (order.orderState=='已执行'))
+  },
+  managerErrorOrderList: state => {
+    return state.hotelManager.managerOrderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')))
+  },
   couponList: state => state.hotelManager.couponList,
   orderDetailVisible: state => state.hotelManager.orderDetailVisible,
   }
