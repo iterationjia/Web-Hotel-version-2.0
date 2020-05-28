@@ -23,12 +23,15 @@ const getDefaultState = () => {
         },
         userOrderList: [
 
-        ]
+        ],
+        userOrderTypeList: [],
+        orderDetailVisible: false
     }
 }
 
 const user = {
     state : getDefaultState(),
+
 
     mutations: {
         reset_state: function(state) {
@@ -56,6 +59,18 @@ const user = {
         },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
+        },
+        set_userOrderListType: function(state, data){
+            if (data=='scheduled'){
+                state.userOrderTypeList = this.getters.userScheduledOrderList
+            } else if (data=='executed'){
+                state.userOrderTypeList = this.getters.userExecutedOrderList
+            } else if (data=='error'){
+                state.userOrderTypeList = this.getters.userErrorOrderList
+            }
+        },
+        set_orderDetailVisible: function (state, data) {
+            state.orderDetailVisible = data
         }
     },
 
@@ -108,7 +123,8 @@ const user = {
             const res = await getUserOrdersAPI(data)
             if(res){
                 commit('set_userOrderList', res)
-                console.log(state.userOrderList)
+                commit('set_userOrderListType', 'scheduled')
+                //console.log(state.userOrderList)
             }
         },
         cancelOrder: async({ state, dispatch }, orderId) => {

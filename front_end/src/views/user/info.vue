@@ -49,9 +49,16 @@
                 </a-form>
             </a-tab-pane>
             <a-tab-pane tab="我的订单" key="2">
+                <div style="margin:20px 0">
+                    <a-radio-group default-value="scheduled" button-style="solid" @change="changeUserOrderListType">
+                        <a-radio-button value="scheduled">已预订</a-radio-button>
+                        <a-radio-button value="executed">已执行</a-radio-button>
+                        <a-radio-button value="error">已撤销/异常</a-radio-button>
+                    </a-radio-group>
+                </div>
                 <a-table
                     :columns="columns"
-                    :dataSource="userOrderList"
+                    :dataSource="userOrderTypeList"
                     bordered
                 >
                     <span slot="price" slot-scope="text">
@@ -66,7 +73,7 @@
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small">查看</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetail">订单详情</a-button>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                         <a-popconfirm
                             title="你确定撤销该笔订单吗？"
@@ -83,10 +90,12 @@
                 </a-table>
             </a-tab-pane>
         </a-tabs>
+        <OrderDetail></OrderDetail>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import OrderDetail from './components/userOrderDetail'
 const columns = [
     {  
         title: '订单号',
@@ -146,12 +155,17 @@ export default {
         }
     },
     components: {
+        OrderDetail
     },
     computed: {
         ...mapGetters([
             'userId',
             'userInfo',
-            'userOrderList'
+            'userOrderList',
+            'userOrderTypeList',
+            'userScheduledOrderList',
+            'userExecutedOrderList',
+            'userErrorOrderList',
         ])
     },
     async mounted() {
@@ -159,11 +173,15 @@ export default {
         await this.getUserOrders()
     },
     methods: {
+        ...mapMutations(['' +
+            'set_userOrderListType',
+            'set_orderDetailVisible',
+        ]),
         ...mapActions([
             'getUserInfo',
             'getUserOrders',
             'updateUserInfo',
-            'cancelOrder'
+            'cancelOrder',
         ]),
         saveModify() {
             this.form.validateFields((err, values) => {
@@ -196,8 +214,13 @@ export default {
         },
         cancelCancelOrder() {
 
+        },
+        changeUserOrderListType(param){
+            this.set_userOrderListType(param.target.value)
+        },
+        showOrderDetail(){
+            this.set_orderDetailVisible(true)
         }
-        
     }
 }
 </script>

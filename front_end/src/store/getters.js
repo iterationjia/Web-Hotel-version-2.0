@@ -4,6 +4,16 @@ const getters = {
   userId: state => state.user.userId,
   userInfo: state => state.user.userInfo,
   userOrderList: state => state.user.userOrderList,
+  userOrderTypeList: state => state.user.userOrderTypeList,
+  userScheduledOrderList: state => {
+    return state.user.userOrderList.filter(order => (order.orderState=='已预订'))
+  },
+  userExecutedOrderList: state => {
+    return state.user.userOrderList.filter(order => (order.orderState=='已执行'))
+  },
+  userErrorOrderList: state => {
+    return state.user.userOrderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')))
+  },
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,
   currentHotelInfo: state => state.hotel.currentHotelInfo,
