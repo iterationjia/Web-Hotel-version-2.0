@@ -4,6 +4,7 @@ import com.example.hotel.po.Order;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,7 @@ public interface OrderService {
      * @param orderid
      * @return
      */
-    ResponseVO annulOrder(int orderid);
+    ResponseVO annulOrder(int orderid) throws ParseException;
 
     List<Order> getHotelOrders(Integer hotelId);
 

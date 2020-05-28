@@ -7,6 +7,8 @@ import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 
 /**
  * @Author: chenyizong
@@ -43,7 +45,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderid}/annulOrder")
-    public ResponseVO annulOrder(@PathVariable int orderid){
+    public ResponseVO annulOrder(@PathVariable int orderid) throws ParseException {
         return orderService.annulOrder(orderid);
     }
 

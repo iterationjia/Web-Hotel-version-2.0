@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
         try {
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH");
             Date date = new Date(System.currentTimeMillis());
             String curdate = sf.format(date);
             orderVO.setCreateDate(curdate);
@@ -89,25 +90,34 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseVO annulOrder(int orderid) {
+    public ResponseVO annulOrder(int orderid) throws ParseException {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date(System.currentTimeMillis());
-        String curdate = sf.format(date);
         Order orderannual = orderMapper.getOrderById(orderid);
-        //退订时间设为createdate
-        orderannual.setCreateDate(curdate);
         orderannual.setOrderState("已撤销");
-        //先不扣；如果撤销的订单距离最晚订单执行时间不足6个小时，撤销的同时扣除信用值，信用值为订单的（总价值*1/2）
-        User user = accountService.getUserInfo(orderannual.getUserId());
-        boolean subcredit = false;
-        if(subcredit){
-            user.setCredit(user.getCredit()-orderannual.getPrice()/2);
-        }
+
         //数据库操作
         orderMapper.annulOrder(orderid);
+
+        //如果撤销的订单距离最晚订单执行时间不足6个小时，撤销的同时扣除信用值，信用值为订单的（总价值*1/2）
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH");
+        Date date = new Date(System.currentTimeMillis());
+        String curdate = sf.format(date);
+        String checkIn_date = orderannual.getCheckInDate();
+
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd HH");
+        long from = simpleFormat.parse(curdate).getTime();
+        long to = simpleFormat.parse(checkIn_date).getTime();
+        int hours = (int)((to-from)/1000/60/60);
+
+        User user = accountService.getUserInfo(orderannual.getUserId());
+        //注意等号，比如15:59到21:01,不足6小时，hours=6
+        if(hours<=6){
+            double curcredit = user.getCredit()-orderannual.getPrice()/2;
+            user.setCredit(curcredit);
+            orderMapper.annualSubCredit(orderid,curcredit);
+        }
         //roomnum置为负
-        hotelService.updateRoomInfo(orderannual.getHotelId(),orderannual.getRoomType(),-orderannual.getRoomNum());
+        hotelService.updateRoomInfo(orderannual.getHotelId(),orderannual.getRoomType(),-1*orderannual.getRoomNum());
         return ResponseVO.buildSuccess(true);
     }
 
