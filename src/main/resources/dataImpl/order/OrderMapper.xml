@@ -12,6 +12,9 @@
         insert into OrderList(userId,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState)
         values(#{userId},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState})
     </insert>
+
+    <!--评论-->
+
     <select id="getOrderById" resultMap="Order">
         select * from OrderList where id=#{orderid}
     </select>

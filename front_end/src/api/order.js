@@ -33,3 +33,10 @@ export function cancelOrderAPI(orderId) {
         method: 'GET',
     })
 }
+
+// export function updateUserOrderCommentAPI(data){
+//     return axios({
+//         url: `${api.orderPre}/${data.orderId}/updateOrderComment`,
+//         method: 'GET',
+//     })
+// }

@@ -110,4 +110,12 @@ public class OrderServiceImpl implements OrderService {
         hotelService.updateRoomInfo(orderannual.getHotelId(),orderannual.getRoomType(),-orderannual.getRoomNum());
         return ResponseVO.buildSuccess(true);
     }
+
+//    @Override
+//    public ResponseVO updateOrderComment(OrderVO orderVO){
+//        Order order = new Order();
+//        BeanUtils.copyProperties(orderVO,order);
+//        orderMapper.updateOrderComment(order);
+//        return ResponseVO.buildSuccess(true);
+//    }
 }

@@ -13,6 +13,7 @@ import {
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
+    updateUserOrderCommentAPI
 } from '@/api/order'
 
 const getDefaultState = () => {
@@ -112,10 +113,18 @@ const user = {
             }
             const res = await updateUserInfoAPI(params)
             if(res){
-                message.success('修改成功')
+                 message.success('修改成功')
                 dispatch('getUserInfo')
             }
         },
+
+        //评论
+        // updateUserOrderComment: async({state},data) =>{
+        //     const res = await updateUserOrderCommentAPI(data)
+        //     if(res){
+        //         message.success('评论成功')
+        //     }
+        // },
         getUserOrders: async({ state, commit }) => {
             const data = {
                 userId: Number(state.userId)

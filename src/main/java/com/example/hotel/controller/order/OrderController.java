@@ -46,6 +46,12 @@ public class OrderController {
     public ResponseVO annulOrder(@PathVariable int orderid){
         return orderService.annulOrder(orderid);
     }
+
+//    @GetMapping("/{orderid}/updateOrderComment")
+//    public ResponseVO updateOrderComment(@RequestBody OrderVO orderVO){
+//        return orderService.updateOrderComment(orderVO);
+//    }
+
     @GetMapping("/{hotelId}/allOrders")
     public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));
