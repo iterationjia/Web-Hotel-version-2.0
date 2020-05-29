@@ -46,6 +46,10 @@ const getters = {
   },
   couponList: state => state.hotelManager.couponList,
   orderDetailVisible: state => state.hotelManager.orderDetailVisible,
+  //marketManager
+  managerExceptionalOrderList: state => {
+    return state.marketManager.orderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')&&(order.orderState!='已撤销')))
   }
+}
   
   export default getters

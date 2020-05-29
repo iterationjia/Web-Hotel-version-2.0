@@ -121,6 +121,24 @@ public class OrderServiceImpl implements OrderService {
         return ResponseVO.buildSuccess(true);
     }
 
+    @Override
+    public ResponseVO deleteOrder(OrderVO orderVO){
+        double per = orderVO.getPrice();
+        int orderid = orderVO.getId();
+        Order orderdel = orderMapper.getOrderById(orderid);
+        orderdel.setOrderState("已撤销");
+
+        //数据库操作
+        orderMapper.annulOrder(orderid);
+
+        //恢复信用值
+        User user = accountService.getUserInfo(orderdel.getUserId());
+        double curcredit = user.getCredit()+orderdel.getPrice()/2*per;
+        user.setCredit(curcredit);
+        orderMapper.annualSubCredit(orderid,curcredit);
+        return ResponseVO.buildSuccess(true);
+    }
+
 //    @Override
 //    public ResponseVO updateOrderComment(OrderVO orderVO){
 //        Order order = new Order();

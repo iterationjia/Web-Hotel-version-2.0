@@ -3,7 +3,6 @@
         <div class="label">
             <img src="@/assets/logo.svg" class="logo" alt="logo" @click="jumpToHome">
             <span class="title">NJUSE 酒店管理系统</span>
-            
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
             <a-menu-item key="0" @click="selectMenu">
@@ -29,6 +28,26 @@
                      <a-icon type="user" />账户管理
                 </router-link>
             </a-menu-item>
+            <a-sub-menu @click="selectMenu" v-if="userInfo.userType=='MarketManager'">
+                <span slot="title" class="submenu-title-wrapper">
+                    <a-icon type="down-circle" />职责列表
+                </span>
+                <a-menu-item key="5" @click="selectMenu">
+                    <router-link :to="{ name: 'designCoupon'}">
+                        <a-icon type="plus-circle" />添加优惠
+                    </router-link>
+                </a-menu-item>
+                <a-menu-item key="6" @click="selectMenu">
+                    <router-link :to="{ name: 'handleException'}">
+                        <a-icon type="frown" />异常处理
+                    </router-link>
+                </a-menu-item>
+                <a-menu-item key="7" @click="selectMenu">
+                    <router-link :to="{ name: 'creditAdder'}">
+                        <a-icon type="transaction" />信用充值
+                    </router-link>
+                </a-menu-item>
+            </a-sub-menu>
         </a-menu>
         <div class="logout">
             <a-dropdown placement="bottomCenter">
@@ -79,11 +98,15 @@ export default {
             this.current = ['2']
         }else if(this.$route.name == 'manageHotel') {
             this.current = ['3']
-        }
-        else if (this.$route.name == 'oldHotelList'){
+        }else if (this.$route.name == 'oldHotelList'){
             this.current = ['0']
-        }
-        else {
+        }else if(this.$route.name == 'designCoupon'){
+            this.current = ['5']
+        }else if(this.$route.name == 'handleException'){
+            this.current = ['6']
+        }else if(this.$route.name == 'creditAdder'){
+            this.current = ['7']
+        } else {
             this.current = ['4']
         }
     },
@@ -104,7 +127,6 @@ export default {
             this.$router.push({ name: 'userInfo', params: { userId: this.userId } })
         },
         jumpToHome() {
-
         }
     }
 }

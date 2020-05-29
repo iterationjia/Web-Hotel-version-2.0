@@ -49,6 +49,11 @@ public class OrderController {
         return orderService.annulOrder(orderid);
     }
 
+    @GetMapping("/{id}/deleteOrder")
+    public ResponseVO deleteOrder(@RequestBody OrderVO orderVO){
+        return orderService.deleteOrder(orderVO);
+    }
+
 //    @GetMapping("/{orderid}/updateOrderComment")
 //    public ResponseVO updateOrderComment(@RequestBody OrderVO orderVO){
 //        return orderService.updateOrderComment(orderVO);

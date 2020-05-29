@@ -117,15 +117,12 @@
             </a-input>
           </a-form-item>
           <a-form-item>
-            <a-radio-group v-model="value" default-value="0" size="large">
+            <a-radio-group v-model="value" default-value="0" button-style="solid" size="large">
               <a-radio-button value="0">
                 客户
               </a-radio-button>
               <a-radio-button value="1">
                 酒店工作人员
-              </a-radio-button>
-              <a-radio-button value="3">
-                网站营销人员
               </a-radio-button>
             </a-radio-group>
           </a-form-item>

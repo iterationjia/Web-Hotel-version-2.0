@@ -9,12 +9,12 @@ export function reserveHotelAPI(data) {
         data,
     })
 }
-// export function getAllOrdersAPI() {
-//     return axios({
-//         url: `${api.orderPre}/getAllOrders`,
-//         method: 'GET',
-//     })
-// }
+export function getAllOrdersAPI() {
+    return axios({
+        url: `${api.orderPre}/getAllOrders`,
+        method: 'GET',
+    })
+}
 export function getManagerOrdersAPI(param) {
     return axios({
         url: `${api.orderPre}/${param.managerId}/getManagerOrders`,
@@ -30,6 +30,13 @@ export function getUserOrdersAPI(data) {
 export function cancelOrderAPI(orderId) {
     return axios({
         url: `${api.orderPre}/${orderId}/annulOrder`,
+        method: 'GET',
+    })
+}
+
+export function deletelOrderAPI(data) {
+    return axios({
+        url: `${api.orderPre}/${data.id}/deleteOrder`,
         method: 'GET',
     })
 }
