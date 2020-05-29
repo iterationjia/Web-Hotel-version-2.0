@@ -23,7 +23,9 @@ public interface OrderMapper {
     List<Order> getUserOrders(@Param("userid") int userid);
 
     int annulOrder(@Param("orderid") int orderid);
-
+//
+    int execOrder(@Param("orderid") int orderid);
+//
     Order getOrderById(@Param("orderid") int orderid);
 
     int annualSubCredit(@Param("orderid") int orderid , double credit);

@@ -5,7 +5,11 @@ import {
 } from '@/api/hotelManager'
 import {
     getAllOrdersAPI,
+
+    execOrderAPI,
+
     getManagerOrdersAPI,
+
 } from '@/api/order'
 import {
     hotelAllCouponsAPI,
@@ -39,6 +43,9 @@ const hotelManager = {
         addRoomModalVisible: false,
         couponVisible: false,
         addCouponVisible: false,
+//work
+        execOrderVisible:false,
+//
         activeHotelId: 0,
         couponList: [],
         orderDetailVisible: false,
@@ -62,6 +69,11 @@ const hotelManager = {
         set_addHotelModalVisible: function(state, data) {
             state.addHotelModalVisible = data
         },
+        //work
+        set_execOrderVisible:function(state,data){
+            state.execOrderVisible=data
+        },
+//
         set_addHotelParams: function(state, data) {
             state.addHotelParams = {
                 ...state.addHotelParams,
@@ -117,6 +129,17 @@ const hotelManager = {
                 commit('set_managerHotelList', res)
             }
         },
+//
+        execOrder: async ({ state, dispatch }, orderId) => {
+            const res = await execOrderAPI(orderId)
+            if(res) {
+                dispatch('getUserOrders')
+                message.success('执行成功')
+            }else{
+                message.error('执行失败')
+            }
+        },
+//
         addHotel: async({ state, dispatch, commit }) => {
             const res = await addHotelAPI(state.addHotelParams)
             if(res){

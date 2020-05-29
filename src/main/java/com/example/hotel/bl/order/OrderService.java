@@ -42,8 +42,18 @@ public interface OrderService {
      * @param orderid
      * @return
      */
+
+    /**
+     * 撤销订单
+     * @param orderid
+     * @return
+     */
+    ResponseVO execOrder(int orderid);
+
     ResponseVO annulOrder(int orderid) throws ParseException;
 
+
+//
     List<Order> getHotelOrders(Integer hotelId);
 
     ResponseVO deleteOrder(OrderVO orderVO);

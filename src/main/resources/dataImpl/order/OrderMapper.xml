@@ -28,6 +28,10 @@
         update user set user.credit = #{credit} where user.id in (select userId from orderlist where id=#{orderid})
     </update>
 
+    <update id = "execOrder">
+    update OrderList set orderState="已执行" where id=#{orderid}
+    </update>
+    
     <resultMap id="Order" type="com.example.hotel.po.Order">
     </resultMap>
 </mapper>

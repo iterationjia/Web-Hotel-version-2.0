@@ -49,6 +49,13 @@ public class OrderController {
         return orderService.annulOrder(orderid);
     }
 
+    @GetMapping("/{orderid}/execOrder")
+    //
+    public ResponseVO execOrder(@PathVariable int orderid){
+        return orderService.execOrder(orderid);
+    }
+
+
     @PostMapping("/deleteOrder")
     public ResponseVO deleteOrder(@RequestBody OrderVO orderVO){
         return orderService.deleteOrder(orderVO);
@@ -59,7 +66,9 @@ public class OrderController {
 //        return orderService.updateOrderComment(orderVO);
 //    }
 
+
     @GetMapping("/{hotelId}/allOrders")
+    //
     public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));
     }

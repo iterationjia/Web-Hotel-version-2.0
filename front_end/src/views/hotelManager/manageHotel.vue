@@ -51,6 +51,17 @@
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDetail">订单详情</a-button>
                         <a-divider type="vertical"></a-divider>
+                            <a-popconfirm
+                                    title="确定想执行该订单吗？"
+                                    @confirm="ExecOrder(record)"
+                                    okText="确定"
+                                    cancelText="取消"
+                                    v-if="record.orderState=='已预订'"
+                            >
+                        <a-button  type="default" size="small">执行订单</a-button>
+                        </a-popconfirm>
+
+                        <a-divider type="vertical" v-if="record.orderState=='已预订'"></a-divider>
                         <a-popconfirm
                             title="确定想删除该订单吗？"
                             @confirm="deleteOrder(record)"
@@ -202,6 +213,7 @@ export default {
             'getManagerHotelList',
             'getManagerOrderList',
             // 'getAllOrders',
+            'execOrder',
             'getHotelCoupon'
         ]),
         addHotel() {
@@ -222,12 +234,18 @@ export default {
         deleteOrder(){
 
         },
+
+        ExecOrder(record){
+            this.execOrder(record.id)
+           // this.
+        },
         changeManagerOrderListType(param){
             this.set_managerOrderListType(param.target.value)
         },
         showOrderDetail(){
             this.set_orderDetailVisible(true)
         }
+
     }
 }
 </script>

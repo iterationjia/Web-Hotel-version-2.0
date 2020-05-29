@@ -21,4 +21,6 @@ export function addHotelAPI(data) {
         method: 'POST',
         data,
     })
+
+
 }
