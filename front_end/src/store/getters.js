@@ -49,7 +49,8 @@ const getters = {
   //marketManager
   managerExceptionalOrderList: state => {
     return state.marketManager.orderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')&&(order.orderState!='已撤销')))
-  }
+  },
+  userCredit: state => state.marketManager.userCredit,
 }
   
   export default getters

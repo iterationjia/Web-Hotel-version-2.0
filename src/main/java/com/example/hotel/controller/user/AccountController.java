@@ -46,7 +46,20 @@ public class AccountController {
     @PostMapping("/{id}/userInfo/update")
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
         return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
-
     }
 
+    @PostMapping("/creditSet")
+    public ResponseVO creditSet(@RequestBody UserVO userVO){
+        return accountService.creditSet(userVO);
+    }
+
+    @PostMapping("/getAccountByEmail")
+    public ResponseVO getAccountByEmail(@RequestBody UserVO userVO) {
+
+        User user = accountService.getAccountByEmail(userVO.getEmail());
+        if(user==null){
+            return ResponseVO.buildFailure(ACCOUNT_INFO_ERROR);
+        }
+        return ResponseVO.buildSuccess(user);
+    }
 }
