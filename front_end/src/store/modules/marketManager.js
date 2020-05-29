@@ -22,10 +22,12 @@ const marketManager = {
                 commit('set_orderList', res)
             }
         },
-        deleteOrder: async(state, data) => {
+        deleteOrder: async({state,dispatch}, data) => {
+            console.log(data)
             const res = await deleteOrderAPI(data)
+            console.log(res)
             if(res) {
-                //dispatch('this.getters.managerExceptionalOrderList')
+                dispatch('getAllOrders')
                 message.success('撤销成功')
             }else{
                 message.error('撤销失败')

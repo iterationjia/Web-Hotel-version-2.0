@@ -125,6 +125,8 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO deleteOrder(OrderVO orderVO){
         double per = orderVO.getPrice();
         int orderid = orderVO.getId();
+        System.out.println(per);
+        System.out.println(orderid);
         Order orderdel = orderMapper.getOrderById(orderid);
         orderdel.setOrderState("已撤销");
 
@@ -132,6 +134,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.annulOrder(orderid);
 
         //恢复信用值
+        System.out.print(orderdel.getUserId());
         User user = accountService.getUserInfo(orderdel.getUserId());
         double curcredit = user.getCredit()+orderdel.getPrice()/2*per;
         user.setCredit(curcredit);

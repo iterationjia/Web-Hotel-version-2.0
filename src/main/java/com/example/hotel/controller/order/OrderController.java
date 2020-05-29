@@ -49,7 +49,7 @@ public class OrderController {
         return orderService.annulOrder(orderid);
     }
 
-    @GetMapping("/{id}/deleteOrder")
+    @PostMapping("/deleteOrder")
     public ResponseVO deleteOrder(@RequestBody OrderVO orderVO){
         return orderService.deleteOrder(orderVO);
     }

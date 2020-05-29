@@ -17,18 +17,21 @@
                     </span>
                     <span slot="action" slot-scope="record">
                         <a-divider type="vertical"></a-divider>
-                        <a-button type="danger" size="small" @click="showModal">撤销异常订单</a-button>
-                            <a-modal
-                                    title="撤销异常订单"
-                                    :visible="visible"
-                                    @ok="handleOk(record.id)"
-                                    @cancel="handleCancel"
-                            >
-                                <div class="code-box-demo">
-                                    <a-icon type="smile" :style="{ fontSize: '20px'}"/>  恢复信用值比例
-                                    <a-slider v-model="inputValue" :min="0.5" :max="1.0" :step="0.1" @change="onChange" @afterChange="onAfterChange" />
-                                </div>
-                            </a-modal>
+                        <a-button type="danger" size="small" @click="showModal(record.id)">撤销异常订单</a-button>
+                        <a-modal
+                                title="撤销异常订单"
+                                :visible="visible"
+                                :confirm-loading="confirmLoading"
+                                @ok="handleOk"
+                                @cancel="handleCancel"
+                                okText="确定"
+                                cancelText="取消"
+                        >
+                            <div class="code-box-demo">
+                                <a-icon type="smile" :style="{ fontSize: '20px'}"/>  恢复信用值比例
+                                <a-slider v-model="inputValue" :min="0.5" :max="1.0" :step="0.1" @change="onChange" @afterChange="onAfterChange" />
+                            </div>
+                        </a-modal>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -86,7 +89,9 @@ export default {
         return {
             columns1,
             visible: false,
-            inputValue:1
+            inputValue:0.5,
+            confirmLoading: false,
+            idNum: 0,
         }
     },
     components: {
@@ -109,17 +114,18 @@ export default {
             'deleteOrder',
         ]),
 
-        showModal() {
+        showModal(num) {
             this.visible = true;
+            this.idNum = num;
         },
-        handleOk(orderId) {
+        handleOk() {
             //借用price存比例
-            console.log('这是一条console')
             const data = {
-                id: orderId,
+                id: this.idNum,
                 price: this.inputValue
             }
-            this.deleteOrder(data)
+            this.deleteOrder(data);
+            this.visible = false;
         },
 
         handleCancel(e) {
