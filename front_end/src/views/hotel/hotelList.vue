@@ -2,7 +2,14 @@
   <div class="hotelList">
     <a-layout>
         <a-layout-content style="min-width: 800px">
-          <a-spin :spinning="hotelListLoading">
+            <a-select default-value="default" @change="sortChange" style="width: 180px">
+                <a-select-option value="default">默认排序</a-select-option>
+                <a-select-option value="rate">评分从高到低</a-select-option>
+                <a-select-option value="star">星级从高到低</a-select-option>
+                <a-select-option value="price">价格从低到高</a-select-option>
+            </a-select>
+            <a-button @click="getlog">test</a-button>
+            <a-spin :spinning="hotelListLoading">
             <div class="card-wrapper">
                 <HotelCard :hotel="item" v-for="item in hotelList" :key="item.index" @click.native="jumpToDetails(item.id)"></HotelCard>
                 <div v-for="item in emptyBox" :key="item.name" class="emptyBox ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3">
@@ -28,9 +35,6 @@ export default {
       emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}]
     }
   },
-  async mounted() {
-    await this.getHotelList()
-  },
   computed: {
     ...mapGetters([
       'hotelList',
@@ -40,19 +44,27 @@ export default {
   methods: {
     ...mapMutations([
       'set_hotelListParams',
-      'set_hotelListLoading'
+      'set_hotelListLoading',
+        'set_hotelListSortedByRate'
     ]),
-    ...mapActions([
-      'getHotelList'
-    ]),
-
+      ...mapActions([
+         'getHotelList'
+      ]),
+    sortChange(value){
+        if (value=="rate"){
+            this.set_hotelListSortedByRate()
+        }
+    },
+      getlog(){
+        console.log(this.hotelList)
+      },
     pageChange(page, pageSize) {
       const data = {
         pageNo: page - 1
       }
       this.set_hotelListParams(data)
       this.set_hotelListLoading(true)
-      this.getHotelList()
+        // this.getHotelList()
     },
     jumpToDetails(id){
       this.$router.push({ name: 'hotelDetail', params: { hotelId: id }})

@@ -9,6 +9,12 @@ export function addRoomAPI(data) {
         data,
     })
 }
+export function getManagerHotelsAPI(param) {
+    return axios({
+        url: `${api.hotelPre}/${param.managerId}/managerHotels`,
+        method: 'GET'
+    })
+}
 export function addHotelAPI(data) {
     return axios({
         url: `${api.hotelPre}/addHotel`,

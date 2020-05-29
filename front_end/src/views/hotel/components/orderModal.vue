@@ -28,9 +28,9 @@
                 />
             </a-form-item>
             
-            <a-form-item v-bind="formItemLayout" label="入住日期">
+            <a-form-item v-bind="formItemLayout" label="入住时间">
                 <a-range-picker
-                    format="YYYY-MM-DD"
+                    format="YYYY-MM-DD HH"
                     @change="changeDate"
                     v-decorator="[
                         'date', 
@@ -38,7 +38,7 @@
                             rules: [{ required: true, message: '请选择入住时间' }]   
                         }
                     ]"
-                    :placeholder="['入住日期','退房日期']"
+                    :placeholder="['入住时间','退房时间']"
                 />
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="入住人数">
@@ -229,8 +229,8 @@ export default {
                         hotelId: this.currentHotelId,
                         hotelName: this.currentHotelInfo.name,
                         userId: Number(this.userId),
-                        checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                        checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                        checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD HH'),
+                        checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD HH'),
                         roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',
                         roomNum: this.form.getFieldValue('roomNum'),
                         peopleNum: this.form.getFieldValue('peopleNum'),

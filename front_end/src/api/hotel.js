@@ -14,3 +14,17 @@ export function getHotelByIdAPI(param) {
         method: 'GET',
     })
 }
+export function getHotelListBySearchAPI(data){
+    return axios({
+        url: `${api.hotelPre}/search`,
+        method: 'GET',
+        params: {
+            region: data.region,
+            address: data.address,
+            name: data.name,
+            star: data.star,
+            rate0: data.rate[0],
+            rate1: data.rate[1]
+        }
+    })
+}

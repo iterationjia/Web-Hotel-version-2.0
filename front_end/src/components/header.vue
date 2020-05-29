@@ -6,8 +6,13 @@
             
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
+            <a-menu-item key="0" @click="selectMenu">
+                <router-link to="/hotel/oldHotelList">
+                    <a-icon type="home" />旧首页
+                </router-link>
+            </a-menu-item>
             <a-menu-item key="1" @click="selectMenu">
-                <router-link to="/hotel/hotelList">
+                <router-link :to="{ name: 'hotelSearch' }">
                     <a-icon type="home" />首页
                 </router-link>
             </a-menu-item>
@@ -19,7 +24,7 @@
                      <a-icon type="switcher" />酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Admin'">
+            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Manager'">
                 <router-link :to="{ name: 'manageUser'}">
                      <a-icon type="user" />账户管理
                 </router-link>
@@ -68,13 +73,17 @@ export default {
         ])
     },
     mounted() {
-        if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
+        if (this.$route.name == 'hotelSearch' || this.$route.name == 'hotelDetail') {
             this.current = ['1']
         }else if(this.$route.name == 'userInfo') {
             this.current = ['2']
         }else if(this.$route.name == 'manageHotel') {
             this.current = ['3']
-        }else {
+        }
+        else if (this.$route.name == 'oldHotelList'){
+            this.current = ['0']
+        }
+        else {
             this.current = ['4']
         }
     },
