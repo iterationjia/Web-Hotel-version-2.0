@@ -20,6 +20,10 @@
     delete from OrderList where id=#{orderid}
     </delete>
 
+    <update id = "execOrder">
+    update OrderList set orderState="已执行" where id=#{orderid}
+    </update>
+    
     <resultMap id="Order" type="com.example.hotel.po.Order">
     </resultMap>
 </mapper>

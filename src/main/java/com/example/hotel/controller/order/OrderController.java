@@ -40,7 +40,13 @@ public class OrderController {
     public ResponseVO annulOrder(@PathVariable int orderid){
         return orderService.annulOrder(orderid);
     }
+    @GetMapping("/{orderid}/execOrder")
+    //
+    public ResponseVO execOrder(@PathVariable int orderid){
+        return orderService.execOrder(orderid);
+    }
     @GetMapping("/{hotelId}/allOrders")
+    //
     public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));
     }

@@ -97,4 +97,27 @@ public class OrderServiceImpl implements OrderService {
         hotelService.updateRoomInfo(orderannual.getHotelId(),orderannual.getRoomType(),-orderannual.getRoomNum());
         return ResponseVO.buildSuccess(true);
     }
+    public ResponseVO execOrder(int orderid) {
+        //执行订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        String curdate = sf.format(date);
+        Order orderexec = orderMapper.getOrderById(orderid);
+        //执行时间设为createdate
+        orderexec.setCreateDate(curdate);
+        orderexec.setOrderState("已执行");
+        /*
+        //先不扣；如果撤销的订单距离最晚订单执行时间不足6个小时，撤销的同时扣除信用值，信用值为订单的（总价值*1/2）
+        User user = accountService.getUserInfo(orderexec.getUserId());
+        boolean subcredit = false;
+        if(subcredit){
+            user.setCredit(user.getCredit()-orderannual.getPrice()/2);
+        }
+        */
+        //数据库操作
+        orderMapper.execOrder(orderid);
+        //roomnum置为负
+        //hotelService.updateRoomInfo(orderexec.getHotelId(),orderexec.getRoomType(),-orderexec.getRoomNum());
+        return ResponseVO.buildSuccess(true);
+    }
 }

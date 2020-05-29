@@ -27,3 +27,12 @@ export function cancelOrderAPI(orderId) {
         method: 'GET',
     })
 }
+//以下是我写的
+export function execOrderAPI(orderId){
+    return axios({
+        url: `${api.orderPre}/${orderId}/annulOrder`,
+        method: 'GET',
+
+    })
+}
+//
