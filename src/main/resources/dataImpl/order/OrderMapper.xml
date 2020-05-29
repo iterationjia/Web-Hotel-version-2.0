@@ -12,13 +12,21 @@
         insert into OrderList(userId,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState)
         values(#{userId},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState})
     </insert>
+
+    <!--评论-->
+
     <select id="getOrderById" resultMap="Order">
         select * from OrderList where id=#{orderid}
     </select>
-   <!--取消订单的数据库操作,返回值int怎么操作-->
-    <delete id = "annulOrder">
-    delete from OrderList where id=#{orderid}
-    </delete>
+
+   <!--撤销订单的数据库操作-->
+    <update id = "annulOrder">
+        update orderlist set orderState = '已撤销' where id=#{orderid}
+    </update>
+
+    <update id = "annualSubCredit">
+        update user set user.credit = #{credit} where user.id in (select userId from orderlist where id=#{orderid})
+    </update>
 
     <update id = "execOrder">
     update OrderList set orderState="已执行" where id=#{orderid}

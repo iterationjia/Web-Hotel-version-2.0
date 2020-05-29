@@ -16,9 +16,19 @@ const routes = [
   {
     path: '/NJUSE',
     name: 'layout',
-    redirect: '/hotel/hotelList',
+    redirect: '/hotel/search',
     component: ()=> import('@/views/layout'),
     children: [
+      {
+        path: '/hotel/search',
+        name: 'hotelSearch',
+        component: ()=> import('@/views/hotel/hotelSearch')
+      },
+      {
+        path: '/hotel/oldHotelList',
+        name: 'oldHotelList',
+        component: ()=> import('@/views/hotel/oldHotelList')
+      },
       {
         path: '/hotel/hotelList',
         name: 'hotelList',
@@ -38,6 +48,21 @@ const routes = [
         path: '/hotelManager/manageHotel',
         name: 'manageHotel',
         component: () => import('@/views/hotelManager/manageHotel')
+      },
+      {
+        path: '/marketManager/designCoupon',
+        name: 'designCoupon',
+        component: ()=> import('@/views/marketManager/designCoupon')
+      },
+      {
+        path: '/marketManager/handleException',
+        name: 'handleException',
+        component: ()=> import('@/views/marketManager/handleException')
+      },
+      {
+        path: '/marketManager/creditAdder',
+        name: 'creditAdder',
+        component: ()=> import('@/views/marketManager/creditAdder')
       },
       {
         path: '/admin/manageUser',

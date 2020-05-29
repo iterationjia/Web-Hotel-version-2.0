@@ -15,6 +15,12 @@ export function getAllOrdersAPI() {
         method: 'GET',
     })
 }
+export function getManagerOrdersAPI(param) {
+    return axios({
+        url: `${api.orderPre}/${param.managerId}/getManagerOrders`,
+        method: 'GET',
+    })
+}
 export function getUserOrdersAPI(data) {
     return axios({
         url: `${api.orderPre}/${data.userId}/getUserOrders`,
@@ -27,6 +33,7 @@ export function cancelOrderAPI(orderId) {
         method: 'GET',
     })
 }
+
 //以下是我写的
 export function execOrderAPI(orderId){
     return axios({
@@ -36,3 +43,20 @@ export function execOrderAPI(orderId){
     })
 }
 //
+
+
+export function deleteOrderAPI(data) {
+    return axios({
+        url: `${api.orderPre}/deleteOrder`,
+        method: 'POST',
+        data,
+    })
+}
+
+// export function updateUserOrderCommentAPI(data){
+//     return axios({
+//         url: `${api.orderPre}/${data.orderId}/updateOrderComment`,
+//         method: 'GET',
+//     })
+// }
+

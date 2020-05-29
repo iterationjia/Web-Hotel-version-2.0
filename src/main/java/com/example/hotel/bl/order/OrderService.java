@@ -4,6 +4,7 @@ import com.example.hotel.po.Order;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +21,14 @@ public interface OrderService {
      */
     ResponseVO addOrder(OrderVO orderVO);
 
+    //ResponseVO updateOrderComment(OrderVO orderVO);
     /**
      * 获得所有订单信息
      * @return
      */
     List<Order> getAllOrders();
+
+    List<Order> getManagerOrders(Integer managerid);
 
     /**
      * 获得指定用户的所有订单信息
@@ -38,8 +42,7 @@ public interface OrderService {
      * @param orderid
      * @return
      */
-    ResponseVO annulOrder(int orderid);
-//
+
     /**
      * 撤销订单
      * @param orderid
@@ -47,7 +50,11 @@ public interface OrderService {
      */
     ResponseVO execOrder(int orderid);
 
+    ResponseVO annulOrder(int orderid) throws ParseException;
+
+
 //
     List<Order> getHotelOrders(Integer hotelId);
 
+    ResponseVO deleteOrder(OrderVO orderVO);
 }

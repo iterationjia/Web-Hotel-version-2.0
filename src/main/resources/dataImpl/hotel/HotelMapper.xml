@@ -13,7 +13,16 @@
     <select id="selectById" resultMap="Hotel">
         select * from Hotel where id=#{id}
     </select>
-
+    <select id="selectManagerHotels" resultMap="Hotel">
+        select * from Hotel where manager_id=#{managerId}
+    </select>
+    <select id="selectSearchedHotel" resultMap="Hotel">
+        select * from Hotel
+        where bizRegion=#{region}
+        and address like concat('%',#{address},'%')
+        and hotelName like concat('%',#{name},'%')
+        and rate&gt;=#{rate0} and rate&lt;=#{rate1}
+    </select>
 
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"></id>

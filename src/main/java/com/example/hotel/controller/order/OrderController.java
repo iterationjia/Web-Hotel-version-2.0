@@ -7,6 +7,8 @@ import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 
 /**
  * @Author: chenyizong
@@ -31,20 +33,40 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
+    @GetMapping("/{managerid}/getManagerOrders")
+    public ResponseVO retrieveManagerOrders(@PathVariable Integer managerid){
+        // 检索某个酒店管理员已预订的订单
+        return ResponseVO.buildSuccess(orderService.getManagerOrders(managerid));
+    }
+
     @GetMapping("/{userid}/getUserOrders")
-    public  ResponseVO retrieveUserOrders(@PathVariable int userid){
+    public  ResponseVO retrieveUserOrders(@PathVariable Integer userid){
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
     @GetMapping("/{orderid}/annulOrder")
-    public ResponseVO annulOrder(@PathVariable int orderid){
+    public ResponseVO annulOrder(@PathVariable int orderid) throws ParseException {
         return orderService.annulOrder(orderid);
     }
+
     @GetMapping("/{orderid}/execOrder")
     //
     public ResponseVO execOrder(@PathVariable int orderid){
         return orderService.execOrder(orderid);
     }
+
+
+    @PostMapping("/deleteOrder")
+    public ResponseVO deleteOrder(@RequestBody OrderVO orderVO){
+        return orderService.deleteOrder(orderVO);
+    }
+
+//    @GetMapping("/{orderid}/updateOrderComment")
+//    public ResponseVO updateOrderComment(@RequestBody OrderVO orderVO){
+//        return orderService.updateOrderComment(orderVO);
+//    }
+
+
     @GetMapping("/{hotelId}/allOrders")
     //
     public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {

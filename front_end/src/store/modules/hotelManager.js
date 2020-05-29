@@ -1,10 +1,15 @@
 import {
     addRoomAPI,
     addHotelAPI,
+    getManagerHotelsAPI
 } from '@/api/hotelManager'
 import {
     getAllOrdersAPI,
+
     execOrderAPI,
+
+    getManagerOrdersAPI,
+
 } from '@/api/order'
 import {
     hotelAllCouponsAPI,
@@ -14,7 +19,9 @@ import { message } from 'ant-design-vue'
 
 const hotelManager = {
     state: {
-        orderList: [],
+        managerHotelList: [],
+        managerOrderList: [],
+        managerOrderTypeList: [],
         addHotelParams: {
             name: '',
             address: '',
@@ -41,10 +48,23 @@ const hotelManager = {
 //
         activeHotelId: 0,
         couponList: [],
+        orderDetailVisible: false,
     },
     mutations: {
-        set_orderList: function(state, data) {
-            state.orderList = data
+        set_managerOrderList: function(state, data) {
+            state.managerOrderList = data
+        },
+        set_managerOrderListType: function(state, data){
+            if (data=='scheduled'){
+                state.managerOrderTypeList = this.getters.managerScheduledOrderList
+            } else if (data=='executed'){
+                state.managerOrderTypeList = this.getters.managerExecutedOrderList
+            } else if (data=='error'){
+                state.managerOrderTypeList = this.getters.managerErrorOrderList
+            }
+        },
+        set_managerHotelList: function(state, data){
+            state.managerHotelList = data
         },
         set_addHotelModalVisible: function(state, data) {
             state.addHotelModalVisible = data
@@ -80,13 +100,33 @@ const hotelManager = {
         },
         set_addCouponVisible: function(state, data) {
             state.addCouponVisible =data
+        },
+        set_orderDetailVisible: function (state, data) {
+            state.orderDetailVisible = data
         }
     },
     actions: {
-        getAllOrders: async({ state, commit }) => {
-            const res = await getAllOrdersAPI()
+        // getAllOrders: async({ state, commit }) => {
+        //     const res = await getAllOrdersAPI()
+        //     if(res){
+        //         commit('set_orderList', res)
+        //     }
+        // },
+        getManagerOrderList: async({ state, commit, getters}) => {
+            const res = await getManagerOrdersAPI({
+                managerId: getters.userId
+            })
             if(res){
-                commit('set_orderList', res)
+                commit('set_managerOrderList', res)
+                commit('set_managerOrderListType', 'scheduled')
+            }
+        },
+        getManagerHotelList: async({ state, commit, getters }) => {
+            const res = await getManagerHotelsAPI({
+                managerId: getters.userId
+            })
+            if(res){
+                commit('set_managerHotelList', res)
             }
         },
 //

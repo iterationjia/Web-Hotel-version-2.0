@@ -2,7 +2,8 @@
 import store from '@/store'
 import {
     getHotelsAPI,
-    getHotelByIdAPI
+    getHotelByIdAPI,
+    getHotelListBySearchAPI
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -36,6 +37,11 @@ const hotel = {
     mutations: {
         set_hotelList: function(state, data) {
             state.hotelList = data
+        },
+        set_hotelListSortedByRate: function(state) {
+            state.hotelList.sort(function(a,b){
+                return b.rate-a.rate
+            })
         },
         set_hotelListParams: function(state, data) {
             state.hotelListParams = {
@@ -77,6 +83,13 @@ const hotel = {
                 commit('set_hotelListLoading', false)
             }
         },
+        getHotelListBySearch: async ({commit, state}, data) => {
+            const res = await getHotelListBySearchAPI(data)
+            if(res){
+                commit('set_hotelList', res)
+                commit('set_hotelListLoading', false)
+            }
+        },
         getHotelById: async({commit, state}) => {
             const res = await getHotelByIdAPI({
                 hotelId: state.currentHotelId
@@ -86,6 +99,7 @@ const hotel = {
             }
         },
         addOrder: async({ state, commit }, data) => {
+            //console.log(data)
             const res = await reserveHotelAPI(data)
             console.log(res)
             if(res){

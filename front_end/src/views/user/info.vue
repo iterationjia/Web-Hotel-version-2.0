@@ -49,9 +49,16 @@
                 </a-form>
             </a-tab-pane>
             <a-tab-pane tab="我的订单" key="2">
+                <div style="margin:20px 0">
+                    <a-radio-group default-value="scheduled" button-style="solid" @change="changeUserOrderListType">
+                        <a-radio-button value="scheduled">已预订</a-radio-button>
+                        <a-radio-button value="executed">已执行</a-radio-button>
+                        <a-radio-button value="error">已撤销/异常</a-radio-button>
+                    </a-radio-group>
+                </div>
                 <a-table
                     :columns="columns"
-                    :dataSource="userOrderList"
+                    :dataSource="userOrderTypeList"
                     bordered
                 >
                     <span slot="price" slot-scope="text">
@@ -66,7 +73,7 @@
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small">查看</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetail">订单详情</a-button>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                         <a-popconfirm
                             title="你确定撤销该笔订单吗？"
@@ -78,15 +85,41 @@
                         >
                             <a-button type="danger" size="small">撤销</a-button>
                         </a-popconfirm>
-                        
+
+                        <!--评价-->
+                        <a-divider type="vertical" v-else-if="record.orderState == '已执行'"></a-divider>
+                        <span v-if="record.orderState == '已执行'">
+                            <a-button type="default" size="small" @click="showModal">评价</a-button>
+                            <a-modal
+                                    title="评价"
+                                    :visible="visible"
+                                    :confirm-loading="confirmLoading"
+                                    @ok="handleOk"
+                                    @cancel="handleCancel"
+                            >
+                                <div>
+                                    <p>评分</p>
+                                    <a-rate v-model="stars" :tooltips="desc" />
+                                    <span class="ant-rate-text">{{ desc[value - 1] }}</span>
+                                    <br/>
+                                    <br/>
+                                    <p>评论</p>
+                                    <a-textarea placeholder="请输入您的评价" auto-size v-model="comments"/>
+                                </div>
+                            </a-modal>
+                        </span>
                     </span>
                 </a-table>
             </a-tab-pane>
         </a-tabs>
+        <OrderDetail></OrderDetail>
     </div>
 </template>
+
+
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import OrderDetail from './components/userOrderDetail'
 const columns = [
     {  
         title: '订单号',
@@ -143,15 +176,26 @@ export default {
             columns,
             data: [],
             form: this.$form.createForm(this, { name: 'coordinated' }),
+            stars: 3,
+            desc: ['terrible', 'bad', 'normal', 'good', 'wonderful'],
+            visible: false,
+            confirmLoading: false,
+            comments: null,
         }
     },
+
     components: {
+        OrderDetail
     },
     computed: {
         ...mapGetters([
             'userId',
             'userInfo',
-            'userOrderList'
+            'userOrderList',
+            'userOrderTypeList',
+            'userScheduledOrderList',
+            'userExecutedOrderList',
+            'userErrorOrderList',
         ])
     },
     async mounted() {
@@ -159,11 +203,16 @@ export default {
         await this.getUserOrders()
     },
     methods: {
+        ...mapMutations(['' +
+            'set_userOrderListType',
+            'set_orderDetailVisible',
+        ]),
         ...mapActions([
             'getUserInfo',
             'getUserOrders',
             'updateUserInfo',
-            'cancelOrder'
+            'cancelOrder',
+            'updateUserOrderComment',
         ]),
         saveModify() {
             this.form.validateFields((err, values) => {
@@ -196,8 +245,43 @@ export default {
         },
         cancelCancelOrder() {
 
-        }
-        
+        },
+        changeUserOrderListType(param){
+            this.set_userOrderListType(param.target.value)
+        },
+        showOrderDetail(){
+            this.set_orderDetailVisible(true)
+        },
+        showModal() {
+            this.visible = true;
+        },
+        // handleOk(orderId) {
+        //     const data = {
+        //         star: this.stars,
+        //         comment: this.comments,
+        //         id: orderId,
+        //     }
+        //     this.updateUserOrderComment(data)
+        //
+        //     this.ModalText = 'The modal will be closed after two seconds';
+        //     this.confirmLoading = true;
+        //     setTimeout(() => {
+        //         this.visible = false;
+        //         this.confirmLoading = false;
+        //     }, 2000);
+        // },
+        handleOk(e) {
+            this.ModalText = 'The modal will be closed after two seconds';
+            this.confirmLoading = true;
+            setTimeout(() => {
+                this.visible = false;
+                this.confirmLoading = false;
+            }, 2000);
+        },
+        handleCancel(e) {
+            console.log('Clicked cancel button');
+            this.visible = false;
+        },
     }
 }
 </script>

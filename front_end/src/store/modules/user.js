@@ -13,6 +13,7 @@ import {
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
+    updateUserOrderCommentAPI
 } from '@/api/order'
 
 const getDefaultState = () => {
@@ -23,12 +24,15 @@ const getDefaultState = () => {
         },
         userOrderList: [
 
-        ]
+        ],
+        userOrderTypeList: [],
+        orderDetailVisible: false
     }
 }
 
 const user = {
     state : getDefaultState(),
+
 
     mutations: {
         reset_state: function(state) {
@@ -56,6 +60,18 @@ const user = {
         },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
+        },
+        set_userOrderListType: function(state, data){
+            if (data=='scheduled'){
+                state.userOrderTypeList = this.getters.userScheduledOrderList
+            } else if (data=='executed'){
+                state.userOrderTypeList = this.getters.userExecutedOrderList
+            } else if (data=='error'){
+                state.userOrderTypeList = this.getters.userErrorOrderList
+            }
+        },
+        set_orderDetailVisible: function (state, data) {
+            state.orderDetailVisible = data
         }
     },
 
@@ -66,7 +82,7 @@ const user = {
                 setToken(res.id)
                 commit('set_userId', res.id)
                 dispatch('getUserInfo')
-                router.push('/hotel/hotelList')
+                router.push('/')
             }
         },
         register: async({ commit }, data) => {
@@ -97,10 +113,18 @@ const user = {
             }
             const res = await updateUserInfoAPI(params)
             if(res){
-                message.success('修改成功')
+                 message.success('修改成功')
                 dispatch('getUserInfo')
             }
         },
+
+        //评论
+        // updateUserOrderComment: async({state},data) =>{
+        //     const res = await updateUserOrderCommentAPI(data)
+        //     if(res){
+        //         message.success('评论成功')
+        //     }
+        // },
         getUserOrders: async({ state, commit }) => {
             const data = {
                 userId: Number(state.userId)
@@ -108,7 +132,8 @@ const user = {
             const res = await getUserOrdersAPI(data)
             if(res){
                 commit('set_userOrderList', res)
-                console.log(state.userOrderList)
+                commit('set_userOrderListType', 'scheduled')
+                //console.log(state.userOrderList)
             }
         },
         cancelOrder: async({ state, dispatch }, orderId) => {

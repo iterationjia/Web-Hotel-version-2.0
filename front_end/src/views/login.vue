@@ -116,6 +116,16 @@
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
+          <a-form-item>
+            <a-radio-group v-model="value" default-value="0" button-style="solid" size="large">
+              <a-radio-button value="0">
+                客户
+              </a-radio-button>
+              <a-radio-button value="1">
+                酒店工作人员
+              </a-radio-button>
+            </a-radio-group>
+          </a-form-item>
            <a-form-item style="margin-top:24px">
             <a-button
               size="large"
@@ -146,6 +156,7 @@ export default {
       loginLoading: false,
       registerLoading: false,
       form: this.$form.createForm(this),
+      value: 0
     }
   },
   computed: {
@@ -235,9 +246,9 @@ export default {
             email: this.form.getFieldValue('registerUserMail'),
             password: this.form.getFieldValue('registerPassword'),
             phoneNumber: this.form.getFieldValue('registerPhoneNumber'),
-            username: this.form.getFieldValue('registerUsername'),
-            credit: 100,
-            userType: 1
+            userName: this.form.getFieldValue('registerUsername'),
+            credit: 10000,
+            userType: this.value
           }
           await this.register(data).then(() => {
             this.customActiveKey = 'tab1'
@@ -250,7 +261,11 @@ export default {
           this.registerLoading = false
         }
       });
-    }
+    },
+
+    onChange(e) {
+      console.log(`checked = ${e.target.value}`);
+    },
   }
 }
 </script>
