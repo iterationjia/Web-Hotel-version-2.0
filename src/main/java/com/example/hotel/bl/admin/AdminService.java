@@ -1,8 +1,10 @@
 package com.example.hotel.bl.admin;
 
+import com.example.hotel.po.Hotel;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.HotelVO;
 
 import java.util.List;
 
@@ -19,11 +21,16 @@ public interface AdminService {
      */
     ResponseVO addManager(UserForm userForm);
 
+    //
+    ResponseVO deleteUser(int userId);
+
+
     /**
      * 获得所有酒店管理人员信息
      * @return
      */
     List<User> getAllManagers();
-
+    //
+    List<HotelVO> getHotels();
 
 }

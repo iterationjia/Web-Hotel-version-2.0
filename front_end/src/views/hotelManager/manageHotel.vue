@@ -3,7 +3,7 @@
         <a-tabs>
             <a-tab-pane tab="酒店管理" key="1">
                 <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
+                    <a-button type="primary" @click="AddHotel"><a-icon type="plus" />添加酒店</a-button>
                 </div>
                  <a-table
                     :columns="columns1"
@@ -193,11 +193,11 @@ export default {
             'couponVisible',
         ]),
     },
-    async mounted() {
+   mounted() {
         // await this.getHotelList()
-        await this.getManagerHotelList()
+        this.getManagerHotelList()
         // await this.getAllOrders()
-        await this.getManagerOrderList()
+        this.getManagerOrderList()
     },
     methods: {
         ...mapMutations([
