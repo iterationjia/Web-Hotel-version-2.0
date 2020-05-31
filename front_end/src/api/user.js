@@ -23,9 +23,26 @@ export function getUserInfoAPI(id){
         method: 'GET'
     })
 }
+
+export function getAccountByEmailAPI(data){
+    return axios({
+        url: `${api.userPre}/getAccountByEmail`,
+        method: 'POST',
+        data
+    })
+}
+
 export function updateUserInfoAPI(data) {
     return axios({
         url: `${api.userPre}/${data.id}/userInfo/update`,
+        method: 'POST',
+        data
+    })
+}
+
+export function creditSetAPI(data) {
+    return axios({
+        url: `${api.userPre}/creditSet`,
         method: 'POST',
         data
     })
