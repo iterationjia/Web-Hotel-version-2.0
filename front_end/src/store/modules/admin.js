@@ -14,7 +14,7 @@ import {changeConfirmLocale} from "ant-design-vue/lib/modal/locale";
 
 const admin = {
     state: {
-        HotelId:0,
+        HotelId: 0 ,
         managerList: [
 
         ],
@@ -40,7 +40,10 @@ const admin = {
         set_HotelList:function(state,data){
             state.adminHotelList=data
         },
-
+        set_HotelId: function(state, data) {
+            state.HotelId = data
+            //console.log(state.HotelId)
+        },
         set_addManagerModalVisible: function(state, data) {
             state.addManagerModalVisible = data
         },

@@ -145,7 +145,6 @@ export default {
             columns,
             columns1,
             data: [],
-            HotelId:0,
             form: this.$form.createForm(this, { name: 'manageUser' }),
         }
     },
@@ -169,11 +168,7 @@ export default {
       this.getHotelList()
     },
     methods: {
-        ...mapGetters([
-            'HotelId',
-        ]),
         ...mapActions([
-
             'getManagerList',
             'getHotelList',
             'deleteUser',
@@ -184,7 +179,7 @@ export default {
             'set_addHotelModalVisible',
             'set_addManagerModalVisible',
             'set_setHotelManagerModalVisible',
-
+            'set_HotelId',
         ]),
         addHotel() {
             this.set_addHotelModalVisible(true)
@@ -193,8 +188,9 @@ export default {
             this.set_addManagerModalVisible(true)
         },
         setHotelManager(record){
-            console.log(record.id)
-            this.HotelId=record.id
+            //console.log(this.HotelId)
+            console.log(record.id);
+            this.set_HotelId(record.id);
             console.log(this.HotelId)
             this.set_setHotelManagerModalVisible(true)
         },
