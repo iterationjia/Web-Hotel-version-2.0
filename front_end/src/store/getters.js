@@ -26,6 +26,10 @@ const getters = {
   managerList: state => state.admin.managerList,
   addManagerModalVisible: state => state.admin.addManagerModalVisible,
   addManagerParams: state => state.admin.addManagerParams,
+  adminHotelList: state => state.admin.adminHotelList,
+  HotelId: state => state.admin.HotelId,
+
+  setHotelManagerModalVisible:state=>state.admin.setHotelManagerModalVisible,
   //hotelManager
   // orderList: state => state.hotelManager.orderList,
   addHotelModalVisible: state => state.hotelManager.addHotelModalVisible,
@@ -53,7 +57,8 @@ const getters = {
   //marketManager
   managerExceptionalOrderList: state => {
     return state.marketManager.orderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')&&(order.orderState!='已撤销')))
-  }
+  },
+  userCredit: state => state.marketManager.userCredit,
 }
   
   export default getters

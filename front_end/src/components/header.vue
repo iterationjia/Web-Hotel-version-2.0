@@ -25,7 +25,7 @@
             </a-menu-item>
             <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Manager'">
                 <router-link :to="{ name: 'manageUser'}">
-                     <a-icon type="user" />账户管理
+                     <a-icon type="user" />后台管理
                 </router-link>
             </a-menu-item>
             <a-sub-menu @click="selectMenu" v-if="userInfo.userType=='MarketManager'">

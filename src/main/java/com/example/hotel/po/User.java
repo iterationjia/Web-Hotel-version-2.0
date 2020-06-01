@@ -67,4 +67,6 @@ public class User {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+    //
+
 }

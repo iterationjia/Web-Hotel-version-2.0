@@ -10,6 +10,9 @@
     <select id="selectAllHotel" resultMap="Hotel">
         select * from Hotel
     </select>
+    <delete id="deleteHotel">
+        delete from Hotel where id=#{hotelid}
+    </delete>
     <select id="selectById" resultMap="Hotel">
         select * from Hotel where id=#{id}
     </select>
@@ -23,7 +26,9 @@
         and hotelName like concat('%',#{name},'%')
         and rate&gt;=#{rate0} and rate&lt;=#{rate1}
     </select>
-
+    <update id="setHotelManager">
+        update hotel set manager_id=#{managerid} where id=#{hotelid}
+    </update>
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"></id>
         <result column="address" property="address"></result>

@@ -15,15 +15,31 @@
                         { rules: [{required: true, message: '请输入用户邮箱', }] }
                     ]"
                 />
-            </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="密码">
-                <a-input
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="密码">
+            <a-input
                     v-decorator="[
                         'password',
                         { rules: [{required: true, message: '请输入密码', }] }
                     ]"
                 />
-            </a-form-item >
+        </a-form-item >
+        <a-form-item v-bind="formItemLayout" label="用户名">
+            <a-input
+                    v-decorator="[
+                        'userName',
+                        { rules: [{required: true, message: '请输入用户名', }] }
+                    ]"
+            />
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="电话号码">
+            <a-input
+                    v-decorator="[
+                        'phoneNumber',
+                        { rules: [{required: true, message: '请输入电话号码', }] }
+                    ]"
+            />
+        </a-form-item>
     </a-Form>
     </a-modal>
 </template>
@@ -51,9 +67,7 @@ export default {
             'managerList',
         ])
     },
-    beforeCreate() {
-        this.form = this.$form.createForm(this, { name: 'addManagerModal' });
-    },
+
     mounted() {
 
     },
@@ -75,7 +89,10 @@ export default {
                 if (!err) {
                     const data = {
                         email: this.form.getFieldValue('email'),
-                        password: this.form.getFieldValue('password')
+                        password: this.form.getFieldValue('password'),
+                        userName:this.form.getFieldValue('userName'),
+                        phoneNumber:this.form.getFieldValue('phoneNumber'),
+                        credit:this.form.getFieldValue('credit')
                     }
                     this.set_addManagerParams(data)
                     this.addManager()

@@ -2,6 +2,7 @@ package com.example.hotel.blImpl.user;
 
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.user.AccountMapper;
+import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.ResponseVO;
@@ -9,6 +10,7 @@ import com.example.hotel.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Service
@@ -33,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public User login(UserForm userForm) {
-        User user = accountMapper.getAccountByName(userForm.getEmail());
+        User user = accountMapper.getAccountByEmail(userForm.getEmail());
         if (null == user || !user.getPassword().equals(userForm.getPassword())) {
             return null;
         }
@@ -58,5 +60,20 @@ public class AccountServiceImpl implements AccountService {
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess(true);
+    }
+
+    public ResponseVO creditSet(UserVO userVO){
+        User user = accountMapper.getAccountByEmail(userVO.getEmail());
+        user.setCredit(userVO.getCredit());
+        accountMapper.setCredit(user.getId(),user.getCredit());
+        return ResponseVO.buildSuccess(true);
+    }
+
+    public User getAccountByEmail(String email) {
+        User user = accountMapper.getAccountByEmail(email);
+        if (user == null) {
+            return null;
+        }
+        return user;
     }
 }

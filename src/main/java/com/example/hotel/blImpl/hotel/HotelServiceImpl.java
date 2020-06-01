@@ -18,6 +18,7 @@ import com.example.hotel.po.User;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelVO;
+import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,10 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
         User manager = accountService.getUserInfo(hotelVO.getManagerId());
-        if(manager == null || !manager.getUserType().equals(UserType.HotelManager)){
+        if(manager == null ||
+                !(manager.getUserType().equals(UserType.HotelManager)
+                        ||(manager.getUserType().equals(UserType.Manager))))
+        {
             throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
         }
         Hotel hotel = new Hotel();
@@ -57,13 +61,20 @@ public class HotelServiceImpl implements HotelService {
         hotel.setAddress(hotelVO.getAddress());
         hotel.setHotelName(hotelVO.getName());
         hotel.setPhoneNum(hotelVO.getPhoneNum());
-        hotel.setManagerId(hotelVO.getManagerId());
+        if(hotelVO.getManagerId()!=0) {
+            hotel.setManagerId(hotelVO.getManagerId());
+        }
         hotel.setRate(hotelVO.getRate());
         hotel.setBizRegion(BizRegion.valueOf(hotelVO.getBizRegion()));
         hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
         hotelMapper.insertHotel(hotel);
     }
-
+    public ResponseVO deleteHotel(Integer userid) {
+        //删除酒店逻辑的具体实现（注意可能有和别的业务类之间的交互）
+        //数据库操作
+        hotelMapper.deleteHotel(userid);
+        return ResponseVO.buildSuccess(true);
+    }
     @Override
     public void updateRoomInfo(Integer hotelId, String roomType, Integer rooms) {
         roomService.updateRoomInfo(hotelId,roomType,rooms);
@@ -123,7 +134,11 @@ public class HotelServiceImpl implements HotelService {
 
         return hotelVO;
     }
-    
+    @Override
+    public ResponseVO setHotelManager(Integer hotelid,Integer managerid){
+        hotelMapper.setHotelManager(hotelid,managerid);
+        return ResponseVO.buildSuccess(true);
+    };
     /**
      * @param hotelId
      * @return

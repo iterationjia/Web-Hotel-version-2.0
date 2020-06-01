@@ -44,9 +44,9 @@ const hotelManager = {
         addRoomModalVisible: false,
         couponVisible: false,
         addCouponVisible: false,
-//work
+
         execOrderVisible:false,
-//
+
         activeHotelId: 0,
         couponList: [],
         orderDetailVisible: false,
