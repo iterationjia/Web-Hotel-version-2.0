@@ -42,8 +42,9 @@ public class HotelController {
                                              @RequestParam String address,
                                              @RequestParam String name,
                                              @RequestParam String star,
-                                             @RequestParam Integer rate0, @RequestParam Integer rate1){
-        return ResponseVO.buildSuccess(hotelService.retrieveSearchedHotels(region,address,name,star,rate0,rate1));
+                                             @RequestParam Integer rate0, @RequestParam Integer rate1,
+                                             @RequestParam Integer userid){
+        return ResponseVO.buildSuccess(hotelService.retrieveSearchedHotels(region,address,name,star,rate0,rate1,userid));
     }
 
     @PostMapping("/roomInfo")

@@ -2,8 +2,9 @@
   <div class="hotelList">
     <a-layout>
         <a-layout-content style="min-width: 800px">
-            <a-select default-value="default" @change="sortChange" style="width: 180px">
-                <a-select-option value="default">默认排序</a-select-option>
+            排序方式：
+            <a-select  @change="sortChange" style="width: 180px">
+<!--                <a-select-option value="default">默认排序</a-select-option>-->
                 <a-select-option value="rate">评分从高到低</a-select-option>
                 <a-select-option value="star">星级从高到低</a-select-option>
                 <a-select-option value="price">价格从低到高</a-select-option>
@@ -45,7 +46,9 @@ export default {
     ...mapMutations([
       'set_hotelListParams',
       'set_hotelListLoading',
-        'set_hotelListSortedByRate'
+        'set_hotelListSortedByRate',
+        'set_hotelListSortedByPrice',
+        'set_hotelListSortedByStar',
     ]),
       ...mapActions([
          'getHotelList'
@@ -53,6 +56,12 @@ export default {
     sortChange(value){
         if (value=="rate"){
             this.set_hotelListSortedByRate()
+        } else if (value=="price"){
+            this.set_hotelListSortedByPrice()
+        } else if (value=="star"){
+            this.set_hotelListSortedByStar()
+        } else {
+
         }
     },
       getlog(){

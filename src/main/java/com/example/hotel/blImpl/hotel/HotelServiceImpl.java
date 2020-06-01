@@ -6,6 +6,7 @@ import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.data.hotel.RoomMapper;
+import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.enums.HotelStar;
@@ -29,6 +30,12 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private HotelMapper hotelMapper;
+
+    @Autowired
+    private RoomMapper roomMapper;
+
+    @Autowired
+    private OrderMapper orderMapper;
 
     @Autowired
     private AccountService accountService;
@@ -79,8 +86,24 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<HotelVO> retrieveSearchedHotels(String region,String address,String name,String star, Integer rate0,Integer rate1) {
-        return hotelMapper.selectSearchedHotel(region,address,name,star,rate0,rate1);
+    public List<HotelVO> retrieveSearchedHotels(String region,String address,String name,String star, Integer rate0,Integer rate1,int userid) {
+        List<HotelVO> searchedHotelsList = hotelMapper.selectSearchedHotel(region, address, name, star, rate0, rate1);
+        for (int i=0;i<searchedHotelsList.size();i++){
+            HotelVO hotelVO = searchedHotelsList.get(i);
+            Integer minPrice = roomMapper.getMinPrice(hotelVO.getId());
+            int orderNum = orderMapper.getUserHotelOrderNum(userid, hotelVO.getId());
+            if (orderNum==0){
+                hotelVO.setScheduled(false);
+            } else {
+                hotelVO.setScheduled(true);
+            }
+            if (minPrice!=null){
+                hotelVO.setMinPrice(roomMapper.getMinPrice(hotelVO.getId()));
+            } else {
+                hotelVO.setMinPrice(-1);
+            }
+        }
+        return searchedHotelsList;
     }
 
     @Override

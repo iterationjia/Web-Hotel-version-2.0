@@ -10,6 +10,7 @@
       <a-card-meta :title="hotel.name">
       <template slot="description">
         <a-rate style="font-size: 15px" :value="hotel.rate" disabled allowHalf/> {{hotel.rate}}分
+        <div v-if="hotel.scheduled">预定过</div>
       </template>
     </a-card-meta>
     </a-tooltip>

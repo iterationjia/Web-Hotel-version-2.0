@@ -36,6 +36,7 @@ public interface OrderService {
      * @return
      */
     List<Order> getUserOrders(int userid);
+    List<Order> getUserHotelOrders(int userid, int hotelid);
 
     /**
      * 撤销订单
@@ -49,6 +50,7 @@ public interface OrderService {
      * @return
      */
     ResponseVO execOrder(int orderid);
+    ResponseVO checkOut(OrderVO orderVO);
 
     ResponseVO annulOrder(int orderid) throws ParseException;
 

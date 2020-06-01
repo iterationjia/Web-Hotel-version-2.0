@@ -44,9 +44,19 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
+    @GetMapping("{userid}/{hotelid}/getUserHotelOrders")
+    public ResponseVO retrieveUserHotelOrders(@PathVariable Integer userid, @PathVariable Integer hotelid){
+        return ResponseVO.buildSuccess(orderService.getUserHotelOrders(userid,hotelid));
+    }
+
     @GetMapping("/{orderid}/annulOrder")
     public ResponseVO annulOrder(@PathVariable int orderid) throws ParseException {
         return orderService.annulOrder(orderid);
+    }
+
+    @PostMapping("/checkOut")
+    public ResponseVO checkOut(@RequestBody OrderVO orderVO){
+        return orderService.checkOut(orderVO);
     }
 
     @GetMapping("/{orderid}/execOrder")
