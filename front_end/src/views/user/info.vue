@@ -180,6 +180,7 @@ export default {
             visible: false,
             comments: null,
             recordId: 0,
+            value: null,
         }
     },
 
