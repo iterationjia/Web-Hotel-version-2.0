@@ -71,10 +71,10 @@ public class OrderController {
         return orderService.deleteOrder(orderVO);
     }
 
-//    @GetMapping("/{orderid}/updateOrderComment")
-//    public ResponseVO updateOrderComment(@RequestBody OrderVO orderVO){
-//        return orderService.updateOrderComment(orderVO);
-//    }
+    @PostMapping("/updateOrderComment")
+    public ResponseVO updateOrderComment(@RequestBody OrderVO orderVO){
+        return orderService.updateOrderComment(orderVO);
+    }
 
 
     @GetMapping("/{hotelId}/allOrders")

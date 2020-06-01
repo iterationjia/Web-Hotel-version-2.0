@@ -89,11 +89,10 @@
                         <!--评价-->
                         <a-divider type="vertical" v-else-if="record.orderState == '已执行'"></a-divider>
                         <span v-if="record.orderState == '已执行'">
-                            <a-button type="default" size="small" @click="showModal">评价</a-button>
+                            <a-button type="default" size="small" @click="showModal(record.id)">评价</a-button>
                             <a-modal
                                     title="评价"
                                     :visible="visible"
-                                    :confirm-loading="confirmLoading"
                                     @ok="handleOk"
                                     @cancel="handleCancel"
                             >
@@ -179,8 +178,8 @@ export default {
             stars: 3,
             desc: ['terrible', 'bad', 'normal', 'good', 'wonderful'],
             visible: false,
-            confirmLoading: false,
             comments: null,
+            recordId: 0,
         }
     },
 
@@ -252,31 +251,20 @@ export default {
         showOrderDetail(){
             this.set_orderDetailVisible(true)
         },
-        showModal() {
+        showModal(num) {
             this.visible = true;
+            this.recordId = num;
         },
-        // handleOk(orderId) {
-        //     const data = {
-        //         star: this.stars,
-        //         comment: this.comments,
-        //         id: orderId,
-        //     }
-        //     this.updateUserOrderComment(data)
-        //
-        //     this.ModalText = 'The modal will be closed after two seconds';
-        //     this.confirmLoading = true;
-        //     setTimeout(() => {
-        //         this.visible = false;
-        //         this.confirmLoading = false;
-        //     }, 2000);
-        // },
-        handleOk(e) {
-            this.ModalText = 'The modal will be closed after two seconds';
-            this.confirmLoading = true;
-            setTimeout(() => {
-                this.visible = false;
-                this.confirmLoading = false;
-            }, 2000);
+        handleOk() {
+            const data = {
+                star: this.stars,
+                comment: this.comments,
+                id: this.recordId,
+            }
+            this.updateUserOrderComment(data)
+            this.stars = 0;
+            this.comments = null;
+            this.visible = false;
         },
         handleCancel(e) {
             console.log('Clicked cancel button');

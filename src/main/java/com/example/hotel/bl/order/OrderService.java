@@ -54,9 +54,9 @@ public interface OrderService {
 
     ResponseVO annulOrder(int orderid) throws ParseException;
 
-
-//
     List<Order> getHotelOrders(Integer hotelId);
 
     ResponseVO deleteOrder(OrderVO orderVO);
+
+    ResponseVO updateOrderComment(OrderVO orderVO);
 }

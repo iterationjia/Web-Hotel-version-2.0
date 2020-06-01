@@ -17,6 +17,10 @@
     </insert>
 
     <!--评论-->
+    <update id = "updateOrderComment">
+        update orderlist set star = #{star} , comment = #{comment} where id=#{orderid}
+    </update>
+
 
     <select id="getOrderById" resultMap="Order">
         select * from OrderList where id=#{orderid}
