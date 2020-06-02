@@ -5,6 +5,7 @@ const getters = {
   userInfo: state => state.user.userInfo,
   userOrderList: state => state.user.userOrderList,
   userOrderTypeList: state => state.user.userOrderTypeList,
+  userHotelOrderList: state => state.hotel.userHotelOrderList,
   userScheduledOrderList: state => {
     return state.user.userOrderList.filter(order => (order.orderState=='已预订'))
   },
@@ -28,10 +29,12 @@ const getters = {
   addManagerParams: state => state.admin.addManagerParams,
   adminHotelList: state => state.admin.adminHotelList,
 
+
   hotelid: state=>state.admin.hotelid,
   userid: state=>state.admin.userid,
   editUserInfoParams:state=>state.admin.editUserInfoParams,
   editUserInfoModalVisible:state=>state.admin.editUserInfoModalVisible,
+
   setHotelManagerModalVisible:state=>state.admin.setHotelManagerModalVisible,
   //hotelManager
   // orderList: state => state.hotelManager.orderList,
@@ -50,10 +53,10 @@ const getters = {
      return state.hotelManager.managerOrderList.filter(order => (order.orderState=='已预订'))
   },
   managerExecutedOrderList: state => {
-    return state.hotelManager.managerOrderList.filter(order => (order.orderState=='已执行'))
+    return state.hotelManager.managerOrderList.filter(order => ((order.orderState=='已执行')||(order.orderState=='已入住')||(order.orderState=='已退房')))
   },
   managerErrorOrderList: state => {
-    return state.hotelManager.managerOrderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')))
+    return state.hotelManager.managerOrderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')&&(order.orderState!='已入住')&&(order.orderState!='已退房')))
   },
   couponList: state => state.hotelManager.couponList,
   orderDetailVisible: state => state.hotelManager.orderDetailVisible,

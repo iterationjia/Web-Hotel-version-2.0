@@ -58,7 +58,6 @@ export default {
         }
     },
     computed: {
-
         ...mapGetters([
             'setHotelManagerModalVisible',
             'managerList',
@@ -81,12 +80,14 @@ export default {
 
         ]),
         SetHotelManager(record){
+
            // console.log(this.hotelid)
             //console.log(record.id)
             var obj={}
             obj.hotelid=this.hotelid
             obj.managerid=record.id
            this.setHotelManager(obj)
+
 
         },
         cancel() {

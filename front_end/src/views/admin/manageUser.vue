@@ -189,8 +189,6 @@ export default {
     methods: {
 
         ...mapActions([
-            'getUserList',
-
             'getManagerList',
             'getHotelList',
             'deleteUser',
@@ -215,6 +213,7 @@ export default {
         addManager(){
             this.set_addManagerModalVisible(true)
         },
+
         EditUserInfo(record){
             //console.log(record)
             const data={
@@ -237,6 +236,7 @@ export default {
            // this.HotelId=record.id
             this.set_HotelId(record.id)
             //console.log(this.HotelId)
+
             this.set_setHotelManagerModalVisible(true)
         },
         //

@@ -27,6 +27,19 @@ export function getUserOrdersAPI(data) {
         method: 'GET',
     })
 }
+export function getUserHotelOrdersAPI(data) {
+    return axios({
+        url: `${api.orderPre}/${data.userId}/${data.hotelId}/getUserHotelOrders`,
+        method: 'GET',
+    })
+}
+export function checkOutAPI(data) {
+    return axios({
+        url: `${api.orderPre}/checkOut`,
+        method: 'POST',
+        data
+    })
+}
 export function cancelOrderAPI(orderId) {
     return axios({
         url: `${api.orderPre}/${orderId}/annulOrder`,
@@ -53,10 +66,11 @@ export function deleteOrderAPI(data) {
     })
 }
 
-// export function updateUserOrderCommentAPI(data){
-//     return axios({
-//         url: `${api.orderPre}/${data.orderId}/updateOrderComment`,
-//         method: 'GET',
-//     })
-// }
+export function updateUserOrderCommentAPI(data){
+    return axios({
+        url: `${api.orderPre}/updateOrderComment`,
+        method: 'POST',
+        data
+    })
+}
 

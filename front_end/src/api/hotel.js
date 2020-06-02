@@ -14,7 +14,7 @@ export function getHotelByIdAPI(param) {
         method: 'GET',
     })
 }
-export function getHotelListBySearchAPI(data){
+export function getHotelListBySearchAPI(data,userid){
     return axios({
         url: `${api.hotelPre}/search`,
         method: 'GET',
@@ -24,7 +24,8 @@ export function getHotelListBySearchAPI(data){
             name: data.name,
             star: data.star,
             rate0: data.rate[0],
-            rate1: data.rate[1]
+            rate1: data.rate[1],
+            userid: userid
         }
     })
 }

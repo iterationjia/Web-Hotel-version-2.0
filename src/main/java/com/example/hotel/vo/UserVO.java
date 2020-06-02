@@ -70,4 +70,6 @@ public class UserVO {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
+
 }

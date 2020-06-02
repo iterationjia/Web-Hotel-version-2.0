@@ -19,6 +19,8 @@ const admin = {
     state: {
         hotelid:0,
         userid:0,
+
+        // HotelId: 0 ,
         managerList: [
 
         ],
@@ -60,6 +62,7 @@ const admin = {
             state.adminHotelList=data
         },
 
+
         set_HotelId:function(state,data){
             state.hotelid=data
         },
@@ -69,8 +72,9 @@ const admin = {
 
 
         set_editUserInfoModalVisible:function(state, data) {
-             state.editUserInfoModalVisible = data
+            state.editUserInfoModalVisible = data
         },
+
         set_addManagerModalVisible: function(state, data) {
             state.addManagerModalVisible = data
         },
