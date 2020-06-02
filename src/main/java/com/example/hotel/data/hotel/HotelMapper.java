@@ -29,7 +29,7 @@ public interface HotelMapper {
 
     int deleteHotel(@Param("hotelid")Integer hotelid);
 
-    int setHotelManager(@Param("hotalid")Integer hotelid,
-                        @Param("managerid")Integer managerid);
+    int setHotelManager(@Param("hotelid")Integer hotelid,
+                        @Param("managerid")int managerid);
 
 }

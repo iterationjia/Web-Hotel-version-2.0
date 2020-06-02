@@ -8,6 +8,19 @@ export function getManagerListAPI(){
         method: 'POST'
     })
 }
+export function editUserInfoAPI(data,userid){
+    return axios({
+        url: `${api.adminPre}/${userid}/editUserInfo`,
+        method: 'POST',
+        data
+    })
+}
+export function getUserListAPI(){
+    return axios({
+        url: `${api.adminPre}/getAllUsers`,
+        method: 'POST'
+    })
+}
 export function addManagerAPI(data) {
     return axios({
         url: `${api.adminPre}/addManager`,
@@ -30,6 +43,7 @@ export function addHotelAPI(data) {
     })
 }
 export function setHotelManagerAPI(hotelid,managerid) {
+   // console.log(hotelid,managerid)
     return axios({
         url: `${api.adminPre}/${hotelid}/${managerid}/setHotelManager`,
         method: 'POST',

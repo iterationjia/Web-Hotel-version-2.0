@@ -112,7 +112,7 @@ public class HotelServiceImpl implements HotelService {
         return hotelVO;
     }
     @Override
-    public ResponseVO setHotelManager(Integer hotelid,Integer managerid){
+    public ResponseVO setHotelManager(Integer hotelid,int managerid){
         hotelMapper.setHotelManager(hotelid,managerid);
         return ResponseVO.buildSuccess(true);
     };

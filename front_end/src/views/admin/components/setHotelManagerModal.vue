@@ -62,16 +62,14 @@ export default {
         ...mapGetters([
             'setHotelManagerModalVisible',
             'managerList',
-            'HotelId',
+            'hotelid',
         ])
     },
     mounted() {
         this.getManagerList()
     },
     methods: {
-        ...mapGetters([
-            'HotelId',
-        ]),
+
         ...mapMutations([
             'setHotelManager',
             'set_setHotelManagerModalVisible',
@@ -83,16 +81,19 @@ export default {
 
         ]),
         SetHotelManager(record){
-            console.log(this.HotelId)
-            console.log(record.id)
-           this.setHotelManager(this.HotelId,record.id)
+           // console.log(this.hotelid)
+            //console.log(record.id)
+            var obj={}
+            obj.hotelid=this.hotelid
+            obj.managerid=record.id
+           this.setHotelManager(obj)
 
         },
         cancel() {
             this.set_setHotelManagerModalVisible(false)
         },
-        handleSubmit(e) {
-            e.preventDefault();
+        handleSubmit() {
+            this.set_setHotelManagerModalVisible(false)
 
         },
     }

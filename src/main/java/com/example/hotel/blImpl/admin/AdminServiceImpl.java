@@ -42,10 +42,29 @@ public class AdminServiceImpl implements AdminService {
         }
         return ResponseVO.buildSuccess(true);
     }
-
+    @Override
+    public ResponseVO editUserInfo(UserForm userForm,int userid) {
+        User user = new User();
+        user.setId(userForm.getId());
+        user.setPassword(userForm.getPassword());
+        user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setCredit(userForm.getCredit());
+        user.setUserName(userForm.getUserName());
+        try {
+            adminMapper.editUserInfo(userid,user.getPassword(),user.getUserName(),user.getCredit(),user.getPhoneNumber());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(ACCOUNT_EXIST);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
     @Override
     public List<User> getAllManagers() {
         return adminMapper.getAllManagers();
+    }
+    @Override
+    public List<User> getAllUsers() {
+        return adminMapper.getAllUsers();
     }
     //
     public List<HotelVO> getHotels() {

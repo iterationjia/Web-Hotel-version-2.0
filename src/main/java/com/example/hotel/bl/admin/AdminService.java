@@ -20,6 +20,7 @@ public interface AdminService {
      * @return
      */
     ResponseVO addManager(UserForm userForm);
+    ResponseVO editUserInfo(UserForm userForm,int userid);
 
     //
     ResponseVO deleteUser(int userId);
@@ -30,6 +31,7 @@ public interface AdminService {
      * @return
      */
     List<User> getAllManagers();
+    List<User> getAllUsers();
     //
     List<HotelVO> getHotels();
 
