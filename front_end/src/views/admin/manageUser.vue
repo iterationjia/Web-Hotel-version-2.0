@@ -215,13 +215,12 @@ export default {
         addManager(){
             this.set_addManagerModalVisible(true)
         },
-<<<<<<< HEAD
         doAddCommentTable(){
             this.addCommentTable()
         },
         setHotelManager(record){
-=======
-
+            this.set_setHotelManagerModalVisible(true)
+        },
         EditUserInfo(record){
             //console.log(record)
             const data={
@@ -243,9 +242,7 @@ export default {
             //console.log(record.id)
            // this.HotelId=record.id
             this.set_HotelId(record.id)
->>>>>>> 0f0ec159e45bc324b7fde736797d60b32e4007e5
             //console.log(this.HotelId)
-
             this.set_setHotelManagerModalVisible(true)
         },
         //
