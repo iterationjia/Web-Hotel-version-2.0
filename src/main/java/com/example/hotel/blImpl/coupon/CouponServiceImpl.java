@@ -7,6 +7,7 @@ import com.example.hotel.po.Coupon;
 import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelTargetMoneyCouponVO;
 import com.example.hotel.vo.OrderVO;
+import com.example.hotel.vo.TimeCouponVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +72,22 @@ public class CouponServiceImpl implements CouponService {
         coupon.setTargetMoney(couponVO.getTargetMoney());
         coupon.setHotelId(couponVO.getHotelId());
         coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        coupon.setStatus(1);
+        int result = couponMapper.insertCoupon(coupon);
+        couponVO.setId(result);
+        return couponVO;
+    }
+
+    @Override
+    public CouponVO addTimeCoupon(TimeCouponVO couponVO) {
+        Coupon coupon = new Coupon();
+        coupon.setCouponName(couponVO.getName());
+        coupon.setDescription(couponVO.getDescription());
+        coupon.setCouponType(couponVO.getType());
+        coupon.setStartTime(couponVO.getStartTime());
+        coupon.setEndTime(couponVO.getEndTime());
+        coupon.setDiscount(couponVO.getDiscount());
+        coupon.setTargetMoney(couponVO.getTargetMoney());
         coupon.setStatus(1);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
