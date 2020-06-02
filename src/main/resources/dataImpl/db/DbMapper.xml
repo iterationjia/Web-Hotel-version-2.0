@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.hotel.data.db.DbMapper">
+    <update id="createCommentTable">
+        CREATE TABLE Comment (
+            id int primary key auto_increment,
+            hotelId int,
+            userId int,
+            star double,
+            comment varchar(255)
+        ) character set utf8 collate utf8_bin;
+    </update>
+</mapper>

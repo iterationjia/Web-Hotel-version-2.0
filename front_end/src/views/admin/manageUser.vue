@@ -3,6 +3,7 @@
         <a-tabs>
             <a-tab-pane tab="账户管理" key="1">
                 <div style="width: 100%; text-align: right; margin:20px 0">
+                    <a-button type="primary" @click="doAddCommentTable"><a-icon type="plus" />数据库加表</a-button>
                     <a-button type="primary" @click="addManager"><a-icon type="plus" />添加用户</a-button>
                 </div>
                 <a-table
@@ -193,6 +194,7 @@ export default {
             'getHotelList',
             'deleteUser',
             'deleteHotel',
+            'addCommentTable',
         ]),
         ...mapMutations([
             'set_addHotelModalVisible',
@@ -213,7 +215,12 @@ export default {
         addManager(){
             this.set_addManagerModalVisible(true)
         },
-
+        doAddCommentTable(){
+            this.addCommentTable()
+        },
+        setHotelManager(record){
+            this.set_setHotelManagerModalVisible(true)
+        },
         EditUserInfo(record){
             //console.log(record)
             const data={
@@ -236,7 +243,6 @@ export default {
            // this.HotelId=record.id
             this.set_HotelId(record.id)
             //console.log(this.HotelId)
-
             this.set_setHotelManagerModalVisible(true)
         },
         //
