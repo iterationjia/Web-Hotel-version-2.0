@@ -9,7 +9,7 @@
         select * from User where usertype='HotelManager'
     </select>
     <update id="editUserInfo">
-        update user
+        update User
         set phonenumber=#{phonenumber},
            username=#{username},
            password=#{password},

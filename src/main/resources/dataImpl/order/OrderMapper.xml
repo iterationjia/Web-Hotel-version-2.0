@@ -18,7 +18,7 @@
 
     <!--评论-->
     <update id = "updateOrderComment">
-        update orderlist set star = #{star} , comment = #{comment} where id=#{orderid}
+        update OrderList set star = #{star} , comment = #{comment} where id=#{orderid}
     </update>
 
 
@@ -28,11 +28,11 @@
 
    <!--撤销订单的数据库操作-->
     <update id = "annulOrder">
-        update orderlist set orderState = '已撤销' where id=#{orderid}
+        update OrderList set orderState = '已撤销' where id=#{orderid}
     </update>
 
     <update id = "annualSubCredit">
-        update user set user.credit = #{credit} where user.id in (select userId from orderlist where id=#{orderid})
+        update User set User.credit = #{credit} where User.id in (select userId from OrderList where id=#{orderid})
     </update>
 
     <update id = "execOrder">
