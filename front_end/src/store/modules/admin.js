@@ -180,16 +180,6 @@ const admin = {
             }
         },
         //
-
-        addCommentTable :async () => {
-            const res = await addCommentTableAPI()
-            if (res) {
-                message.success('添加成功')
-            } else {
-                message.error('添加失败')
-            }
-        },
-
         editUserInfo:async({ state, commit, dispatch }) => {
             const res = await editUserInfoAPI(state.editUserInfoParams,state.editUserInfoParams.userid)
             console.log(state.editUserInfoParams)

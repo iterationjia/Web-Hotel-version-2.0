@@ -8,7 +8,7 @@ import {
 } from "@/api/admin";
 import {
     getAllOrdersAPI,
-
+    deleteOrderAPI,
     execOrderAPI,
     checkOutAPI,
     getManagerOrdersAPI,
@@ -153,6 +153,15 @@ const hotelManager = {
                 message.success('删除成功')
             }else{
                 message.error('删除失败')
+            }
+        },
+        deleteOrderByManager: async ({dispatch}, orderId) => {
+            const res = await deleteOrderAPI(orderId)
+            if(res) {
+                dispatch('getManagerOrderList')
+                message.success('执行成功')
+            } else {
+                message.error('执行失败')
             }
         },
 //

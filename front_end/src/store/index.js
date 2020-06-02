@@ -6,6 +6,10 @@ import hotelManager from './modules/hotelManager'
 import marketManager from './modules/marketManager'
 import admin from './modules/admin'
 import getters from './getters'
+import {
+  updateDatabaseAPI
+} from '@/api/db'
+import {message} from "ant-design-vue";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -21,6 +25,15 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
+    updateDatabase: async() => {
+      const res = await updateDatabaseAPI()
+      console.log(res)
+      if (res){
+        message.success('数据库更新成功')
+      } else {
+        message.error('数据库更新失败')
+      }
+    }
   },
   getters
 })

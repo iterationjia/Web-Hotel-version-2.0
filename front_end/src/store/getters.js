@@ -10,10 +10,10 @@ const getters = {
     return state.user.userOrderList.filter(order => (order.orderState=='已预订'))
   },
   userExecutedOrderList: state => {
-    return state.user.userOrderList.filter(order => (order.orderState=='已执行'))
+    return state.user.userOrderList.filter(order => ((order.orderState=='已执行')||(order.orderState!='已入住')||(order.orderState!='已退房')))
   },
   userErrorOrderList: state => {
-    return state.user.userOrderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')))
+    return state.user.userOrderList.filter(order => (((order.orderState!='已执行')&&(order.orderState!='已预订'))&&(order.orderState!='已入住')&&(order.orderState!='已退房')))
   },
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,
@@ -62,7 +62,7 @@ const getters = {
   orderDetailVisible: state => state.hotelManager.orderDetailVisible,
   //marketManager
   managerExceptionalOrderList: state => {
-    return state.marketManager.orderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')&&(order.orderState!='已撤销')))
+    return state.marketManager.orderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')&&(order.orderState!='已撤销')&&(order.orderState!='已入住')&&(order.orderState!='已退房')))
   },
   userCredit: state => state.marketManager.userCredit,
 }

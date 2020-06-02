@@ -229,6 +229,7 @@ export default {
         ...mapActions([
             'getHotelList',
             'deleteHotelByManager',
+            'deleteOrderByManager',
             'getManagerHotelList',
             'getManagerOrderList',
             // 'getAllOrders',
@@ -251,8 +252,12 @@ export default {
         doDeleteHotel(record){
             this.deleteHotelByManager(record.id)
         },
-        deleteOrder(){
-
+        deleteOrder(record){
+            // 我的删除订单和郭增嘉的撤销订单有冲突，先不写
+            // this.deleteOrderByManager({
+            //     id:record.id
+            //
+            // })
         },
         checkOut(record){
             this.checkOutOrder(record)

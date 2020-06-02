@@ -21,4 +21,6 @@ public interface RoomMapper {
     int getRoomCurNum(@Param("hotelId") Integer hotelId,@Param("roomType") String roomType);
 
     Integer getMinPrice(@Param("hotelId") Integer hotelId);
+
+    int deleteHotelRooms(@Param("hotelId") Integer hotelId);
 }

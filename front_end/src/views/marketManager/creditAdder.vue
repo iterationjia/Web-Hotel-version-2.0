@@ -86,9 +86,6 @@ export default {
     },
 
     methods: {
-        ...mapGetters([
-            'userCredit',
-        ]),
         ...mapMutations([
             'set_userCredit',
         ]),

@@ -69,10 +69,11 @@ public class HotelServiceImpl implements HotelService {
         hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
         hotelMapper.insertHotel(hotel);
     }
-    public ResponseVO deleteHotel(Integer userid) {
+    public ResponseVO deleteHotel(Integer hotelid) {
         //删除酒店逻辑的具体实现（注意可能有和别的业务类之间的交互）
         //数据库操作
-        hotelMapper.deleteHotel(userid);
+        hotelMapper.deleteHotel(hotelid);
+        roomMapper.deleteHotelRooms(hotelid);
         return ResponseVO.buildSuccess(true);
     }
     @Override

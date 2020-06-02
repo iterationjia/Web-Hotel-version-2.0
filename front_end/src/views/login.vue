@@ -134,7 +134,14 @@
               :loading="registerLoading"
               @click="handleRegister()"
             >确定</a-button>
-          </a-form-item>
+             <a-button
+                     hidden
+                     size="large"
+                     type="danger"
+                     class="login-button"
+                     @click="database()"
+             >修改数据库</a-button>
+           </a-form-item>
         </a-tab-pane>
       </a-tabs>
     </a-form>
@@ -178,7 +185,8 @@ export default {
   methods: {
     ...mapActions([
       'login',
-      'register'
+      'register',
+      'updateDatabase'
       ]),
 
     // handler
@@ -263,6 +271,9 @@ export default {
       });
     },
 
+    database(){
+      this.updateDatabase()
+    },
     onChange(e) {
       console.log(`checked = ${e.target.value}`);
     },
