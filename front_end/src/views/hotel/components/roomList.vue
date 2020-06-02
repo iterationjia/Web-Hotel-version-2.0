@@ -12,7 +12,7 @@
                     <span>￥{{ text }}</span>
                 </span>
                 <span slot="action" slot-scope="text, record">
-                    <a-button type="primary" @click="order(record)">预定</a-button>
+                    <a-button type="primary" :disabled="record.curNum==0" @click="order(record)">预定</a-button>
                 </span>
             </a-table>
         </div>
@@ -32,6 +32,11 @@ const columns = [
       title: '床型',
       dataIndex: 'bedType',
       key: 'bedType',
+    },
+    {
+      title: '剩余房间',
+      dataIndex: 'curNum',
+      key: 'curNum'
     },
     {
       title: '早餐',

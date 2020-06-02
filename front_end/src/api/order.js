@@ -9,12 +9,12 @@ export function reserveHotelAPI(data) {
         data,
     })
 }
-// export function getAllOrdersAPI() {
-//     return axios({
-//         url: `${api.orderPre}/getAllOrders`,
-//         method: 'GET',
-//     })
-// }
+export function getAllOrdersAPI() {
+    return axios({
+        url: `${api.orderPre}/getAllOrders`,
+        method: 'GET',
+    })
+}
 export function getManagerOrdersAPI(param) {
     return axios({
         url: `${api.orderPre}/${param.managerId}/getManagerOrders`,
@@ -27,6 +27,19 @@ export function getUserOrdersAPI(data) {
         method: 'GET',
     })
 }
+export function getUserHotelOrdersAPI(data) {
+    return axios({
+        url: `${api.orderPre}/${data.userId}/${data.hotelId}/getUserHotelOrders`,
+        method: 'GET',
+    })
+}
+export function checkOutAPI(data) {
+    return axios({
+        url: `${api.orderPre}/checkOut`,
+        method: 'POST',
+        data
+    })
+}
 export function cancelOrderAPI(orderId) {
     return axios({
         url: `${api.orderPre}/${orderId}/annulOrder`,
@@ -34,9 +47,30 @@ export function cancelOrderAPI(orderId) {
     })
 }
 
-// export function updateUserOrderCommentAPI(data){
-//     return axios({
-//         url: `${api.orderPre}/${data.orderId}/updateOrderComment`,
-//         method: 'GET',
-//     })
-// }
+//以下是我写的
+export function execOrderAPI(orderId){
+    return axios({
+        url: `${api.orderPre}/${orderId}/execOrder`,
+        method: 'GET',
+
+    })
+}
+//
+
+
+export function deleteOrderAPI(data) {
+    return axios({
+        url: `${api.orderPre}/deleteOrder`,
+        method: 'POST',
+        data,
+    })
+}
+
+export function updateUserOrderCommentAPI(data){
+    return axios({
+        url: `${api.orderPre}/updateOrderComment`,
+        method: 'POST',
+        data
+    })
+}
+

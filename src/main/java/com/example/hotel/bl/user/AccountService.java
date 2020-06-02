@@ -2,6 +2,7 @@ package com.example.hotel.bl.user;
 
 import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author huwen
@@ -40,5 +41,7 @@ public interface AccountService {
      */
     ResponseVO updateUserInfo(int id, String password,String username,String phonenumber);
 
+    ResponseVO creditSet(UserVO userVO);
 
+    User getAccountByEmail(String email);
 }

@@ -8,12 +8,19 @@
     <select id="getUserOrders" resultMap="Order">
         select * from OrderList where userId=#{userid}
     </select>
+    <select id="getUserHotelOrders" resultMap="Order">
+        select * from OrderList where userId=#{userid} and hotelId=#{hotelid}
+    </select>
     <insert id="addOrder" parameterType="com.example.hotel.po.Order" useGeneratedKeys="true" keyProperty="id">
         insert into OrderList(userId,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState)
         values(#{userId},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState})
     </insert>
 
     <!--评论-->
+    <update id = "updateOrderComment">
+        update orderlist set star = #{star} , comment = #{comment} where id=#{orderid}
+    </update>
+
 
     <select id="getOrderById" resultMap="Order">
         select * from OrderList where id=#{orderid}
@@ -27,6 +34,18 @@
     <update id = "annualSubCredit">
         update user set user.credit = #{credit} where user.id in (select userId from orderlist where id=#{orderid})
     </update>
+
+    <update id = "execOrder">
+    update OrderList set orderState="已入住" where id=#{orderid}
+    </update>
+
+    <update id="checkOut">
+        update OrderList set orderState = "已退房" where id=#{orderid}
+    </update>
+
+    <select id="getUserHotelOrderNum" resultType="int">
+        select count(*) from OrderList where userId=#{userid} and hotelId=#{hotelid}
+    </select>
 
     <resultMap id="Order" type="com.example.hotel.po.Order">
     </resultMap>

@@ -5,7 +5,11 @@ import {
 } from '@/api/hotelManager'
 import {
     getAllOrdersAPI,
+
+    execOrderAPI,
+    checkOutAPI,
     getManagerOrdersAPI,
+
 } from '@/api/order'
 import {
     hotelAllCouponsAPI,
@@ -18,6 +22,7 @@ const hotelManager = {
         managerHotelList: [],
         managerOrderList: [],
         managerOrderTypeList: [],
+        managerOrderListType: "",
         addHotelParams: {
             name: '',
             address: '',
@@ -39,6 +44,9 @@ const hotelManager = {
         addRoomModalVisible: false,
         couponVisible: false,
         addCouponVisible: false,
+
+        execOrderVisible:false,
+
         activeHotelId: 0,
         couponList: [],
         orderDetailVisible: false,
@@ -47,12 +55,15 @@ const hotelManager = {
         set_managerOrderList: function(state, data) {
             state.managerOrderList = data
         },
-        set_managerOrderListType: function(state, data){
-            if (data=='scheduled'){
+        set_managerOrderListType: function(state,data){
+            state.managerOrderListType = data
+        },
+        set_managerOrderTypeList: function(state){
+            if (state.managerOrderListType=='scheduled'){
                 state.managerOrderTypeList = this.getters.managerScheduledOrderList
-            } else if (data=='executed'){
+            } else if (state.managerOrderListType=='executed'){
                 state.managerOrderTypeList = this.getters.managerExecutedOrderList
-            } else if (data=='error'){
+            } else if (state.managerOrderListType=='error'){
                 state.managerOrderTypeList = this.getters.managerErrorOrderList
             }
         },
@@ -62,6 +73,11 @@ const hotelManager = {
         set_addHotelModalVisible: function(state, data) {
             state.addHotelModalVisible = data
         },
+        //work
+        set_execOrderVisible:function(state,data){
+            state.execOrderVisible=data
+        },
+//
         set_addHotelParams: function(state, data) {
             state.addHotelParams = {
                 ...state.addHotelParams,
@@ -106,7 +122,8 @@ const hotelManager = {
             })
             if(res){
                 commit('set_managerOrderList', res)
-                commit('set_managerOrderListType', 'scheduled')
+                // commit('set_managerOrderTypeList', state.managerOrderListType)
+                commit('set_managerOrderTypeList')
             }
         },
         getManagerHotelList: async({ state, commit, getters }) => {
@@ -117,6 +134,26 @@ const hotelManager = {
                 commit('set_managerHotelList', res)
             }
         },
+        checkOutOrder: async ({state, dispatch},data) => {
+            const res = await checkOutAPI(data)
+            if(res){
+                dispatch('getManagerOrderList')
+                message.success('退房成功')
+            } else{
+                message.error('退房失败')
+            }
+        },
+//
+        execOrder: async ({ state, dispatch }, orderId) => {
+            const res = await execOrderAPI(orderId)
+            if(res) {
+                dispatch('getManagerOrderList')
+                message.success('执行成功')
+            }else{
+                message.error('执行失败')
+            }
+        },
+//
         addHotel: async({ state, dispatch, commit }) => {
             const res = await addHotelAPI(state.addHotelParams)
             if(res){

@@ -44,17 +44,41 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
+    @GetMapping("{userid}/{hotelid}/getUserHotelOrders")
+    public ResponseVO retrieveUserHotelOrders(@PathVariable Integer userid, @PathVariable Integer hotelid){
+        return ResponseVO.buildSuccess(orderService.getUserHotelOrders(userid,hotelid));
+    }
+
     @GetMapping("/{orderid}/annulOrder")
     public ResponseVO annulOrder(@PathVariable int orderid) throws ParseException {
         return orderService.annulOrder(orderid);
     }
 
-//    @GetMapping("/{orderid}/updateOrderComment")
-//    public ResponseVO updateOrderComment(@RequestBody OrderVO orderVO){
-//        return orderService.updateOrderComment(orderVO);
-//    }
+    @PostMapping("/checkOut")
+    public ResponseVO checkOut(@RequestBody OrderVO orderVO){
+        return orderService.checkOut(orderVO);
+    }
+
+    @GetMapping("/{orderid}/execOrder")
+    //
+    public ResponseVO execOrder(@PathVariable int orderid){
+        return orderService.execOrder(orderid);
+    }
+
+
+    @PostMapping("/deleteOrder")
+    public ResponseVO deleteOrder(@RequestBody OrderVO orderVO){
+        return orderService.deleteOrder(orderVO);
+    }
+
+    @PostMapping("/updateOrderComment")
+    public ResponseVO updateOrderComment(@RequestBody OrderVO orderVO){
+        return orderService.updateOrderComment(orderVO);
+    }
+
 
     @GetMapping("/{hotelId}/allOrders")
+    //
     public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));
     }

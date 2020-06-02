@@ -24,7 +24,7 @@ public interface AccountMapper {
      * @param email
      * @return
      */
-     User getAccountByName(@Param("email") String email);
+     User getAccountByEmail(@Param("email") String email);
 
      User getAccountById(@Param("id") int id);
 
@@ -38,5 +38,5 @@ public interface AccountMapper {
      */
      int updateAccount(@Param("id") int id, @Param("password") String password,@Param("userName") String username, @Param("phoneNumber") String phonenumber);
 
-
+     int setCredit(@Param("id") int id,@Param("credit") double credit);
 }

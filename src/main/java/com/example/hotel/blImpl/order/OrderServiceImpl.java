@@ -3,6 +3,7 @@ package com.example.hotel.blImpl.order;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.po.Order;
@@ -31,6 +32,8 @@ public class OrderServiceImpl implements OrderService {
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
     @Autowired
     OrderMapper orderMapper;
+    @Autowired
+    RoomMapper roomMapper;
     @Autowired
     HotelService hotelService;
     @Autowired
@@ -90,6 +93,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getUserHotelOrders(int userid, int hotelid) {
+        return orderMapper.getUserHotelOrders(userid,hotelid);
+    }
+
+    @Override
     public ResponseVO annulOrder(int orderid) throws ParseException {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
         Order orderannual = orderMapper.getOrderById(orderid);
@@ -121,11 +129,68 @@ public class OrderServiceImpl implements OrderService {
         return ResponseVO.buildSuccess(true);
     }
 
-//    @Override
-//    public ResponseVO updateOrderComment(OrderVO orderVO){
-//        Order order = new Order();
-//        BeanUtils.copyProperties(orderVO,order);
-//        orderMapper.updateOrderComment(order);
-//        return ResponseVO.buildSuccess(true);
-//    }
+    @Override
+    public ResponseVO deleteOrder(OrderVO orderVO){
+        double per = orderVO.getPrice();
+        int orderid = orderVO.getId();
+        Order orderdel = orderMapper.getOrderById(orderid);
+        orderdel.setOrderState("已撤销");
+
+        //数据库操作
+        orderMapper.annulOrder(orderid);
+
+        //恢复信用值
+        User user = accountService.getUserInfo(orderdel.getUserId());
+        double curcredit = user.getCredit()+orderdel.getPrice()/2*per;
+        user.setCredit(curcredit);
+        orderMapper.annualSubCredit(orderid,curcredit);
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO checkOut(OrderVO orderVO) {
+        int orderId = orderVO.getId();
+        int hotelId = orderVO.getHotelId();
+        int roomNum = orderVO.getRoomNum();
+        String roomType = orderVO.getRoomType();
+        orderMapper.checkOut(orderId);
+        roomMapper.updateRoomInfo(hotelId,roomType,roomNum*(-1));
+        // roomMapper.updateRoomInfo写好的是扣除多少房间，所以我直接乘负一，退房的就加多少房间
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO execOrder(int orderid) {
+        //执行订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        String curdate = sf.format(date);
+        Order orderexec = orderMapper.getOrderById(orderid);
+        //执行时间设为createdate
+        orderexec.setCreateDate(curdate);
+        orderexec.setOrderState("已执行");
+        /*
+        //先不扣；如果撤销的订单距离最晚订单执行时间不足6个小时，撤销的同时扣除信用值，信用值为订单的（总价值*1/2）
+        User user = accountService.getUserInfo(orderexec.getUserId());
+        boolean subcredit = false;
+        if(subcredit){
+            user.setCredit(user.getCredit()-orderannual.getPrice()/2);
+        }
+        */
+        //数据库操作
+        orderMapper.execOrder(orderid);
+        //roomnum置为负
+        //hotelService.updateRoomInfo(orderexec.getHotelId(),orderexec.getRoomType(),-orderexec.getRoomNum());
+        return ResponseVO.buildSuccess(true);
+    }
+
+
+    @Override
+    public ResponseVO updateOrderComment(OrderVO orderVO){
+        Order order = new Order();
+        BeanUtils.copyProperties(orderVO,order);
+        orderMapper.updateOrderComment(order.getId(),order.getStar(),order.getComment());
+        return ResponseVO.buildSuccess(true);
+    }
+
 }

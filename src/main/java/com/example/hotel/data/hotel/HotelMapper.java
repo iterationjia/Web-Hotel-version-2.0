@@ -26,4 +26,10 @@ public interface HotelMapper {
                                       @Param("star") String star,
                                       @Param("rate0") Integer rate0,
                                       @Param("rate1") Integer rate1);
+
+    int deleteHotel(@Param("hotelid")Integer hotelid);
+
+    int setHotelManager(@Param("hotelid")Integer hotelid,
+                        @Param("managerid")int managerid);
+
 }

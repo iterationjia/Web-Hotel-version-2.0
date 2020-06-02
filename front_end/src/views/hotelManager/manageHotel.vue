@@ -3,7 +3,7 @@
         <a-tabs>
             <a-tab-pane tab="酒店管理" key="1">
                 <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
+                    <a-button type="primary" @click="AddHotel"><a-icon type="plus" />添加酒店</a-button>
                 </div>
                  <a-table
                     :columns="columns1"
@@ -51,6 +51,29 @@
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDetail">订单详情</a-button>
                         <a-divider type="vertical"></a-divider>
+
+                        <a-popconfirm
+                                title="确定想执行该订单吗？"
+                                @confirm="ExecOrder(record)"
+                                okText="确定"
+                                cancelText="取消"
+                                v-if="record.orderState=='已预订'"
+                        >
+                            <a-button  type="default" size="small">执行订单</a-button>
+                        </a-popconfirm>
+                        <a-divider type="vertical" v-if="record.orderState=='已预订'"></a-divider>
+
+                        <a-popconfirm
+                                title="确定想退房吗？"
+                                @confirm="checkOut(record)"
+                                okText="确定"
+                                cancelText="取消"
+                                v-if="record.orderState=='已入住'"
+                        >
+                            <a-button  type="default" size="small">退房</a-button>
+                        </a-popconfirm>
+                        <a-divider type="vertical" v-if="record.orderState=='已入住'"></a-divider>
+
                         <a-popconfirm
                             title="确定想删除该订单吗？"
                             @confirm="deleteOrder(record)"
@@ -127,6 +150,10 @@ const columns2 = [
         scopedSlots: { customRender: 'roomType' }
     },
     {
+        title: '房间数',
+        dataIndex: 'roomNum',
+    },
+    {
         title: '入住时间',
         dataIndex: 'checkInDate',
         scopedSlots: { customRender: 'checkInDate' }
@@ -182,10 +209,11 @@ export default {
             'couponVisible',
         ]),
     },
-    async mounted() {
+   async mounted() {
         // await this.getHotelList()
-        await this.getManagerHotelList()
+        // this.getManagerHotelList()
         // await this.getAllOrders()
+        await this.set_managerOrderListType("scheduled")
         await this.getManagerOrderList()
     },
     methods: {
@@ -196,12 +224,15 @@ export default {
             'set_activeHotelId',
             'set_orderDetailVisible',
             'set_managerOrderListType',
+            'set_managerOrderTypeList'
         ]),
         ...mapActions([
             'getHotelList',
             'getManagerHotelList',
             'getManagerOrderList',
             // 'getAllOrders',
+            'execOrder',
+            'checkOutOrder',
             'getHotelCoupon'
         ]),
         addHotel() {
@@ -222,12 +253,21 @@ export default {
         deleteOrder(){
 
         },
+        checkOut(record){
+            this.checkOutOrder(record)
+        },
+        ExecOrder(record){
+            this.execOrder(record.id)
+           // this.
+        },
         changeManagerOrderListType(param){
             this.set_managerOrderListType(param.target.value)
+            this.set_managerOrderTypeList()
         },
         showOrderDetail(){
             this.set_orderDetailVisible(true)
         }
+
     }
 }
 </script>

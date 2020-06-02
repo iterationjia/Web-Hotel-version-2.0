@@ -1,4 +1,4 @@
-import { message } from 'ant-design-vue'
+    import { message } from 'ant-design-vue'
 import store from '@/store'
 import {
     getHotelsAPI,
@@ -6,7 +6,8 @@ import {
     getHotelListBySearchAPI
 } from '@/api/hotel'
 import {
-    reserveHotelAPI
+    reserveHotelAPI,
+    getUserHotelOrdersAPI
 } from '@/api/order'
 import {
     orderMatchCouponsAPI,
@@ -30,6 +31,7 @@ const hotel = {
         currentOrderRoom: {
 
         },
+        userHotelOrderList:[],
         orderMatchCouponList: [
 
         ]
@@ -41,6 +43,23 @@ const hotel = {
         set_hotelListSortedByRate: function(state) {
             state.hotelList.sort(function(a,b){
                 return b.rate-a.rate
+            })
+        },
+        set_hotelListSortedByPrice: function(state) {
+            state.hotelList.sort(function (a,b) {
+                return a.minPrice-b.minPrice
+            })
+        },
+        set_hotelListSortedByStar: function(state) {
+            state.hotelList.sort(function (a,b) {
+                if (a.hotelStar>b.hotelStar) {
+                    return 1
+                } else if (a.hotelStar<b.hotelStar){
+                    return -1
+                } else {
+                    return 0
+                }
+                // return a.hotelStar>b.hotelStar
             })
         },
         set_hotelListParams: function(state, data) {
@@ -60,6 +79,9 @@ const hotel = {
                 ...state.currentHotelInfo,
                 ...data,
             }
+        },
+        set_userHotelOrderList: function(state,data) {
+            state.userHotelOrderList = data
         },
         set_orderModalVisible: function(state, data) {
             state.orderModalVisible = data
@@ -83,11 +105,20 @@ const hotel = {
                 commit('set_hotelListLoading', false)
             }
         },
-        getHotelListBySearch: async ({commit, state}, data) => {
-            const res = await getHotelListBySearchAPI(data)
+        getHotelListBySearch: async ({commit, state, getters}, data) => {
+            const res = await getHotelListBySearchAPI(data,getters.userId)
             if(res){
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
+            }
+        },
+        getOrderListByUserAndHotel: async ({commit,state,getters}) => {
+            const res = await getUserHotelOrdersAPI({
+                hotelId: state.currentHotelId,
+                userId: getters.userId
+            })
+            if(res){
+                commit('set_userHotelOrderList',res)
             }
         },
         getHotelById: async({commit, state}) => {
@@ -99,10 +130,11 @@ const hotel = {
             }
         },
         addOrder: async({ state, commit }, data) => {
+            //console.log(data)
             const res = await reserveHotelAPI(data)
             console.log(res)
             if(res){
-                message.success('预定成功')
+                message.success('预订成功')
                 commit('set_orderModalVisible', false)
             }
         },
