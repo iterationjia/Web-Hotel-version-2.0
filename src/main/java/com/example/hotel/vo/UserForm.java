@@ -12,12 +12,19 @@ public class UserForm {
     /**
      * 用户密码
      */
+    private int userid;
     private String password;
     private String userName;
     private String phoneNumber;
     private double credit;
 
+    public int getId() {
+        return userid;
+    }
 
+    public void setId(int id) {
+        this.userid = id;
+    }
     public String getEmail() {
         return email;
     }

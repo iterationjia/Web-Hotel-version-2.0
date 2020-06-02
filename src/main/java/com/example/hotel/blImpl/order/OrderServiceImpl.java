@@ -185,12 +185,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-//    @Override
-//    public ResponseVO updateOrderComment(OrderVO orderVO){
-//        Order order = new Order();
-//        BeanUtils.copyProperties(orderVO,order);
-//        orderMapper.updateOrderComment(order);
-//        return ResponseVO.buildSuccess(true);
-//    }
+    @Override
+    public ResponseVO updateOrderComment(OrderVO orderVO){
+        Order order = new Order();
+        BeanUtils.copyProperties(orderVO,order);
+        orderMapper.updateOrderComment(order.getId(),order.getStar(),order.getComment());
+        return ResponseVO.buildSuccess(true);
+    }
 
 }

@@ -34,8 +34,10 @@ public interface    HotelService {
     List<HotelVO> retrieveHotels();
 
     List<HotelVO> retrieveManagerHotels(Integer managerId);
+
     List<HotelVO> retrieveSearchedHotels(String region,String address,String name,String star, Integer rate0,Integer rate1,int userid);
     ResponseVO setHotelManager(Integer hotelid,Integer managerid);
+
     ResponseVO deleteHotel(Integer hotelId);
     /**
      * 获取某家酒店详细信息

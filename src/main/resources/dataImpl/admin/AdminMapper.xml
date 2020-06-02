@@ -8,7 +8,17 @@
     <select id="getAllManagers" resultMap="User">
         select * from User where usertype='HotelManager'
     </select>
-
+    <update id="editUserInfo">
+        update user
+        set phonenumber=#{phonenumber},
+           username=#{username},
+           password=#{password},
+           credit=#{credit}
+           where id=#{id};
+    </update>
+    <select id="getAllUsers" resultMap="User">
+        select * from User where id!=0
+    </select>
 
 <!--    <select id="getHotels" resultMap="Hotel">-->
 <!--        select * from hotel-->

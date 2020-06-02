@@ -27,6 +27,14 @@ public class AdminController {
 
         return adminService.addManager(userForm);
     }
+    @PostMapping("/{userid}/editUserInfo")
+    public ResponseVO editUserInfo(@RequestBody UserForm userForm ,@PathVariable int userid){
+        //System.out.println(userForm.getId());
+        System.out.println(userForm.getCredit());
+        System.out.println(userForm.getPassword());
+        System.out.println(userForm.getUserName());
+        return adminService.editUserInfo(userForm,userid);
+    }
     @PostMapping("/addHotel")
     public ResponseVO createHotel(@RequestBody HotelVO hotelVO) throws ServiceException {
 
@@ -37,7 +45,11 @@ public class AdminController {
     public ResponseVO getAllManagers(){
         return ResponseVO.buildSuccess(adminService.getAllManagers());
     }
-//
+    @PostMapping("/getAllUsers")
+    public ResponseVO getAllUsers(){
+        return ResponseVO.buildSuccess(adminService.getAllUsers());
+    }
+    //
     @GetMapping("/getHotels")
     public ResponseVO getHotels(){return ResponseVO.buildSuccess(hotelService.retrieveHotels());
    // public ResponseVO getHotels(){return ResponseVO.buildSuccess(adminService.getHotels());
@@ -55,6 +67,8 @@ public class AdminController {
         return hotelService.deleteHotel(hotelid);
     }
     @PostMapping("/{hotelid}/{managerid}/setHotelManager")
-    public ResponseVO setHotelManager(@PathVariable Integer hotelid,@PathVariable Integer managerid){
+    public ResponseVO setHotelManager(@PathVariable Integer hotelid,@PathVariable int managerid){
+//        System.out.println(hotelid);
+//        System.out.println(managerid);
         return hotelService.setHotelManager(hotelid,managerid);}
 }

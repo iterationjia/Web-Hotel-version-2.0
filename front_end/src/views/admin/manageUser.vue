@@ -8,13 +8,15 @@
                 </div>
                 <a-table
                     :columns="columns"
-                    :dataSource="managerList"
+                    :dataSource="userList"
                     bordered
                 >
                     <span slot="price" slot-scope="text">
                         <span>￥{{ text }}</span>
                     </span>
                     <span slot="action" slot-scope="record">
+                      <a-button type="primary" @click="EditUserInfo(record)">修改信息</a-button>
+                        <a-divider type="vertical"></a-divider>
                         <a-popconfirm
                                 title="确定想删除该用户吗？"
                                 @confirm="DeleteUser(record)"
@@ -37,15 +39,15 @@
                 >
                     <span slot="action" slot-scope="record">
                         <a-button type="primary"
-                                  size="small"
-                                  @click="setHotelManager(record)"
+
+                                  @click="SetHotelManager(record)"
                                   v-if="record.managerId>0" >
                             更改管理员
                         </a-button>
                         <a-button
                                 type="primary"
-                                size="small"
-                                @click="setHotelManager(record)"
+
+                                @click="SetHotelManager(record)"
                                 v-if="record.managerId==null" >
                             设置管理员
                         </a-button>
@@ -56,7 +58,7 @@
                                 okText="确定"
                                 cancelText="取消"
                         >
-                            <a-button type="danger" size="small">删除酒店</a-button>
+                            <a-button type="danger" >删除酒店</a-button>
                         </a-popconfirm>
                     </span>
                 </a-table>
@@ -65,6 +67,7 @@
         <AddManagerModal></AddManagerModal>
         <AddHotelModal></AddHotelModal>
         <SetHotelManagerModal></SetHotelManagerModal>
+        <EditUserInfoModal></EditUserInfoModal>
     </div>
 </template>
 <script>
@@ -72,7 +75,12 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddManagerModal from './components/addManagerModal'
 import AddHotelModal from '../hotelManager/components/addHotelModal'
 import SetHotelManagerModal from './components/setHotelManagerModal'
+import EditUserInfoModal from './components/editUserInfoModal'
 const columns = [
+    {
+        title: '用户id',
+        dataIndex: 'id',
+    },
     {  
         title: '用户邮箱',
         dataIndex: 'email',
@@ -90,9 +98,14 @@ const columns = [
         dataIndex: 'phoneNumber',
     },
     {
-        title: '用户id',
-        dataIndex: 'id',
+        title: '信用值',
+        dataIndex: 'credit',
     },
+    {
+        title: '用户身份',
+        dataIndex: 'userType',
+    },
+
     {
       title: '操作',
       key: 'action',
@@ -153,22 +166,29 @@ export default {
         AddManagerModal,
         AddHotelModal,
         SetHotelManagerModal,
+        EditUserInfoModal,
     },
     computed: {
         ...mapGetters([
             'addManagerModalVisible',
             'addHotelModalVisible',
             'managerList',
+            'userList',
             'adminHotelList',
             'setHotelManagerModalVisible',
-            'HotelId',
+            'editUserInfoModalVisible',
+            'hotelid',
+            'userid',
+            'editUserInfoParams',
         ])
     },
     mounted() {
-      this.getManagerList(),
-      this.getHotelList()
+        this.getManagerList(),
+        this.getHotelList(),
+        this.getUserList()
     },
     methods: {
+
         ...mapActions([
             'getManagerList',
             'getHotelList',
@@ -180,7 +200,14 @@ export default {
             'set_addHotelModalVisible',
             'set_addManagerModalVisible',
             'set_setHotelManagerModalVisible',
+
+            'set_editUserInfoParams',
+
+            'set_editUserInfoModalVisible',
             'set_HotelId',
+            'set_UserId',
+
+
         ]),
         addHotel() {
             this.set_addHotelModalVisible(true)
@@ -188,14 +215,37 @@ export default {
         addManager(){
             this.set_addManagerModalVisible(true)
         },
+<<<<<<< HEAD
         doAddCommentTable(){
             this.addCommentTable()
         },
         setHotelManager(record){
+=======
+
+        EditUserInfo(record){
+            //console.log(record)
+            const data={
+                userid:record.id,
+                userName:record.userName,
+                password: record.password,
+                phoneNumber:record.phoneNumber,
+                credit:record.credit,
+            }
+            this.set_UserId(record.id)
+            //console.log(this.userid)
+            //console.log(data)
+            this.set_editUserInfoParams(data)
+            //console.log(this.editUserInfoParams)
+
+            this.set_editUserInfoModalVisible(true)
+        },
+        SetHotelManager(record){
+            //console.log(record.id)
+           // this.HotelId=record.id
+            this.set_HotelId(record.id)
+>>>>>>> 0f0ec159e45bc324b7fde736797d60b32e4007e5
             //console.log(this.HotelId)
-            console.log(record.id);
-            this.set_HotelId(record.id);
-            console.log(this.HotelId)
+
             this.set_setHotelManagerModalVisible(true)
         },
         //

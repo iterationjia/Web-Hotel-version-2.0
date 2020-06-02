@@ -24,10 +24,16 @@ const getters = {
   orderMatchCouponList: state => state.hotel.orderMatchCouponList,
   //admin
   managerList: state => state.admin.managerList,
+  userList: state=>state.admin.userList,
   addManagerModalVisible: state => state.admin.addManagerModalVisible,
   addManagerParams: state => state.admin.addManagerParams,
   adminHotelList: state => state.admin.adminHotelList,
-  HotelId: state => state.admin.HotelId,
+
+
+  hotelid: state=>state.admin.hotelid,
+  userid: state=>state.admin.userid,
+  editUserInfoParams:state=>state.admin.editUserInfoParams,
+  editUserInfoModalVisible:state=>state.admin.editUserInfoModalVisible,
 
   setHotelManagerModalVisible:state=>state.admin.setHotelManagerModalVisible,
   //hotelManager

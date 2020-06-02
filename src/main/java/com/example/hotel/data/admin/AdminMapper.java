@@ -18,8 +18,16 @@ import java.util.List;
 public interface    AdminMapper {
 
     int addManager(User user);
+    int editUserInfo(@Param("id") int id,
+                     @Param("password") String address,
+                     @Param("username") String username,
+                     @Param("credit") double credit,
+                     @Param("phonenumber") String phonenumber
+    );
 
     List<User> getAllManagers();
+
+    List<User> getAllUsers();
     List<HotelVO> getHotels();
     int deleteUser(@Param("userid")int userid);
 

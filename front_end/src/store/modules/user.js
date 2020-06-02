@@ -119,12 +119,12 @@ const user = {
         },
 
         //评论
-        // updateUserOrderComment: async({state},data) =>{
-        //     const res = await updateUserOrderCommentAPI(data)
-        //     if(res){
-        //         message.success('评论成功')
-        //     }
-        // },
+        updateUserOrderComment: async({state},data) =>{
+            const res = await updateUserOrderCommentAPI(data)
+            if(res){
+                message.success('评论成功')
+            }
+        },
         getUserOrders: async({ state, commit }) => {
             const data = {
                 userId: Number(state.userId)
