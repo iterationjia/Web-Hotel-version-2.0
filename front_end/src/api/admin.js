@@ -8,6 +8,12 @@ export function getManagerListAPI(){
         method: 'POST'
     })
 }
+export function addCommentTableAPI(){
+    return axios({
+        url: `${api.adminPre}/addCommentTable`,
+        method: 'POST'
+    })
+}
 export function addManagerAPI(data) {
     return axios({
         url: `${api.adminPre}/addManager`,

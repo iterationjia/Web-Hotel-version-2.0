@@ -42,6 +42,10 @@ public class AdminController {
     public ResponseVO getHotels(){return ResponseVO.buildSuccess(hotelService.retrieveHotels());
    // public ResponseVO getHotels(){return ResponseVO.buildSuccess(adminService.getHotels());
 }
+    @PostMapping("/addCommentTable")
+    public ResponseVO addCommentTable(){
+        return adminService.addCommentTable();
+    }
     @PostMapping("/{userid}/deleteUser")
     public ResponseVO deleteUser(@PathVariable int userid){
     return adminService.deleteUser(userid);

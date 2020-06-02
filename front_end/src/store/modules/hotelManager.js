@@ -4,6 +4,9 @@ import {
     getManagerHotelsAPI
 } from '@/api/hotelManager'
 import {
+    deleteHotelAPI
+} from "@/api/admin";
+import {
     getAllOrdersAPI,
 
     execOrderAPI,
@@ -141,6 +144,15 @@ const hotelManager = {
                 message.success('退房成功')
             } else{
                 message.error('退房失败')
+            }
+        },
+        deleteHotelByManager: async ({ state, dispatch }, hotelId) => {
+            const res = await deleteHotelAPI(hotelId)
+            if(res) {
+                dispatch('getManagerHotelList')
+                message.success('删除成功')
+            }else{
+                message.error('删除失败')
             }
         },
 //

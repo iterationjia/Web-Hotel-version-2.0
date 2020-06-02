@@ -5,6 +5,7 @@ import {
     getHotelsAPI,
     deleteHotelAPI,
     setHotelManagerAPI,
+    addCommentTableAPI,
 } from '@/api/admin'
 import{
     addHotelAPI,
@@ -133,7 +134,14 @@ const admin = {
             }
         },
         //
-
+        addCommentTable :async () => {
+            const res = await addCommentTableAPI()
+            if (res){
+                message.success('添加成功')
+            }else{
+                message.error('添加失败')
+            }
+        },
         addManager: async({ state, commit, dispatch }) => {
             const res = await addManagerAPI(state.addManagerParams)
             if(res) {

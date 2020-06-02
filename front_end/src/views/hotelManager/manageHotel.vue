@@ -3,7 +3,7 @@
         <a-tabs>
             <a-tab-pane tab="酒店管理" key="1">
                 <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary" @click="AddHotel"><a-icon type="plus" />添加酒店</a-button>
+                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
                 </div>
                  <a-table
                     :columns="columns1"
@@ -17,7 +17,7 @@
                         <a-divider type="vertical"></a-divider>
                         <a-popconfirm
                             title="确定想删除该酒店吗？"
-                            @confirm="deleteHotel(record)"
+                            @confirm="doDeleteHotel(record)"
                             okText="确定"
                             cancelText="取消"
                         >
@@ -209,12 +209,12 @@ export default {
             'couponVisible',
         ]),
     },
-   async mounted() {
+    mounted() {
         // await this.getHotelList()
-        // this.getManagerHotelList()
+        this.getManagerHotelList()
         // await this.getAllOrders()
-        await this.set_managerOrderListType("scheduled")
-        await this.getManagerOrderList()
+        this.set_managerOrderListType("scheduled")
+        this.getManagerOrderList()
     },
     methods: {
         ...mapMutations([
@@ -228,6 +228,7 @@ export default {
         ]),
         ...mapActions([
             'getHotelList',
+            'deleteHotelByManager',
             'getManagerHotelList',
             'getManagerOrderList',
             // 'getAllOrders',
@@ -247,8 +248,8 @@ export default {
             this.set_couponVisible(true)
             this.getHotelCoupon()
         },
-        deleteHotel(){
-
+        doDeleteHotel(record){
+            this.deleteHotelByManager(record.id)
         },
         deleteOrder(){
 
