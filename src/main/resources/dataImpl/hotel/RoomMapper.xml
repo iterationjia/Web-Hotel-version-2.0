@@ -25,7 +25,7 @@
     </select>
 
     <delete id="deleteHotelRooms">
-        delete from room where hotel_id=#{hotelId}
+        delete from Room where hotel_id=#{hotelId}
     </delete>
 
     <resultMap id="room" type="com.example.hotel.po.HotelRoom">

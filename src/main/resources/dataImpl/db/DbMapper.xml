@@ -20,6 +20,6 @@
         UPDATE User set id = 0 where username='老管理员'
     </update>
     <select id="testLv" resultType="int">
-        select lv from user where user.id = 0
+        select lv from User where id = 0
     </select>
 </mapper>

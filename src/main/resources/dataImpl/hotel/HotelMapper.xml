@@ -27,7 +27,7 @@
         and rate&gt;=#{rate0} and rate&lt;=#{rate1}
     </select>
     <update id="setHotelManager">
-        update hotel set manager_id=#{managerid} where id=#{hotelid}
+        update Hotel set manager_id=#{managerid} where id=#{hotelid}
     </update>
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"></id>
