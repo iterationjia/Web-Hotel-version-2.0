@@ -89,12 +89,20 @@
                         <!--评价-->
                         <a-divider type="vertical" v-else-if="record.orderState == '已执行'"></a-divider>
                         <span v-if="record.orderState == '已执行'">
-                            <a-button type="default" size="small" @click="showModal(record.id)">评价</a-button>
+                            <template v-if="record.star==null">
+                                <a-button type="default" size="small" @click="showModal(record.id)">评价</a-button>
+                            </template>
+                            <template v-if="record.star>0">
+                                <a-button type="default" size="small" @click="showAnotherModal(record.id)">已评价</a-button>
+                            </template>
+
                             <a-modal
                                     title="评价"
                                     :visible="visible"
                                     @ok="handleOk"
                                     @cancel="handleCancel"
+                                    okText="确定"
+                                    cancelText="取消"
                             >
                                 <div>
                                     <p>评分</p>
@@ -104,6 +112,25 @@
                                     <br/>
                                     <p>评论</p>
                                     <a-textarea placeholder="请输入您的评价" auto-size v-model="comments"/>
+                                </div>
+                            </a-modal>
+
+                            <a-modal
+                                    title="已评价"
+                                    :visible="anotherVisible"
+                                    @ok="handleAnotherOk"
+                                    @cancel="handleAnotherCancel"
+                                    okText="确定"
+                                    cancelText="取消"
+                            >
+                                <div>
+                                    <p>您的评分</p>
+                                    <a-rate v-model="record.star" :tooltips="desc" disabled/>
+                                    <span class="ant-rate-text">{{ desc[value - 1] }}</span>
+                                    <br/>
+                                    <br/>
+                                    <p>您的评论</p>
+                                    <a-textarea placeholder="请输入您的评价" auto-size v-model="record.comment" disabled/>
                                 </div>
                             </a-modal>
                         </span>
@@ -178,6 +205,7 @@ export default {
             stars: 3,
             desc: ['terrible', 'bad', 'normal', 'good', 'wonderful'],
             visible: false,
+            anotherVisible: false,
             comments: null,
             recordId: 0,
             value: null,
@@ -256,6 +284,10 @@ export default {
             this.visible = true;
             this.recordId = num;
         },
+        showAnotherModal(num){
+            this.anotherVisible = true;
+            this.recordId = num;
+        },
         handleOk() {
             const data = {
                 star: this.stars,
@@ -263,13 +295,18 @@ export default {
                 id: this.recordId,
             }
             this.updateUserOrderComment(data)
-            this.stars = 0;
-            this.comments = null;
+
             this.visible = false;
         },
         handleCancel(e) {
             console.log('Clicked cancel button');
             this.visible = false;
+        },
+        handleAnotherOk(){
+            this.anotherVisible = false;
+        },
+        handleAnotherCancel(e) {
+            this.anotherVisible = false;
         },
     }
 }
