@@ -14,6 +14,8 @@ public class UserVO {
     private String phoneNumber;
     private double credit;
     private UserType userType;
+    private Integer lv;
+    private double totalmoney;
 
     public Integer getId() {
         return id;
@@ -71,5 +73,19 @@ public class UserVO {
         this.userType = userType;
     }
 
+    public Integer getLv() {
+        return lv;
+    }
 
+    public void setLv(Integer lv) {
+        this.lv = lv;
+    }
+
+    public double getTotalmoney() {
+        return totalmoney;
+    }
+
+    public void setTotalmoney(double totalmoney) {
+        this.totalmoney = totalmoney;
+    }
 }

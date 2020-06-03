@@ -33,6 +33,9 @@
                             v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }] }]"
                         />
                     </a-form-item>
+                    <a-form-item label="等级" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                        <span>{{ userInfo.lv }}</span>
+                    </a-form-item>
                     <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
                         <a-button type="primary" @click="saveModify">
                             保存
@@ -89,7 +92,7 @@
                         <!--评价-->
                         <a-divider type="vertical" v-else-if="record.orderState == '已执行'"></a-divider>
                         <span v-if="record.orderState == '已执行'">
-                            <template v-if="record.star==null">
+                            <template v-if="record.star==0">
                                 <a-button type="default" size="small" @click="showModal(record.id)">评价</a-button>
                             </template>
                             <template v-if="record.star>0">

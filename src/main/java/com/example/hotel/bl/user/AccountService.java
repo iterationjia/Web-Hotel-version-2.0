@@ -43,5 +43,7 @@ public interface AccountService {
 
     ResponseVO creditSet(UserVO userVO);
 
+    ResponseVO lvSet(UserVO userVO);
+
     User getAccountByEmail(String email);
 }

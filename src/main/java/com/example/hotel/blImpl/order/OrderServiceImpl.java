@@ -30,10 +30,13 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
+    private final static String CREDIT_LACK = "您的信用值不足";
     @Autowired
     OrderMapper orderMapper;
     @Autowired
     RoomMapper roomMapper;
+    @Autowired
+    AccountMapper accountMapper;
     @Autowired
     HotelService hotelService;
     @Autowired
@@ -47,6 +50,7 @@ public class OrderServiceImpl implements OrderService {
         if(reserveRoomNum>curNum){
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
+
         try {
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH");
             Date date = new Date(System.currentTimeMillis());
@@ -54,6 +58,14 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setCreateDate(curdate);
             orderVO.setOrderState("已预订");
             User user = accountService.getUserInfo(orderVO.getUserId());
+
+            if(user.getCredit()<0){
+                return ResponseVO.buildFailure(CREDIT_LACK);
+            }
+            user.setTotalmoney(user.getTotalmoney()+orderVO.getPrice());
+            user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
+            accountMapper.setLv(user.getId(),user.getLv());
+            accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
             orderVO.setClientName(user.getUserName());
             orderVO.setPhoneNumber(user.getPhoneNumber());
             Order order = new Order();
@@ -118,6 +130,13 @@ public class OrderServiceImpl implements OrderService {
         int hours = (int)((to-from)/1000/60/60);
 
         User user = accountService.getUserInfo(orderannual.getUserId());
+
+        //减去totalmoney和lv
+        user.setTotalmoney(user.getTotalmoney()-orderannual.getPrice());
+        user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
+        accountMapper.setLv(user.getId(),user.getLv());
+        accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
+
         //注意等号，比如15:59到21:01,不足6小时，hours=6
         if(hours<=6){
             double curcredit = user.getCredit()-orderannual.getPrice()/2;

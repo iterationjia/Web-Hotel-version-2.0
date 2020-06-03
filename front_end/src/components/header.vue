@@ -42,11 +42,19 @@
                         <a-icon type="frown" />异常处理
                     </router-link>
                 </a-menu-item>
-                <a-menu-item key="7" @click="selectMenu">
-                    <router-link :to="{ name: 'creditAdder'}">
-                        <a-icon type="transaction" />信用充值
-                    </router-link>
-                </a-menu-item>
+                <a-sub-menu @click="selectMenu">
+                    <span slot="title"><a-icon type="transaction" /><span>充值中心</span></span>
+                    <a-menu-item key="7" @click="selectMenu">
+                        <router-link :to="{ name: 'creditAdder'}">
+                            信用充值
+                        </router-link>
+                    </a-menu-item>
+                    <a-menu-item key="8" @click="selectMenu">
+                        <router-link :to="{ name: 'lvAdder'}">
+                            等级充值
+                        </router-link>
+                    </a-menu-item>
+                </a-sub-menu>
             </a-sub-menu>
         </a-menu>
         <div class="logout">
@@ -106,7 +114,9 @@ export default {
             this.current = ['6']
         }else if(this.$route.name == 'creditAdder'){
             this.current = ['7']
-        } else {
+        }else if(this.$route.name == 'lvAdder'){
+            this.current = ['8']
+        }else {
             this.current = ['4']
         }
     },

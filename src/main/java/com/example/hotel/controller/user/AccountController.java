@@ -53,6 +53,11 @@ public class AccountController {
         return accountService.creditSet(userVO);
     }
 
+    @PostMapping("/lvSet")
+    public ResponseVO lvSet(@RequestBody UserVO userVO){
+        return accountService.lvSet(userVO);
+    }
+
     @PostMapping("/getAccountByEmail")
     public ResponseVO getAccountByEmail(@RequestBody UserVO userVO) {
 

@@ -65,6 +65,11 @@ const routes = [
         component: ()=> import('@/views/marketManager/creditAdder')
       },
       {
+        path: '/marketManager/lvAdder',
+        name: 'lvAdder',
+        component: ()=> import('@/views/marketManager/lvAdder')
+      },
+      {
         path: '/admin/manageUser',
         name: 'manageUser',
         component: () => import('@/views/admin/manageUser')

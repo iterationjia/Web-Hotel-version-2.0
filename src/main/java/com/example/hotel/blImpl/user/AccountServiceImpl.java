@@ -69,6 +69,15 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess(true);
     }
 
+    public ResponseVO lvSet(UserVO userVO){
+        User user = accountMapper.getAccountByEmail(userVO.getEmail());
+        user.setTotalmoney(userVO.getTotalmoney());
+        user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
+        accountMapper.setLv(user.getId(),user.getLv());
+        accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
+        return ResponseVO.buildSuccess(true);
+    }
+
     public User getAccountByEmail(String email) {
         User user = accountMapper.getAccountByEmail(email);
         if (user == null) {
