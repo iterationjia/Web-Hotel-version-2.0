@@ -12,6 +12,14 @@
                         />
                         <span v-else>{{ userInfo.userName }}</span>
                     </a-form-item>
+                    <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                        <a-input
+                                placeholder="请输入有效的头像链接"
+                                v-decorator="['avatarurl', { rules: [{required: true, message: '请输入头像链接' }] }]"
+                                v-if="modify"
+                        />
+                        <span v-else><a-avatar :src=userInfo.avatarurl size="large"></a-avatar></span>
+                    </a-form-item>
                     <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <span>{{ userInfo.email }}</span>
                     </a-form-item>
@@ -251,7 +259,8 @@ export default {
                     const data = {
                         userName: this.form.getFieldValue('userName'),
                         phoneNumber: this.form.getFieldValue('phoneNumber'),
-                        password: this.form.getFieldValue('password')
+                        password: this.form.getFieldValue('password'),
+                        avatarurl: this.form.getFieldValue('avatarurl'),
                     }
                     this.updateUserInfo(data).then(()=>{
                         this.modify = false
@@ -264,6 +273,7 @@ export default {
                 this.form.setFieldsValue({
                     'userName': this.userInfo.userName,
                     'phoneNumber': this.userInfo.phoneNumber,
+                    'avatarurl': this.userInfo.avatarurl,
                 })
             }, 0)
             this.modify = true

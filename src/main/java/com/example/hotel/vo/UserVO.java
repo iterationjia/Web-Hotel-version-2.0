@@ -16,6 +16,7 @@ public class UserVO {
     private UserType userType;
     private Integer lv;
     private double totalmoney;
+    private String avatarurl;
 
     public Integer getId() {
         return id;
@@ -87,5 +88,13 @@ public class UserVO {
 
     public void setTotalmoney(double totalmoney) {
         this.totalmoney = totalmoney;
+    }
+
+    public String getAvatarurl() {
+        return avatarurl;
+    }
+
+    public void setAvatarurl(String avatarurl) {
+        this.avatarurl = avatarurl;
     }
 }

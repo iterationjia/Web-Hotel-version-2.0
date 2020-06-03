@@ -162,6 +162,7 @@ CREATE TABLE `User` (
   `usertype` varchar(255) DEFAULT NULL,
   `lv` int(11) DEFAULT 0,
   `totalmoney` double(255,0) DEFAULT 0,
+  `avatarurl` varchar(255) DEFAULT 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -172,7 +173,7 @@ CREATE TABLE `User` (
 
 BEGIN;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (4,'1012681@qq.com','123456','测试一号','12345678919',100,'Client',0,0),(5,'123@qq.com','123456','测试二号','12345678911',100,'Client',0,0),(6,'333@qq.com','123456',NULL,NULL,NULL,'HotelManager',0,0),(0,'manager@qq.com','123456','老管理员','110',100,'Manager',0,0),(9,'market@qq.com','123456','老营销','110',100,'MarketManager',0,0);
+INSERT INTO `User` VALUES (4,'1012681@qq.com','123456','测试一号','12345678919',100,'Client',0,0,'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'),(5,'123@qq.com','123456','测试二号','12345678911',100,'Client',0,0,'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'),(6,'333@qq.com','123456',NULL,NULL,NULL,'HotelManager',0,0,'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'),(0,'manager@qq.com','123456','老管理员','110',100,'Manager',0,0,'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'),(9,'market@qq.com','123456','老营销','110',100,'MarketManager',0,0,'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 COMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
