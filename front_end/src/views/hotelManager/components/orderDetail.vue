@@ -23,7 +23,12 @@
                     <a-statistic title="用户名称" :value="info.clientName"/>
                 </a-col>
                 <a-col :span="16">
-                    <a-statistic title="用户手机号" :value="info.phoneNumber"/>
+                    <a-statistic title="用户手机号" groupSeparator="" :value="info.phoneNumber"/>
+                </a-col>
+            </a-row>
+            <a-row v-if="info.userLv>0">
+                <a-col :span="24">
+                    <a-statistic title="会员" :value="info.userLv+' 级'"/>
                 </a-col>
             </a-row>
             <a-row>

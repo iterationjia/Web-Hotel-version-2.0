@@ -66,8 +66,8 @@ public class OrderServiceImpl implements OrderService {
             user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
             accountMapper.setLv(user.getId(),user.getLv());
             accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
-            orderVO.setClientName(user.getUserName());
-            orderVO.setPhoneNumber(user.getPhoneNumber());
+//            orderVO.setClientName(user.getUserName());
+//            orderVO.setPhoneNumber(user.getPhoneNumber());
             Order order = new Order();
             BeanUtils.copyProperties(orderVO,order);
             orderMapper.addOrder(order);
@@ -99,8 +99,7 @@ public class OrderServiceImpl implements OrderService {
         for (int i = 0; i < managerOrders.size(); i++) {
             Order order = managerOrders.get(i);
             User user = accountService.getUserInfo(order.getUserId());
-            order.setClientName(user.getUserName());
-            order.setPhoneNumber(user.getPhoneNumber());
+            order.setUserLv(user.getLv());
         }
         return managerOrders;
     }
