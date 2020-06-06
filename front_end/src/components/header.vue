@@ -6,12 +6,12 @@
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
             <a-menu-item key="0" @click="selectMenu">
-                <router-link to="/hotel/oldHotelList">
-                    <a-icon type="home" />旧首页
+                <router-link :to="{ name: 'hotelSearch'}">
+                    <a-icon type="search" />搜索
                 </router-link>
             </a-menu-item>
             <a-menu-item key="1" @click="selectMenu">
-                <router-link :to="{ name: 'hotelSearch' }">
+                <router-link :to="{ name: 'hotelList' }">
                     <a-icon type="home" />首页
                 </router-link>
             </a-menu-item>
@@ -92,13 +92,13 @@ export default {
         ])
     },
     mounted() {
-        if (this.$route.name == 'hotelSearch' || this.$route.name == 'hotelDetail') {
+        if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
             this.current = ['1']
         }else if(this.$route.name == 'userInfo') {
             this.current = ['2']
         }else if(this.$route.name == 'manageHotel') {
             this.current = ['3']
-        }else if (this.$route.name == 'oldHotelList'){
+        }else if (this.$route.name == 'hotelSearch'){
             this.current = ['0']
         }else if(this.$route.name == 'designCoupon'){
             this.current = ['5']

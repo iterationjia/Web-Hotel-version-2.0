@@ -84,6 +84,12 @@ public class OrderServiceImpl implements OrderService {
         for (int i=0;i<managerHotels.size();i++){
             managerOrders.addAll(getHotelOrders(managerHotels.get(i).getId()));
         }
+        for (int i = 0; i < managerOrders.size(); i++) {
+            Order order = managerOrders.get(i);
+            User user = accountService.getUserInfo(order.getUserId());
+            order.setClientName(user.getUserName());
+            order.setPhoneNumber(user.getPhoneNumber());
+        }
         return managerOrders;
     }
 

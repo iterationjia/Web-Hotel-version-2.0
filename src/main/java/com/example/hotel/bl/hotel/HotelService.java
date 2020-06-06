@@ -3,9 +3,11 @@ package com.example.hotel.bl.hotel;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.po.Order;
 import com.example.hotel.util.ServiceException;
+import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public interface    HotelService {
      * @return
      */
     List<HotelVO> retrieveHotels();
+    List<HotelVO> retrieveHotels(int userid);
 
     List<HotelVO> retrieveManagerHotels(Integer managerId);
 
@@ -60,6 +63,9 @@ public interface    HotelService {
      * @return
      */
 
-
+    List<CommentVO> getComments(Integer hotelId);
+    void editHotel(HotelVO hotelVO);
+    ResponseVO updateHotelImg(MultipartFile file, Integer hotelId);
+    String getHotelImg(Integer hotelId);
 
 }

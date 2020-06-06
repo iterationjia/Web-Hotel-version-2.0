@@ -19,6 +19,7 @@ public class HotelVO {
     private Integer managerId;
     private Integer minPrice;
     private boolean scheduled;
+    private String img;
 
     private List<RoomVO> rooms;
 
@@ -109,4 +110,12 @@ public class HotelVO {
     public boolean getScheduled() { return scheduled; }
 
     public void setScheduled(boolean scheduled) { this.scheduled = scheduled; }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 }

@@ -22,6 +22,8 @@ public interface OrderMapper {
 
     List<Order> getUserOrders(@Param("userid") int userid);
 
+    List<Order> getHotelOrders(@Param("hotelId") int hotelId);
+
     List<Order> getUserHotelOrders(@Param("userid") int userid, @Param("hotelid") int hotelid);
 
     int annulOrder(@Param("orderid") int orderid);

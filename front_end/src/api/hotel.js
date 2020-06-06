@@ -2,10 +2,13 @@ import { axios } from '@/utils/request'
 const api = {
     hotelPre: '/api/hotel'
 }
-export function getHotelsAPI() {
+export function getHotelsAPI(userid) {
     return axios({
         url: `${api.hotelPre}/all`,
         method: 'get',
+        params: {
+            userid: userid
+        }
     })
 }
 export function getHotelByIdAPI(param) {
@@ -27,5 +30,11 @@ export function getHotelListBySearchAPI(data,userid){
             rate1: data.rate[1],
             userid: userid
         }
+    })
+}
+export function getHotelCommentsAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/${data.hotelId}/comments`,
+        method: 'GET'
     })
 }

@@ -42,6 +42,9 @@ export default {
       'hotelListLoading'
     ])
   },
+    async mounted() {
+        await this.getHotelList()
+    },
   methods: {
     ...mapMutations([
       'set_hotelListParams',

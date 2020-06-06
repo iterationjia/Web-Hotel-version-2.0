@@ -8,6 +8,9 @@
     <select id="getUserOrders" resultMap="Order">
         select * from OrderList where userId=#{userid}
     </select>
+    <select id="getHotelOrders" resultMap="Order">
+        select * from OrderList where hotelId=#{hotelId}
+    </select>
     <select id="getUserHotelOrders" resultMap="Order">
         select * from OrderList where userId=#{userid} and hotelId=#{hotelid}
     </select>

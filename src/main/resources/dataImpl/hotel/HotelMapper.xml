@@ -6,7 +6,11 @@
         insert into Hotel(address,bizRegion,hotelDescription,hotelStar,hotelName,phoneNum,rate,manager_id)
         values (#{address},#{bizRegion},#{description},#{hotelStar},#{hotelName},#{phoneNum},#{rate},#{managerId})
     </insert>
-
+    <update id="editHotel">
+        update Hotel
+        set hotelName=#{name}, address=#{address},hotelStar=#{hotelStar},hotelDescription=#{description},phoneNum=#{phoneNum}
+        where id=#{id}
+    </update>
     <select id="selectAllHotel" resultMap="Hotel">
         select * from Hotel
     </select>
