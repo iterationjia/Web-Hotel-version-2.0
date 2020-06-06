@@ -8,7 +8,7 @@ public class UserInfoVO {
     private String password;
     private String userName;
     private String phoneNumber;
-
+    private String avatarurl;
 
     public String getPassword() {
         return password;
@@ -32,5 +32,13 @@ public class UserInfoVO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAvatarurl() {
+        return avatarurl;
+    }
+
+    public void setAvatarurl(String avatarurl) {
+        this.avatarurl = avatarurl;
     }
 }

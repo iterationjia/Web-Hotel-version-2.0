@@ -12,6 +12,14 @@
                         />
                         <span v-else>{{ userInfo.userName }}</span>
                     </a-form-item>
+                    <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                        <a-input
+                                placeholder="请输入有效的头像链接"
+                                v-decorator="['avatarurl', { rules: [{required: true, message: '请输入头像链接' }] }]"
+                                v-if="modify"
+                        />
+                        <span v-else><a-avatar :src=userInfo.avatarurl size="large"></a-avatar></span>
+                    </a-form-item>
                     <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <span>{{ userInfo.email }}</span>
                     </a-form-item>
@@ -32,6 +40,9 @@
                             placeholder="请输入新密码"
                             v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }] }]"
                         />
+                    </a-form-item>
+                    <a-form-item label="等级" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                        <span>{{ userInfo.lv }}</span>
                     </a-form-item>
                     <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
                         <a-button type="primary" @click="saveModify">
@@ -89,12 +100,20 @@
                         <!--评价-->
                         <a-divider type="vertical" v-else-if="record.orderState == '已执行'"></a-divider>
                         <span v-if="record.orderState == '已执行'">
-                            <a-button type="default" size="small" @click="showModal(record.id)">评价</a-button>
+                            <template v-if="record.star==0">
+                                <a-button type="default" size="small" @click="showModal(record.id)">评价</a-button>
+                            </template>
+                            <template v-if="record.star>0">
+                                <a-button type="default" size="small" @click="showAnotherModal(record.id)">已评价</a-button>
+                            </template>
+
                             <a-modal
                                     title="评价"
                                     :visible="visible"
                                     @ok="handleOk"
                                     @cancel="handleCancel"
+                                    okText="确定"
+                                    cancelText="取消"
                             >
                                 <div>
                                     <p>评分</p>
@@ -104,6 +123,25 @@
                                     <br/>
                                     <p>评论</p>
                                     <a-textarea placeholder="请输入您的评价" auto-size v-model="comments"/>
+                                </div>
+                            </a-modal>
+
+                            <a-modal
+                                    title="已评价"
+                                    :visible="anotherVisible"
+                                    @ok="handleAnotherOk"
+                                    @cancel="handleAnotherCancel"
+                                    okText="确定"
+                                    cancelText="取消"
+                            >
+                                <div>
+                                    <p>您的评分</p>
+                                    <a-rate v-model="record.star" :tooltips="desc" disabled/>
+                                    <span class="ant-rate-text">{{ desc[value - 1] }}</span>
+                                    <br/>
+                                    <br/>
+                                    <p>您的评论</p>
+                                    <a-textarea placeholder="请输入您的评价" auto-size v-model="record.comment" disabled/>
                                 </div>
                             </a-modal>
                         </span>
@@ -178,6 +216,7 @@ export default {
             stars: 3,
             desc: ['terrible', 'bad', 'normal', 'good', 'wonderful'],
             visible: false,
+            anotherVisible: false,
             comments: null,
             recordId: 0,
             value: null,
@@ -220,7 +259,8 @@ export default {
                     const data = {
                         userName: this.form.getFieldValue('userName'),
                         phoneNumber: this.form.getFieldValue('phoneNumber'),
-                        password: this.form.getFieldValue('password')
+                        password: this.form.getFieldValue('password'),
+                        avatarurl: this.form.getFieldValue('avatarurl'),
                     }
                     this.updateUserInfo(data).then(()=>{
                         this.modify = false
@@ -233,6 +273,7 @@ export default {
                 this.form.setFieldsValue({
                     'userName': this.userInfo.userName,
                     'phoneNumber': this.userInfo.phoneNumber,
+                    'avatarurl': this.userInfo.avatarurl,
                 })
             }, 0)
             this.modify = true
@@ -256,6 +297,10 @@ export default {
             this.visible = true;
             this.recordId = num;
         },
+        showAnotherModal(num){
+            this.anotherVisible = true;
+            this.recordId = num;
+        },
         handleOk() {
             const data = {
                 star: this.stars,
@@ -263,13 +308,18 @@ export default {
                 id: this.recordId,
             }
             this.updateUserOrderComment(data)
-            this.stars = 0;
-            this.comments = null;
+
             this.visible = false;
         },
         handleCancel(e) {
             console.log('Clicked cancel button');
             this.visible = false;
+        },
+        handleAnotherOk(){
+            this.anotherVisible = false;
+        },
+        handleAnotherCancel(e) {
+            this.anotherVisible = false;
         },
     }
 }

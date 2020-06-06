@@ -47,3 +47,11 @@ export function creditSetAPI(data) {
         data
     })
 }
+
+export function lvSetAPI(data) {
+    return axios({
+        url: `${api.userPre}/lvSet`,
+        method: 'POST',
+        data
+    })
+}

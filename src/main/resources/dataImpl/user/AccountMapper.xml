@@ -12,11 +12,19 @@
         select * from User where id=#{id}
     </select>
     <update id="updateAccount">
-        update User set password=#{password},username=#{userName},phonenumber=#{phoneNumber}
+        update User set password=#{password},username=#{userName},phonenumber=#{phoneNumber},avatarurl=#{avatarurl}
         where id=#{id}
     </update>
     <update id="setCredit">
         update User set credit=#{credit}
+        where id=#{id}
+    </update>
+    <update id="setLv">
+        update User set lv=#{lv}
+        where id=#{id}
+    </update>
+    <update id="setTotalMoney">
+        update User set totalmoney=#{totalmoney}
         where id=#{id}
     </update>
     <resultMap id="User" type="com.example.hotel.po.User">

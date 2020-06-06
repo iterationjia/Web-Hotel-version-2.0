@@ -30,7 +30,6 @@ const getters = {
   addManagerParams: state => state.admin.addManagerParams,
   adminHotelList: state => state.admin.adminHotelList,
 
-
   hotelid: state=>state.admin.hotelid,
   userid: state=>state.admin.userid,
   editUserInfoParams:state=>state.admin.editUserInfoParams,
@@ -68,6 +67,8 @@ const getters = {
     return state.marketManager.orderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')&&(order.orderState!='已撤销')&&(order.orderState!='已入住')&&(order.orderState!='已退房')))
   },
   userCredit: state => state.marketManager.userCredit,
+  userlv: state => state.marketManager.userlv,
+  totalmoney: state => state.marketManager.totalmoney,
 }
   
   export default getters

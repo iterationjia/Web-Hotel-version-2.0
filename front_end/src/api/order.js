@@ -47,7 +47,7 @@ export function cancelOrderAPI(orderId) {
     })
 }
 
-//以下是我写的
+
 export function execOrderAPI(orderId){
     return axios({
         url: `${api.orderPre}/${orderId}/execOrder`,
@@ -55,8 +55,6 @@ export function execOrderAPI(orderId){
 
     })
 }
-//
-
 
 export function deleteOrderAPI(data) {
     return axios({
