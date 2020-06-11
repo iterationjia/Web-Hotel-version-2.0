@@ -24,6 +24,7 @@
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     export default {
         name: "comment",
+        inject:['reload'],
         data(){
             return {
                 stars: 3,
@@ -52,9 +53,14 @@
                 }
                 this.updateUserOrderComment(data);
                 this.set_commentVisible(false);
+                this.stars = 0;
+                this.comments = null;
+                this.reload();
             },
             handleCancel(e) {
                 this.set_commentVisible(false);
+                this.stars = 0;
+                this.comments = null;
             },
         }
     }

@@ -1,14 +1,33 @@
 <template>
   <div id="app" v-title data-title="NJUSE酒店管理系统">
     <transition name="fade-transform" mode="out-in">
-      <router-view/>
+      <router-view v-if="isRouterAlive"/>
     </transition>
   </div>
 </template>
 <script>
 export default {
+  name: 'App',
+  provide(){
+    return{
+      reload: this.reload
+    }
+  },
+  data(){
+    return{
+      isRouterAlive: true
+    }
+  },
   components: {
     
+  },
+  methods:{
+    reload(){
+      this.isRouterAlive = false;
+      this.$nextTick(function(){
+        this.isRouterAlive = true;
+      })
+    }
   }
 }
 </script>
