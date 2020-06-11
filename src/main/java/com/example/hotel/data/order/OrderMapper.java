@@ -29,6 +29,7 @@ public interface OrderMapper {
     int annulOrder(@Param("orderid") int orderid);
 //
     int execOrder(@Param("orderid") int orderid);
+    int setOrderExcep(@Param("orderid") int orderid);
     void checkOut(@Param("orderid") int orderid);
     int getUserHotelOrderNum(@Param("userid") int userid,@Param("hotelid") int hotelid);
 //

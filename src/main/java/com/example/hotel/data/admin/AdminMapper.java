@@ -28,6 +28,7 @@ public interface    AdminMapper {
     List<User> getAllManagers();
 
     List<User> getAllUsers();
+    List<User> getVip();
     List<HotelVO> getHotels();
     int deleteUser(@Param("userid")int userid);
 

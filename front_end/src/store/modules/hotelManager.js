@@ -13,7 +13,6 @@ import {
     deleteRoomAPI,
 } from '@/api/hotelManager'
 import {
-    changeHotelTotalMoneyAPI,
     getHotelByIdAPI
 } from "@/api/hotel";
 import {
@@ -25,7 +24,8 @@ import {
     execOrderAPI,
     checkOutAPI,
     getManagerOrdersAPI,
-
+    setOrderExcepAPI,
+    recoverOrderAPI,
 } from '@/api/order'
 import {
     hotelAllCouponsAPI,
@@ -207,10 +207,25 @@ const hotelManager = {
                 message.error('执行失败')
             }
         },
-
-        changeHotelTotalMoney: async ({ state, dispatch }, obj) => {
-               const res = await changeHotelTotalMoneyAPI(obj.hotelId,obj.price)
-
+        recoverOrder:  async ({ state, dispatch }, orderid) => {
+            // console.log(orderid)
+            const res = await recoverOrderAPI(orderid)
+            if(res) {
+                dispatch('getManagerOrderList')
+                message.success('操作成功')
+            }else{
+                message.error('操作失败')
+            }
+        },
+        setOrderExcep:  async ({ state, dispatch }, orderid) => {
+           // console.log(orderid)
+            const res = await setOrderExcepAPI(orderid)
+            if(res) {
+                dispatch('getManagerOrderList')
+                message.success('操作成功')
+            }else{
+                message.error('操作失败')
+            }
 },
 //
         addHotel: async({ state, dispatch, commit }) => {

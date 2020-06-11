@@ -49,6 +49,10 @@ public class AdminController {
     public ResponseVO getAllUsers(){
         return ResponseVO.buildSuccess(adminService.getAllUsers());
     }
+    @PostMapping("/getVip")
+    public ResponseVO getVip(){
+        return ResponseVO.buildSuccess(adminService.getVip());
+    }
     //
     @GetMapping("/getHotels")
     public ResponseVO getHotels(){return ResponseVO.buildSuccess(hotelService.retrieveHotels());
