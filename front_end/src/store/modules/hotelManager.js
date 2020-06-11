@@ -1,8 +1,12 @@
 import {
     addRoomAPI,
     addHotelAPI,
-    getManagerHotelsAPI
+    getManagerHotelsAPI,
+
 } from '@/api/hotelManager'
+import {
+    changeHotelTotalMoneyAPI,
+}from '@/api/hotel'
 import {
     deleteHotelAPI
 } from "@/api/admin";
@@ -174,6 +178,11 @@ const hotelManager = {
                 message.error('执行失败')
             }
         },
+
+        changeHotelTotalMoney: async ({ state, dispatch }, obj) => {
+               const res = await changeHotelTotalMoneyAPI(obj.hotelId,obj.price)
+
+},
 //
         addHotel: async({ state, dispatch, commit }) => {
             const res = await addHotelAPI(state.addHotelParams)

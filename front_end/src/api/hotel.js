@@ -29,3 +29,10 @@ export function getHotelListBySearchAPI(data,userid){
         }
     })
 }
+export function changeHotelTotalMoneyAPI(hotelId,price) {
+    return axios({
+        url: `${api.hotelPre}/${hotelId}/${price}/changeHotelTotalMoney`,
+        method: 'POST',
+    })
+
+}

@@ -37,7 +37,6 @@ public interface    HotelService {
 
     List<HotelVO> retrieveSearchedHotels(String region,String address,String name,String star, Integer rate0,Integer rate1,int userid);
     ResponseVO setHotelManager(Integer hotelid,int managerid);
-
     ResponseVO deleteHotel(Integer hotelId);
     /**
      * 获取某家酒店详细信息

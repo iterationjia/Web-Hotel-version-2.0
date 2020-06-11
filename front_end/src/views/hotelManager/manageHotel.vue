@@ -126,6 +126,10 @@ const columns1 = [
         dataIndex: 'description',
     },
     {
+        title:'总销售额',
+        dataIndex:'totalMoney',
+    },
+    {
       title: '操作',
       key: 'action',
       scopedSlots: { customRender: 'action' },
@@ -185,6 +189,7 @@ export default {
             pagination: {},
             columns1,
             columns2,
+
             form: this.$form.createForm(this, { name: 'manageHotel' }),
         }
     },
@@ -215,6 +220,7 @@ export default {
         // await this.getAllOrders()
         this.set_managerOrderListType("scheduled")
         this.getManagerOrderList()
+
     },
     methods: {
         ...mapMutations([
@@ -235,7 +241,8 @@ export default {
             // 'getAllOrders',
             'execOrder',
             'checkOutOrder',
-            'getHotelCoupon'
+            'getHotelCoupon',
+            'changeHotelTotalMoney',
         ]),
         addHotel() {
             this.set_addHotelModalVisible(true)
@@ -263,7 +270,14 @@ export default {
             this.checkOutOrder(record)
         },
         ExecOrder(record){
+
             this.execOrder(record.id)
+            var obj={}
+            obj.hotelId=record.hotelId
+            obj.price=record.price
+            console.log(obj)
+            this.changeHotelTotalMoney(obj)
+            this.getManagerHotelList()
            // this.
         },
         changeManagerOrderListType(param){

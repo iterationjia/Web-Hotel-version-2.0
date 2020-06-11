@@ -21,7 +21,6 @@ public class HotelVO {
     private boolean scheduled;
 
     private List<RoomVO> rooms;
-
     public Integer getId() {
         return id;
     }
