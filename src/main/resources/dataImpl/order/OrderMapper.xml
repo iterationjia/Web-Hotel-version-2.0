@@ -42,6 +42,11 @@
     update OrderList set orderState="已入住" where id=#{orderid}
     </update>
 
+
+    <update id = "setOrderExcep">
+    update OrderList set orderState="异常" where id=#{orderid}
+    </update>
+
     <update id="checkOut">
         update OrderList set orderState = "已退房" where id=#{orderid}
     </update>

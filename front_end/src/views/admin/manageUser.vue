@@ -27,7 +27,14 @@
                     </span>
                 </a-table>
             </a-tab-pane>
-            <a-tab-pane tab="酒店管理" key="2">
+            <a-tab-pane tab="查看会员" key="2">
+                <a-table
+                        :columns="columns2"
+                        :dataSource="vipList"
+                        bordered
+                ></a-table>
+            </a-tab-pane>
+            <a-tab-pane tab="酒店管理" key="3">
                 <div style="width: 100%; text-align: right; margin:20px 0">
                     <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
                 </div>
@@ -148,7 +155,37 @@ const columns1=[
 
 
 
-]
+];
+const columns2=[
+    {
+        title: '用户id',
+        dataIndex: 'id',
+    },
+    {
+        title: '用户邮箱',
+        dataIndex: 'email',
+    },
+    {
+        title: '用户名',
+        dataIndex: 'userName',
+    },
+    {
+        title: '用户密码',
+        dataIndex: 'password',
+    },
+    {
+        title: '用户手机号',
+        dataIndex: 'phoneNumber',
+    },
+    {
+        title: '信用值',
+        dataIndex: 'credit',
+    },
+    {
+        title: '会员等级',
+        dataIndex: 'lv',
+    },
+];
 export default {
     name: 'manageHotel',
     data(){
@@ -157,6 +194,7 @@ export default {
             pagination: {},
             columns,
             columns1,
+            columns2,
             data: [],
             form: this.$form.createForm(this, { name: 'manageUser' }),
         }
@@ -173,6 +211,7 @@ export default {
             'addHotelModalVisible',
             'managerList',
             'userList',
+            'vipList',
             'adminHotelList',
             'setHotelManagerModalVisible',
             'editUserInfoModalVisible',
@@ -184,7 +223,8 @@ export default {
     mounted() {
         this.getManagerList(),
         this.getHotelList(),
-        this.getUserList()
+        this.getUserList(),
+        this.getVipList()
     },
     methods: {
 
@@ -194,7 +234,8 @@ export default {
             'deleteUser',
             'deleteHotel',
             'addCommentTable',
-            'getUserList'
+            'getUserList',
+            'getVipList'
         ]),
         ...mapMutations([
             'set_addHotelModalVisible',

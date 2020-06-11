@@ -8,6 +8,7 @@ import {
     addCommentTableAPI,
     getUserListAPI,
     editUserInfoAPI,
+    getVipListAPI,
 } from '@/api/admin'
 import{
     addHotelAPI,
@@ -26,6 +27,9 @@ const admin = {
 
         ],
         userList:[
+
+        ],
+        vipList:[
 
         ],
         addManagerModalVisible: false,
@@ -63,6 +67,9 @@ const admin = {
             state.adminHotelList=data
         },
 
+        set_vipList:function(state,data){
+            state.vipList=data
+        },
 
         set_HotelId:function(state,data){
             state.hotelid=data
@@ -128,6 +135,7 @@ const admin = {
         getUserList:async({commit})=>{
             const res= await getUserListAPI()
             if(res){
+                console.log(res)
                 commit('set_userList',res)
             }
         },
@@ -140,6 +148,15 @@ const admin = {
                 commit('set_HotelList', res)
             }
         },
+        getVipList:async({state,commit})=>{
+            const res= await getVipListAPI()
+            if(res){
+                console.log(res)
+                commit('set_vipList',res)
+            }
+
+        },
+
         // addHotel: async({ state, dispatch, commit }) => {
         //     const res = await addHotelAPI(state.addHotelParams)
         //     //console.log(res)

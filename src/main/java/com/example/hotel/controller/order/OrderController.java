@@ -28,6 +28,14 @@ public class OrderController {
         return orderService.addOrder(orderVO);
     }
 
+    @GetMapping("/{orderid}/setOrderExcep")
+    public ResponseVO setOrderExcep(@PathVariable int orderid){
+        return orderService.setOrderExcep(orderid);
+    }
+    @GetMapping("/{orderid}/recoverOrder")
+    public ResponseVO recoverOrder(@PathVariable int orderid){
+        return orderService.recoverOrder(orderid);
+    }
     @GetMapping("/getAllOrders")
     public ResponseVO retrieveAllOrders(){
         return ResponseVO.buildSuccess(orderService.getAllOrders());

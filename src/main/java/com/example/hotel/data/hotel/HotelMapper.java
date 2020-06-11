@@ -32,6 +32,8 @@ public interface HotelMapper {
 
     int setHotelManager(@Param("hotelid")Integer hotelid,
                         @Param("managerid")int managerid);
+    int setTotalMoney(@Param("hotelid")Integer hotelid,
+                        @Param("totalmoney")double totalmoney);
 
     int editHotel(@Param("id") Integer id,
                   @Param("name") String name,

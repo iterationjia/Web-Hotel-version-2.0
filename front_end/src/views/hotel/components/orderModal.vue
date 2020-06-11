@@ -199,9 +199,7 @@ export default {
         cancelOrder() {
             this.set_orderModalVisible(false)
         },
-        confirmOrder() {
 
-        },
         changeDate(v) {
             if(this.totalPrice != ''){
                 this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)

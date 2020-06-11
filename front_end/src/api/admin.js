@@ -21,6 +21,12 @@ export function getUserListAPI(){
         method: 'POST'
     })
 }
+export function getVipListAPI(){
+    return axios({
+        url: `${api.adminPre}/getVip`,
+        method: 'POST'
+    })
+}
 export function addManagerAPI(data) {
     return axios({
         url: `${api.adminPre}/addManager`,

@@ -19,7 +19,12 @@
     <select id="getAllUsers" resultMap="User">
         select * from User where id!=0
     </select>
+    <select id="getVip" resultMap="User">
+        select * from User
+        where id!=0 and lv>0
+        order by lv desc
 
+    </select>
 <!--    <select id="getHotels" resultMap="Hotel">-->
 <!--        select * from hotel-->
 <!--    </select>-->
