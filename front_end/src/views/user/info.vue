@@ -84,7 +84,7 @@
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showOrderDetail">订单详情</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetail(record)">订单详情</a-button>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                         <a-popconfirm
                             title="你确定撤销该笔订单吗？"
@@ -100,7 +100,7 @@
                         <!--评价-->
                         <a-divider type="vertical" v-else-if="record.orderState == '已退房'"></a-divider>
                         <span v-if="record.orderState == '已退房'">
-                            <template v-if="record.star==null">
+                            <template v-if="record.star==0">
                                 <a-button type="default" size="small" @click="showModal(record.id)">评价</a-button>
                             </template>
                             <template v-if="record.star>0">
@@ -149,7 +149,7 @@
                 </a-table>
             </a-tab-pane>
         </a-tabs>
-        <OrderDetail></OrderDetail>
+        <OrderDetail :info="orderInfo"></OrderDetail>
     </div>
 </template>
 
@@ -220,6 +220,7 @@ export default {
             comments: null,
             recordId: 0,
             value: null,
+            orderInfo: {}
         }
     },
 
@@ -290,7 +291,8 @@ export default {
         changeUserOrderListType(param){
             this.set_userOrderListType(param.target.value)
         },
-        showOrderDetail(){
+        showOrderDetail(record){
+            this.orderInfo = record
             this.set_orderDetailVisible(true)
         },
         showModal(num) {
