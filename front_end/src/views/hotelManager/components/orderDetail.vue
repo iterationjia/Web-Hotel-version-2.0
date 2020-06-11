@@ -5,6 +5,7 @@
                 title="订单详情"
                 :footer="null"
                 @cancel="cancel"
+                cancelText="取消"
 
         >
             <a-row>

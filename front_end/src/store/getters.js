@@ -10,7 +10,7 @@ const getters = {
     return state.user.userOrderList.filter(order => (order.orderState=='已预订'))
   },
   userExecutedOrderList: state => {
-    return state.user.userOrderList.filter(order => ((order.orderState=='已执行')||(order.orderState!='已入住')||(order.orderState!='已退房')))
+    return state.user.userOrderList.filter(order => ((order.orderState=='已执行')||(order.orderState=='已入住')||(order.orderState=='已退房')))
   },
   userErrorOrderList: state => {
     return state.user.userOrderList.filter(order => (((order.orderState!='已执行')&&(order.orderState!='已预订'))&&(order.orderState!='已入住')&&(order.orderState!='已退房')))
@@ -23,6 +23,9 @@ const getters = {
   currentOrderRoom: state => state.hotel.currentOrderRoom,
   orderMatchCouponList: state => state.hotel.orderMatchCouponList,
   hotelComments: state => state.hotel.hotelComments,
+  showCommentVisible:state => state.user.showCommentVisible,
+  commentVisible:state => state.user.commentVisible,
+
   //admin
   managerList: state => state.admin.managerList,
   userList: state=>state.admin.userList,
