@@ -16,13 +16,14 @@ import com.example.hotel.po.HotelRoom;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.util.ServiceException;
-import com.example.hotel.vo.CouponVO;
-import com.example.hotel.vo.HotelVO;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.RoomVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,6 +94,28 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public List<HotelVO> retrieveHotels(int userid) {
+        List<HotelVO> allHotels =  hotelMapper.selectAllHotel();
+        for (int i=0;i<allHotels.size();i++){
+            HotelVO hotelVO = allHotels.get(i);
+            Integer minPrice = roomMapper.getMinPrice(hotelVO.getId());
+            int orderNum = orderMapper.getUserHotelOrderNum(userid, hotelVO.getId());
+            if (orderNum==0){
+                hotelVO.setScheduled(false);
+            } else {
+                hotelVO.setScheduled(true);
+            }
+            if (minPrice!=null){
+                hotelVO.setMinPrice(roomMapper.getMinPrice(hotelVO.getId()));
+            } else {
+                hotelVO.setMinPrice(-1);
+            }
+            hotelVO.setImg(getHotelImg(hotelVO.getId()));
+        }
+        return allHotels;
+    }
+
+    @Override
     public List<HotelVO> retrieveManagerHotels(Integer managerId) {
         return hotelMapper.selectManagerHotels(managerId);
     }
@@ -114,6 +137,7 @@ public class HotelServiceImpl implements HotelService {
             } else {
                 hotelVO.setMinPrice(-1);
             }
+            hotelVO.setImg(getHotelImg(hotelVO.getId()));
         }
         return searchedHotelsList;
     }
@@ -145,4 +169,69 @@ public class HotelServiceImpl implements HotelService {
      * @return
      */
 
+    @Override
+    public List<CommentVO> getComments(Integer hotelId) {
+        List<Order> hotelOrders = orderMapper.getHotelOrders(hotelId);
+        List<CommentVO> comments = new ArrayList<CommentVO>();
+        for (int i = 0; i<hotelOrders.size(); i++){
+            Order order = hotelOrders.get(i);
+            if ((order.getStar()!=null)&&(order.getComment()!=null)){
+                User user = accountService.getUserInfo(order.getUserId());
+                CommentVO comment = new CommentVO();
+                comment.setAuthor(user.getUserName());
+//            comment.setAvatar();
+                comment.setComment(order.getComment());
+                comment.setStar(order.getStar());
+                comment.setDate(order.getCheckOutDate());
+                comments.add(comment);
+            }
+        }
+        return comments;
+    }
+
+    @Override
+    public void editHotel(HotelVO hotelVO) {
+        hotelMapper.editHotel(hotelVO.getId(),hotelVO.getName(),hotelVO.getAddress(),hotelVO.getHotelStar(),hotelVO.getDescription(),hotelVO.getPhoneNum());
+    }
+
+    @Override
+    public ResponseVO updateHotelImg(MultipartFile file, Integer hotelId) {
+        String fileName = file.getOriginalFilename();
+        String ext = fileName.substring(fileName.lastIndexOf('.')+1);
+        String newFileName = String.valueOf(hotelId) + ".jpg";
+        String dirPath = '.'+ File.separator+"savedimgs"+File.separator+"hotel";
+        String filePath = dirPath + File.separator + newFileName;
+        File imgPath = new File(dirPath);
+        if (!imgPath.exists()){
+            imgPath.mkdirs();
+        }
+        File localFile = new File(filePath);
+        try {
+            file.transferTo(localFile.getAbsoluteFile());
+            return ResponseVO.buildSuccess(true);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public String getHotelImg(Integer hotelId) {
+        String newFileName = String.valueOf(hotelId) + ".jpg";
+        String dirPath = '.'+ File.separator+"savedimgs"+File.separator+"hotel";
+        String filePath = dirPath + File.separator + newFileName;
+        InputStream in;
+        byte[] data;
+        try {
+            in = new FileInputStream(new File(filePath));
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (FileNotFoundException e){
+            return null;
+        } catch (IOException e){
+            return null;
+        }
+        Base64.Encoder encoder = Base64.getEncoder();
+        return encoder.encodeToString(data);
+    }
 }

@@ -22,7 +22,7 @@ const getters = {
   orderModalVisible: state => state.hotel.orderModalVisible,
   currentOrderRoom: state => state.hotel.currentOrderRoom,
   orderMatchCouponList: state => state.hotel.orderMatchCouponList,
-
+  hotelComments: state => state.hotel.hotelComments,
   //admin
   managerList: state => state.admin.managerList,
   userList: state=>state.admin.userList,
@@ -40,7 +40,8 @@ const getters = {
   // orderList: state => state.hotelManager.orderList,
   addHotelModalVisible: state => state.hotelManager.addHotelModalVisible,
   addRoomModalVisible: state => state.hotelManager.addRoomModalVisible,
-
+  manageRoomModalVisible: state => state.hotelManager.manageRoomModalVisible,
+  editHotelModalVisible: state => state.hotelManager.editHotelModalVisible,
   execOrderVisible:state=>state.hotelManager.execOrderVisible,
 
   couponVisible: state => state.hotelManager.couponVisible,
@@ -58,6 +59,7 @@ const getters = {
   managerErrorOrderList: state => {
     return state.hotelManager.managerOrderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')&&(order.orderState!='已入住')&&(order.orderState!='已退房')))
   },
+  hotelDetail: state => state.hotelManager.hotelDetail,
   couponList: state => state.hotelManager.couponList,
   orderDetailVisible: state => state.hotelManager.orderDetailVisible,
   //marketManager

@@ -2,10 +2,13 @@ import { axios } from '@/utils/request'
 const api = {
     hotelPre: '/api/hotel'
 }
-export function getHotelsAPI() {
+export function getHotelsAPI(userid) {
     return axios({
         url: `${api.hotelPre}/all`,
         method: 'get',
+        params: {
+            userid: userid
+        }
     })
 }
 export function getHotelByIdAPI(param) {
@@ -34,5 +37,10 @@ export function changeHotelTotalMoneyAPI(hotelId,price) {
         url: `${api.hotelPre}/${hotelId}/${price}/changeHotelTotalMoney`,
         method: 'POST',
     })
-
+}
+export function getHotelCommentsAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/${data.hotelId}/comments`,
+        method: 'GET'
+    })
 }

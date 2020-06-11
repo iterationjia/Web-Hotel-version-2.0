@@ -236,6 +236,8 @@ export default {
                         peopleNum: this.form.getFieldValue('peopleNum'),
                         haveChild: this.form.getFieldValue('haveChild'),
                         createDate: '',
+                        clientName: this.form.getFieldValue('clientName'),
+                        phoneNumber: this.form.getFieldValue('phoneNumber'),
                         price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                     }
                     this.addOrder(data)

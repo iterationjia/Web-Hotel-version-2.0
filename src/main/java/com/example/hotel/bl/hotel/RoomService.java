@@ -34,4 +34,9 @@ public interface RoomService {
      * @return
      */
     int getRoomCurNum(Integer hotelId, String roomType);
+
+    int editRoomPrice(Integer roomId, Integer val);
+    int editRoomTotal(Integer roomId, Integer val);
+    int editRoomCurNum(Integer roomId, Integer val);
+    int deleteRoom(Integer roomId);
 }

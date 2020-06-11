@@ -34,5 +34,23 @@ public class RoomServiceImpl implements RoomService {
         return roomMapper.getRoomCurNum(hotelId,roomType);
     }
 
+    @Override
+    public int editRoomPrice(Integer roomId, Integer val) {
+        return roomMapper.editRoomPrice(roomId,val);
+    }
 
+    @Override
+    public int editRoomTotal(Integer roomId, Integer val) {
+        return roomMapper.editRoomTotal(roomId,val);
+    }
+
+    @Override
+    public int editRoomCurNum(Integer roomId, Integer val) {
+        return roomMapper.editRoomCurNum(roomId,val);
+    }
+
+    @Override
+    public int deleteRoom(Integer roomId) {
+        return roomMapper.deleteRoom(roomId);
+    }
 }
