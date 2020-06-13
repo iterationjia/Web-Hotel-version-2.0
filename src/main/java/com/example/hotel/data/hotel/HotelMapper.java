@@ -41,4 +41,7 @@ public interface HotelMapper {
                   @Param("hotelStar") String hotelStar,
                   @Param("description") String description,
                   @Param("phoneNum") String phoneNum);
+
+    double getCur_rate(@Param("hotelid")Integer hotelid);
+    int updateRate(@Param("hotelid")Integer hotelid,@Param("tar_rate")double tar_rate);
 }

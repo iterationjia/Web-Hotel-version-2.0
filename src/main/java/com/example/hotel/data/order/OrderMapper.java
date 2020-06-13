@@ -37,4 +37,6 @@ public interface OrderMapper {
 
     int annualSubCredit(@Param("orderid") int orderid ,@Param("credit") double credit);
     int updateOrderComment(@Param("orderid") int orderid , @Param("star") int star,@Param("comment") String comment);
+    int getCommentStar(@Param("hotelid") int hotelid, @Param("star") int star);
+    int getCommentNum(@Param("hotelid") int hotelid);
 }

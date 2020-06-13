@@ -55,6 +55,14 @@
         select count(*) from OrderList where userId=#{userid} and hotelId=#{hotelid}
     </select>
 
+    <select id="getCommentStar" resultType="int">
+        select star from OrderList where hotelId=#{hotelid} and star!=0
+    </select>
+
+    <select id="getCommentNum" resultType="int">
+        select count(star) from OrderList where hotelId=#{hotelid} and star!=0
+    </select>
+
     <resultMap id="Order" type="com.example.hotel.po.Order">
     </resultMap>
 </mapper>

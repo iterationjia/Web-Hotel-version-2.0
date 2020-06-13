@@ -4,6 +4,8 @@ import com.example.hotel.po.Coupon;
 import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelTargetMoneyCouponVO;
 import com.example.hotel.vo.OrderVO;
+import com.example.hotel.vo.TimeCouponVO;
+import com.example.hotel.vo.MemberCouponVO;
 
 import java.util.List;
 
@@ -28,4 +30,18 @@ public interface CouponService {
      * @return
      */
     CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO);
+
+    /**
+     * 添加酒店限时优惠策略
+     * @param couponVO
+     * @return
+     */
+    CouponVO addTimeCoupon(TimeCouponVO couponVO);
+
+    /**
+     * 添加酒店会员优惠策略
+     * @param couponVO
+     * @return
+     */
+    CouponVO addMemberCoupon(MemberCouponVO couponVO);
 }

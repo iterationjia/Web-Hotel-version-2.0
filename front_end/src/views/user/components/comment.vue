@@ -32,7 +32,7 @@
                 comments: null,
             }
         },
-        props: ['recordId'],
+        props: ['recordId','hotelId'],
         computed: {
             ...mapGetters([
                 'commentVisible',
@@ -50,6 +50,7 @@
                     star: this.stars,
                     comment: this.comments,
                     id: this.recordId,
+                    hotelId:this.hotelId
                 }
                 this.updateUserOrderComment(data);
                 this.set_commentVisible(false);

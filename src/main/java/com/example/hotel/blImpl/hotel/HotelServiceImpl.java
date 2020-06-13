@@ -7,7 +7,6 @@ import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.order.OrderMapper;
-import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.enums.HotelStar;
 import com.example.hotel.enums.UserType;
@@ -234,4 +233,5 @@ public class HotelServiceImpl implements HotelService {
         Base64.Encoder encoder = Base64.getEncoder();
         return encoder.encodeToString(data);
     }
+
 }

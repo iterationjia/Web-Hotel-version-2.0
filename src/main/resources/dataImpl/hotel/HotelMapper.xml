@@ -49,5 +49,12 @@
 
     </resultMap>
 
+    <select id="getCur_rate" resultType="double">
+        select rate from Hotel where id=#{hotelid}
+    </select>
+
+    <update id="updateRate">
+        update Hotel set rate=#{tar_rate} where id=#{hotelid}
+    </update>
 
 </mapper>

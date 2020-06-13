@@ -66,5 +66,5 @@ public interface    HotelService {
     void editHotel(HotelVO hotelVO);
     ResponseVO updateHotelImg(MultipartFile file, Integer hotelId);
     String getHotelImg(Integer hotelId);
-
+    //CommentVO getstar(Integer hotelId);
 }

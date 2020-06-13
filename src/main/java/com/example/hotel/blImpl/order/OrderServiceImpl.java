@@ -3,6 +3,7 @@ package com.example.hotel.blImpl.order;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.data.user.AccountMapper;
@@ -245,6 +246,14 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         BeanUtils.copyProperties(orderVO,order);
         orderMapper.updateOrderComment(order.getId(),order.getStar(),order.getComment());
+        //orderVO.getHotelId();
+        //System.out.println(order.getHotelId());
+        int count=orderMapper.getCommentNum(order.getHotelId());
+        double cur_rate=hotelMapper.getCur_rate(order.getHotelId());
+        int newstar=order.getStar();
+        double tar_rate=(cur_rate*count+newstar)/(count+1);
+        tar_rate=(double)Math.round(tar_rate*10)/10;
+        hotelMapper.updateRate(order.getHotelId(),tar_rate);
         return ResponseVO.buildSuccess(true);
     }
 
