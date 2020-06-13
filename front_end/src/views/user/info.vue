@@ -3,7 +3,6 @@
         <a-tabs>
             <a-tab-pane tab="我的信息" key="1">
                 <a-form :form="form" style="margin-top: 30px">
-                    
                     <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                         <a-input
                             placeholder="请填写用户名"
@@ -84,7 +83,7 @@
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showOrderDetail">订单详情</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetail(record)">订单详情</a-button>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                         <a-popconfirm
                             title="你确定撤销该笔订单吗？"
@@ -100,56 +99,20 @@
                         <!--评价-->
                         <a-divider type="vertical" v-else-if="record.orderState == '已退房'"></a-divider>
                         <span v-if="record.orderState == '已退房'">
-                            <template v-if="record.star==null">
-                                <a-button type="default" size="small" @click="showModal(record.id)">评价</a-button>
+                            <template v-if="record.star==0">
+                                <a-button type="default" size="small" @click="commentModal(record.id)">评价</a-button>
                             </template>
                             <template v-if="record.star>0">
-                                <a-button type="default" size="small" @click="showAnotherModal(record.id)">已评价</a-button>
+                                <a-button type="default" size="small" @click="showCommentModal(record)">已评价</a-button>
                             </template>
-
-                            <a-modal
-                                    title="评价"
-                                    :visible="visible"
-                                    @ok="handleOk"
-                                    @cancel="handleCancel"
-                                    okText="确定"
-                                    cancelText="取消"
-                            >
-                                <div>
-                                    <p>评分</p>
-                                    <a-rate v-model="stars" :tooltips="desc" />
-                                    <span class="ant-rate-text">{{ desc[value - 1] }}</span>
-                                    <br/>
-                                    <br/>
-                                    <p>评论</p>
-                                    <a-textarea placeholder="请输入您的评价" auto-size v-model="comments"/>
-                                </div>
-                            </a-modal>
-
-                            <a-modal
-                                    title="已评价"
-                                    :visible="anotherVisible"
-                                    @ok="handleAnotherOk"
-                                    @cancel="handleAnotherCancel"
-                                    okText="确定"
-                                    cancelText="取消"
-                            >
-                                <div>
-                                    <p>您的评分</p>
-                                    <a-rate v-model="record.star" :tooltips="desc" disabled/>
-                                    <span class="ant-rate-text">{{ desc[value - 1] }}</span>
-                                    <br/>
-                                    <br/>
-                                    <p>您的评论</p>
-                                    <a-textarea placeholder="请输入您的评价" auto-size v-model="record.comment" disabled/>
-                                </div>
-                            </a-modal>
                         </span>
                     </span>
                 </a-table>
             </a-tab-pane>
         </a-tabs>
-        <OrderDetail></OrderDetail>
+        <OrderDetail :info="orderInfo"></OrderDetail>
+        <ShowComment :info="showCommentInfo"></ShowComment>
+        <Comments :recordId="recordId"></Comments>
     </div>
 </template>
 
@@ -157,6 +120,8 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import OrderDetail from './components/userOrderDetail'
+import ShowComment from './components/showComment'
+import Comments from './components/comment'
 const columns = [
     {  
         title: '订单号',
@@ -213,18 +178,17 @@ export default {
             columns,
             data: [],
             form: this.$form.createForm(this, { name: 'coordinated' }),
-            stars: 3,
-            desc: ['terrible', 'bad', 'normal', 'good', 'wonderful'],
-            visible: false,
-            anotherVisible: false,
-            comments: null,
             recordId: 0,
             value: null,
+            orderInfo: {},
+            showCommentInfo: {},
         }
     },
 
     components: {
-        OrderDetail
+        OrderDetail,
+        ShowComment,
+        Comments,
     },
     computed: {
         ...mapGetters([
@@ -245,13 +209,14 @@ export default {
         ...mapMutations(['' +
             'set_userOrderListType',
             'set_orderDetailVisible',
+            'set_showCommentVisible',
+            'set_commentVisible',
         ]),
         ...mapActions([
             'getUserInfo',
             'getUserOrders',
             'updateUserInfo',
             'cancelOrder',
-            'updateUserOrderComment',
         ]),
         saveModify() {
             this.form.validateFields((err, values) => {
@@ -290,36 +255,17 @@ export default {
         changeUserOrderListType(param){
             this.set_userOrderListType(param.target.value)
         },
-        showOrderDetail(){
+        showOrderDetail(record){
+            this.orderInfo = record
             this.set_orderDetailVisible(true)
         },
-        showModal(num) {
-            this.visible = true;
-            this.recordId = num;
+        commentModal(id) {
+            this.recordId = id;
+            this.set_commentVisible(true);
         },
-        showAnotherModal(num){
-            this.anotherVisible = true;
-            this.recordId = num;
-        },
-        handleOk() {
-            const data = {
-                star: this.stars,
-                comment: this.comments,
-                id: this.recordId,
-            }
-            this.updateUserOrderComment(data)
-
-            this.visible = false;
-        },
-        handleCancel(e) {
-            console.log('Clicked cancel button');
-            this.visible = false;
-        },
-        handleAnotherOk(){
-            this.anotherVisible = false;
-        },
-        handleAnotherCancel(e) {
-            this.anotherVisible = false;
+        showCommentModal(record){
+            this.showCommentInfo = record;
+            this.set_showCommentVisible(true);
         },
     }
 }

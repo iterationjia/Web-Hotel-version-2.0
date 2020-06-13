@@ -71,6 +71,10 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getAllUsers();
     }
     //
+    @Override
+    public List<User> getVip() {
+        return adminMapper.getVip();
+    }
     public List<HotelVO> getHotels() {
         return adminMapper.getHotels();
     }

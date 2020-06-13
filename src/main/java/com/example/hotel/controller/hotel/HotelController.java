@@ -53,7 +53,6 @@ public class HotelController {
         return roomService.insertRoomInfo(hotelRoom);
 //        return ResponseVO.buildSuccess(true);
     }
-
     @GetMapping("/{hotelId}/detail")
     public ResponseVO retrieveHotelDetail(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));

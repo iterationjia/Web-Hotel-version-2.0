@@ -64,7 +64,26 @@
                             <a-button  type="default" size="small">执行订单</a-button>
                         </a-popconfirm>
                         <a-divider type="vertical" v-if="record.orderState=='已预订'"></a-divider>
-
+                        <a-popconfirm
+                                title="确定将该订单置为异常吗？"
+                                @confirm="SetOrderExcep(record)"
+                                okText="确定"
+                                cancelText="取消"
+                                v-if="record.orderState=='已预订'"
+                        >
+                            <a-button  type="default" size="small">订单逾期</a-button>
+                        </a-popconfirm>
+                        <a-divider type="vertical" v-if="record.orderState=='已预订'"></a-divider>
+                                                <a-popconfirm
+                                                        title="确定恢复该订单吗？"
+                                                        @confirm="RecoverOrder(record)"
+                                                        okText="确定"
+                                                        cancelText="取消"
+                                                        v-if="record.orderState=='异常'"
+                                                >
+                            <a-button  type="default" size="small">恢复订单</a-button>
+                        </a-popconfirm>
+                        <a-divider type="vertical" v-if="record.orderState=='异常'"></a-divider>
                         <a-popconfirm
                                 title="确定想退房吗？"
                                 @confirm="checkOut(record)"
@@ -132,6 +151,10 @@ const columns1 = [
         dataIndex: 'description',
     },
     {
+        title:'总销售额',
+        dataIndex:'totalMoney',
+    },
+    {
       title: '操作',
       key: 'action',
       scopedSlots: { customRender: 'action' },
@@ -191,6 +214,7 @@ export default {
             pagination: {},
             columns1,
             columns2,
+
             form: this.$form.createForm(this, { name: 'manageHotel' }),
             hotelInfo: {},
             orderInfo: {}
@@ -225,6 +249,7 @@ export default {
         // await this.getAllOrders()
         this.set_managerOrderListType("scheduled")
         this.getManagerOrderList()
+
     },
     methods: {
         ...mapMutations([
@@ -246,8 +271,11 @@ export default {
             'getManagerOrderList',
             // 'getAllOrders',
             'execOrder',
+            'setOrderExcep',
             'checkOutOrder',
-            'getHotelCoupon'
+            'getHotelCoupon',
+            'changeHotelTotalMoney',
+            'recoverOrder',
         ]),
         addHotel() {
             this.set_addHotelModalVisible(true)
@@ -280,8 +308,17 @@ export default {
         checkOut(record){
             this.checkOutOrder(record)
         },
+        RecoverOrder(record){
+            this.recoverOrder(record.id)
+        },
+        SetOrderExcep(record){
+            //console.log(record)
+            this.setOrderExcep(record.id)
+        },
         ExecOrder(record){
+
             this.execOrder(record.id)
+            this.getManagerHotelList()
            // this.
         },
         changeManagerOrderListType(param){

@@ -27,6 +27,8 @@ const getDefaultState = () => {
         ],
         userOrderTypeList: [],
         orderDetailVisible: false,
+        showCommentVisible: false,
+        commentVisible: false,
     }
 }
 
@@ -72,6 +74,12 @@ const user = {
         },
         set_orderDetailVisible: function (state, data) {
             state.orderDetailVisible = data
+        },
+        set_showCommentVisible: function (state, data) {
+            state.showCommentVisible = data
+        },
+        set_commentVisible: function (state, data) {
+            state.commentVisible = data
         },
     },
 

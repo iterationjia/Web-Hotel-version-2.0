@@ -55,6 +55,22 @@ export function execOrderAPI(orderId){
 
     })
 }
+export function recoverOrderAPI(orderid){
+    //console.log(orderid)
+    return axios({
+        url: `${api.orderPre}/${orderid}/recoverOrder`,
+        method: 'GET',
+
+    })
+}
+export function setOrderExcepAPI(orderid){
+    //console.log(orderid)
+    return axios({
+        url: `${api.orderPre}/${orderid}/setOrderExcep`,
+        method: 'GET',
+
+    })
+}
 
 export function deleteOrderAPI(data) {
     return axios({

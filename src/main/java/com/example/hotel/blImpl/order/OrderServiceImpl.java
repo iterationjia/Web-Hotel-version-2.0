@@ -6,7 +6,9 @@ import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.data.user.AccountMapper;
+import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.po.Order;
+import com.example.hotel.po.Hotel;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.OrderVO;
@@ -38,6 +40,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     AccountMapper accountMapper;
     @Autowired
+    HotelMapper hotelMapper;
+    @Autowired
     HotelService hotelService;
     @Autowired
     AccountService accountService;
@@ -47,6 +51,7 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
         int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(),orderVO.getRoomType());
+
         if(reserveRoomNum>curNum){
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
@@ -62,6 +67,10 @@ public class OrderServiceImpl implements OrderService {
             if(user.getCredit()<0){
                 return ResponseVO.buildFailure(CREDIT_LACK);
             }
+            HotelVO hotel = hotelMapper.selectById(orderVO.getHotelId());
+            hotel.setTotalmoney(hotel.getTotalMoney()+orderVO.getPrice());
+            hotelMapper.setTotalMoney(hotel.getId(),hotel.getTotalMoney());
+            //System.out.println(hotel.getId());
             user.setTotalmoney(user.getTotalmoney()+orderVO.getPrice());
             user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
             accountMapper.setLv(user.getId(),user.getLv());
@@ -78,7 +87,40 @@ public class OrderServiceImpl implements OrderService {
         }
        return ResponseVO.buildSuccess(true);
     }
+    @Override
+    public ResponseVO recoverOrder (int orderid){
+        Order order = orderMapper.getOrderById(orderid);
+        order.setOrderState("已执行");
+        HotelVO hotel = hotelMapper.selectById(order.getHotelId());
+        hotel.setTotalmoney(hotel.getTotalMoney()+order.getPrice());
+        hotelMapper.setTotalMoney(hotel.getId(),hotel.getTotalMoney());
+        orderMapper.execOrder(orderid);
+        User user = accountService.getUserInfo(order.getUserId());
 
+        //加上totalmoney和lv
+        user.setTotalmoney(user.getTotalmoney()+order.getPrice());
+        user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
+        accountMapper.setLv(user.getId(),user.getLv());
+        accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
+        return ResponseVO.buildSuccess(true);
+    }
+    @Override
+    public ResponseVO setOrderExcep (int orderid){
+        Order order = orderMapper.getOrderById(orderid);
+        order.setOrderState("异常");
+        orderMapper.setOrderExcep(orderid);
+        HotelVO hotel = hotelMapper.selectById(order.getHotelId());
+        hotel.setTotalmoney(hotel.getTotalMoney()-order.getPrice());
+        hotelMapper.setTotalMoney(hotel.getId(),hotel.getTotalMoney());
+        User user = accountService.getUserInfo(order.getUserId());
+
+        //减去totalmoney和lv
+        user.setTotalmoney(user.getTotalmoney()-order.getPrice());
+        user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
+        accountMapper.setLv(user.getId(),user.getLv());
+        accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
+        return ResponseVO.buildSuccess(true);
+    }
     @Override
     public List<Order> getAllOrders() {
         return orderMapper.getAllOrders();
@@ -136,6 +178,8 @@ public class OrderServiceImpl implements OrderService {
 
         User user = accountService.getUserInfo(orderannual.getUserId());
 
+        HotelVO hotel = hotelMapper.selectById(orderannual.getHotelId());
+        hotel.setTotalmoney(hotel.getTotalMoney()+orderannual.getPrice());
         //减去totalmoney和lv
         user.setTotalmoney(user.getTotalmoney()-orderannual.getPrice());
         user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
@@ -186,21 +230,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO execOrder(int orderid) {
         //执行订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date(System.currentTimeMillis());
-        String curdate = sf.format(date);
         Order orderexec = orderMapper.getOrderById(orderid);
-        //执行时间设为createdate
-        orderexec.setCreateDate(curdate);
         orderexec.setOrderState("已执行");
-        /*
-        //先不扣；如果撤销的订单距离最晚订单执行时间不足6个小时，撤销的同时扣除信用值，信用值为订单的（总价值*1/2）
-        User user = accountService.getUserInfo(orderexec.getUserId());
-        boolean subcredit = false;
-        if(subcredit){
-            user.setCredit(user.getCredit()-orderannual.getPrice()/2);
-        }
-        */
         //数据库操作
         orderMapper.execOrder(orderid);
         //roomnum置为负
