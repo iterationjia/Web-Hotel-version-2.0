@@ -227,9 +227,9 @@ const hotelManager = {
         addRoom: async({ state, dispatch, commit }) => {
             const res = await addRoomAPI(state.addRoomParams)
             if(res){
-                commit('set_addRoomTypeModalVisible',false)
+                commit('set_addRoomModalVisible',false)
                 dispatch('getHotelDetail')
-                commit('set_addRoomModalVisible', true)
+                commit('set_manageRoomModalVisible', true)
                 commit('set_addRoomParams', {
                     roomType: '',
                     hotelId: '',

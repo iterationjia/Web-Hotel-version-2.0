@@ -50,8 +50,8 @@ public class HotelController {
 
     @PostMapping("/roomInfo")
     public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
-        roomService.insertRoomInfo(hotelRoom);
-        return ResponseVO.buildSuccess(true);
+        return roomService.insertRoomInfo(hotelRoom);
+//        return ResponseVO.buildSuccess(true);
     }
 
     @GetMapping("/{hotelId}/detail")
