@@ -24,7 +24,6 @@ public interface AdminService {
 
     //
     ResponseVO deleteUser(int userId);
-    ResponseVO addCommentTable();
 
     /**
      * 获得所有酒店管理人员信息

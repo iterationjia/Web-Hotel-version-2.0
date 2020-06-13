@@ -16,7 +16,7 @@
                 :dataSource="couponList"
         >
             <span slot="couponType" slot-scope="value">
-                <a-tag color="red" v-if="value==1">生日特惠</a-tag>
+                <a-tag color="red" v-if="value==1">会员特惠</a-tag>
                 <a-tag color="red" v-if="value==2">多间特惠</a-tag>
                 <a-tag color="red" v-if="value==3">满减优惠</a-tag>
                 <a-tag color="red" v-if="value==4">限时优惠</a-tag>

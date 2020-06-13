@@ -24,6 +24,7 @@ public class Order {
     private String orderState;
     private Integer star;
     private String comment;
+    private Integer userLv;
 
     public Integer getId() {
         return id;
@@ -159,5 +160,13 @@ public class Order {
 
     public void setStar(Integer star) {
         this.star = star;
+    }
+
+    public Integer getUserLv() {
+        return userLv;
+    }
+
+    public void setUserLv(Integer userLv) {
+        this.userLv = userLv;
     }
 }

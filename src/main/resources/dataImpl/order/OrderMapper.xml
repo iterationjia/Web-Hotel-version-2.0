@@ -8,6 +8,9 @@
     <select id="getUserOrders" resultMap="Order">
         select * from OrderList where userId=#{userid}
     </select>
+    <select id="getHotelOrders" resultMap="Order">
+        select * from OrderList where hotelId=#{hotelId}
+    </select>
     <select id="getUserHotelOrders" resultMap="Order">
         select * from OrderList where userId=#{userid} and hotelId=#{hotelid}
     </select>
@@ -18,7 +21,7 @@
 
     <!--评论-->
     <update id = "updateOrderComment">
-        update orderlist set star = #{star} , comment = #{comment} where id=#{orderid}
+        update OrderList set star = #{star} , comment = #{comment} where id=#{orderid}
     </update>
 
 
@@ -28,11 +31,11 @@
 
    <!--撤销订单的数据库操作-->
     <update id = "annulOrder">
-        update orderlist set orderState = '已撤销' where id=#{orderid}
+        update OrderList set orderState = '已撤销' where id=#{orderid}
     </update>
 
     <update id = "annualSubCredit">
-        update user set user.credit = #{credit} where user.id in (select userId from orderlist where id=#{orderid})
+        update User set User.credit = #{credit} where User.id in (select userId from OrderList where id=#{orderid})
     </update>
 
     <update id = "execOrder">
@@ -45,6 +48,14 @@
 
     <select id="getUserHotelOrderNum" resultType="int">
         select count(*) from OrderList where userId=#{userid} and hotelId=#{hotelid}
+    </select>
+
+    <select id="getCommentStar" resultType="int">
+        select star from OrderList where hotelId=#{hotelid} and star!=0
+    </select>
+
+    <select id="getCommentNum" resultType="int">
+        select count(star) from OrderList where hotelId=#{hotelid} and star!=0
     </select>
 
     <resultMap id="Order" type="com.example.hotel.po.Order">

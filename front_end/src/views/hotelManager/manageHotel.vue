@@ -11,7 +11,9 @@
                     bordered
                 >
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="addRoom(record)">录入房间</a-button>
+                        <a-button type="primary" size="small" @click="manageRoom(record)">客房管理</a-button>
+                        <a-divider type="vertical"></a-divider>
+                        <a-button type="info" size="small" @click="editHotel(record)">编辑酒店</a-button>
                         <a-divider type="vertical"></a-divider>
                         <a-button type="info" size="small" @click="showCoupon(record)">优惠策略</a-button>
                         <a-divider type="vertical"></a-divider>
@@ -49,7 +51,7 @@
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showOrderDetail">订单详情</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetail(record)">订单详情</a-button>
                         <a-divider type="vertical"></a-divider>
 
                         <a-popconfirm
@@ -88,14 +90,18 @@
             
         </a-tabs>
         <AddHotelModal></AddHotelModal>
+        <ManageRoomModal></ManageRoomModal>
+        <EditHotelModal :info="hotelInfo"></EditHotelModal>
         <AddRoomModal></AddRoomModal>
         <Coupon></Coupon>
-        <OrderDetail></OrderDetail>
+        <OrderDetail :info="orderInfo"></OrderDetail>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddHotelModal from './components/addHotelModal'
+import ManageRoomModal from './components/manageRoomModal'
+import EditHotelModal from './components/editHotelModal'
 import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
 import OrderDetail from './components/orderDetail'
@@ -186,10 +192,14 @@ export default {
             columns1,
             columns2,
             form: this.$form.createForm(this, { name: 'manageHotel' }),
+            hotelInfo: {},
+            orderInfo: {}
         }
     },
     components: {
         AddHotelModal,
+        ManageRoomModal,
+        EditHotelModal,
         AddRoomModal,
         Coupon,
         OrderDetail,
@@ -219,7 +229,8 @@ export default {
     methods: {
         ...mapMutations([
             'set_addHotelModalVisible',
-            'set_addRoomModalVisible',
+            'set_manageRoomModalVisible',
+            'set_editHotelModalVisible',
             'set_couponVisible',
             'set_activeHotelId',
             'set_orderDetailVisible',
@@ -228,7 +239,9 @@ export default {
         ]),
         ...mapActions([
             'getHotelList',
+            'getHotelDetail',
             'deleteHotelByManager',
+            'deleteOrderByManager',
             'getManagerHotelList',
             'getManagerOrderList',
             // 'getAllOrders',
@@ -239,9 +252,15 @@ export default {
         addHotel() {
             this.set_addHotelModalVisible(true)
         },
-        addRoom(record) {
+        editHotel(record){
             this.set_activeHotelId(record.id)
-            this.set_addRoomModalVisible(true)
+            this.hotelInfo = record
+            this.set_editHotelModalVisible(true)
+        },
+        manageRoom(record) {
+            this.set_activeHotelId(record.id)
+            this.getHotelDetail()
+            this.set_manageRoomModalVisible(true)
         },
         showCoupon(record) {
             this.set_activeHotelId(record.id)
@@ -251,8 +270,12 @@ export default {
         doDeleteHotel(record){
             this.deleteHotelByManager(record.id)
         },
-        deleteOrder(){
-
+        deleteOrder(record){
+            // 我的删除订单和郭增嘉的撤销订单有冲突，先不写
+            // this.deleteOrderByManager({
+            //     id:record.id
+            //
+            // })
         },
         checkOut(record){
             this.checkOutOrder(record)
@@ -265,7 +288,8 @@ export default {
             this.set_managerOrderListType(param.target.value)
             this.set_managerOrderTypeList()
         },
-        showOrderDetail(){
+        showOrderDetail(record){
+            this.orderInfo = record
             this.set_orderDetailVisible(true)
         }
 

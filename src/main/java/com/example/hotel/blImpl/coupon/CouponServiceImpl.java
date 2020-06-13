@@ -4,10 +4,7 @@ import com.example.hotel.bl.coupon.CouponService;
 import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.data.coupon.CouponMapper;
 import com.example.hotel.po.Coupon;
-import com.example.hotel.vo.CouponVO;
-import com.example.hotel.vo.HotelTargetMoneyCouponVO;
-import com.example.hotel.vo.OrderVO;
-import com.example.hotel.vo.TimeCouponVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +16,6 @@ import java.util.List;
 public class CouponServiceImpl implements CouponService {
 
 
-    private final  TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy;
-
-    private final  TimeCouponStrategyImpl timeCouponStrategy;
     private final CouponMapper couponMapper;
 
     private static List<CouponMatchStrategy> strategyList = new ArrayList<>();
@@ -29,12 +23,12 @@ public class CouponServiceImpl implements CouponService {
     @Autowired
     public CouponServiceImpl(TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy,
                              TimeCouponStrategyImpl timeCouponStrategy,
+                             MemberCouponStrategyImpl memberCouponStrategy,
                              CouponMapper couponMapper) {
         this.couponMapper = couponMapper;
-        this.targetMoneyCouponStrategy = targetMoneyCouponStrategy;
-        this.timeCouponStrategy = timeCouponStrategy;
         strategyList.add(targetMoneyCouponStrategy);
         strategyList.add(timeCouponStrategy);
+        strategyList.add(memberCouponStrategy);
     }
 
 
@@ -88,6 +82,21 @@ public class CouponServiceImpl implements CouponService {
         coupon.setEndTime(couponVO.getEndTime());
         coupon.setDiscount(couponVO.getDiscount());
         coupon.setTargetMoney(couponVO.getTargetMoney());
+        coupon.setStatus(1);
+        int result = couponMapper.insertCoupon(coupon);
+        couponVO.setId(result);
+        return couponVO;
+    }
+
+    @Override
+    public CouponVO addMemberCoupon(MemberCouponVO couponVO) {
+        Coupon coupon = new Coupon();
+        coupon.setCouponName(couponVO.getName());
+        coupon.setDescription(couponVO.getDescription());
+        coupon.setCouponType(couponVO.getType());
+        coupon.setTargetMoney(couponVO.getTargetMoney());
+        coupon.setHotelId(couponVO.getHotelId());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
         coupon.setStatus(1);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);

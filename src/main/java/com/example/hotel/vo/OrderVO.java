@@ -21,6 +21,7 @@ public class OrderVO {
     private Double price;
     private String clientName;
     private String phoneNumber;
+    private Integer userLv;
     private String orderState;
     private Integer star;
     private String comment;
@@ -159,5 +160,13 @@ public class OrderVO {
 
     public void setStar(Integer star) {
         this.star = star;
+    }
+
+    public Integer getUserLv() {
+        return userLv;
+    }
+
+    public void setUserLv(Integer userLv) {
+        this.userLv = userLv;
     }
 }

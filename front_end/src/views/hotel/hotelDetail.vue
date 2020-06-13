@@ -45,6 +45,9 @@
                     <a-tab-pane tab="在本店的订单" key="2">
                         <HotelOrderList :orders="userHotelOrderList"></HotelOrderList>
                     </a-tab-pane>
+                    <a-tab-pane tab="评价" key="3">
+                        <HotelComments></HotelComments>
+                    </a-tab-pane>
                 </a-tabs>
             </div>
         </a-layout-content>
@@ -54,11 +57,13 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import RoomList from './components/roomList'
 import HotelOrderList from './components/hotelOrderList'
+import HotelComments from './components/hotelComments'
 export default {
     name: 'hotelDetail',
     components: {
         RoomList,
-        HotelOrderList
+        HotelOrderList,
+        HotelComments
     },
     data() {
         return {
@@ -74,7 +79,7 @@ export default {
         this.set_currentHotelId(Number(this.$route.params.hotelId))
         this.getHotelById()
         this.getOrderListByUserAndHotel()
-
+        this.getHotelComments()
     },
     beforeRouteUpdate(to, from, next) {
         this.set_currentHotelId(Number(to.params.hotelId))
@@ -88,7 +93,8 @@ export default {
         ]),
         ...mapActions([
             'getHotelById',
-            'getOrderListByUserAndHotel'
+            'getOrderListByUserAndHotel',
+            'getHotelComments'
         ])
     }
 }

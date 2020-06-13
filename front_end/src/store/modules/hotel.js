@@ -3,7 +3,8 @@ import store from '@/store'
 import {
     getHotelsAPI,
     getHotelByIdAPI,
-    getHotelListBySearchAPI
+    getHotelListBySearchAPI,
+    getHotelCommentsAPI,
 } from '@/api/hotel'
 import {
     reserveHotelAPI,
@@ -32,6 +33,7 @@ const hotel = {
 
         },
         userHotelOrderList:[],
+        hotelComments:[],
         orderMatchCouponList: [
 
         ]
@@ -94,12 +96,15 @@ const hotel = {
         },
         set_orderMatchCouponList: function(state, data) {
             state.orderMatchCouponList = data
+        },
+        set_hotelComments: function (state, data) {
+            state.hotelComments = data
         }
     },
 
     actions: {
-        getHotelList: async({commit, state}) => {
-            const res = await getHotelsAPI()
+        getHotelList: async({commit, state, getters}) => {
+            const res = await getHotelsAPI(getters.userId)
             if(res){
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
@@ -107,6 +112,7 @@ const hotel = {
         },
         getHotelListBySearch: async ({commit, state, getters}, data) => {
             const res = await getHotelListBySearchAPI(data,getters.userId)
+            console.log(res)
             if(res){
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
@@ -142,6 +148,15 @@ const hotel = {
             const res = await orderMatchCouponsAPI(data)
             if(res){
                 commit('set_orderMatchCouponList', res)
+            }
+        },
+        getHotelComments: async ({state, commit}) => {
+            const res = await getHotelCommentsAPI({
+                hotelId: state.currentHotelId
+            })
+            if (res) {
+                console.log(res)
+                commit('set_hotelComments', res)
             }
         }
     }

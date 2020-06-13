@@ -5,5 +5,11 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface DbMapper {
-    void createCommentTable();
+    void addUserLvColumn();
+    void addUserTotalMoneyColumn();
+    void addOrderListStarColumn();
+    void addOrderListCommentColumn();
+    void insertSuperUsers();
+    void changeManagerId();
+    int testLv();
 }

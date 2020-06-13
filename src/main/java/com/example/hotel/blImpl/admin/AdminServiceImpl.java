@@ -61,11 +61,6 @@ public class AdminServiceImpl implements AdminService {
         }
         return ResponseVO.buildSuccess(true);
     }
-    @Override
-    public ResponseVO addCommentTable() {
-        dbMapper.createCommentTable();
-        return ResponseVO.buildSuccess(true);
-    }
 
     @Override
     public List<User> getAllManagers() {

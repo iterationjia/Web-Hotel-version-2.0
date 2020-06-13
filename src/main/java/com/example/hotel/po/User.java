@@ -11,6 +11,10 @@ public class User {
     private String phoneNumber;
     private double credit;
     private UserType userType;
+    private Integer lv;
+    private double totalmoney;
+    private String avatarurl;
+
 
     public Integer getId() {
         return id;
@@ -68,4 +72,27 @@ public class User {
         this.userType = userType;
     }
 
+    public Integer getLv() {
+        return lv;
+    }
+
+    public void setLv(Integer lv) {
+        this.lv = lv;
+    }
+
+    public double getTotalmoney() {
+        return totalmoney;
+    }
+
+    public void setTotalmoney(double totalmoney) {
+        this.totalmoney = totalmoney;
+    }
+
+    public String getAvatarurl() {
+        return avatarurl;
+    }
+
+    public void setAvatarurl(String avatarurl) {
+        this.avatarurl = avatarurl;
+    }
 }

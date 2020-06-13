@@ -6,12 +6,12 @@
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
             <a-menu-item key="0" @click="selectMenu">
-                <router-link to="/hotel/oldHotelList">
-                    <a-icon type="home" />旧首页
+                <router-link :to="{ name: 'hotelSearch'}">
+                    <a-icon type="search" />搜索
                 </router-link>
             </a-menu-item>
             <a-menu-item key="1" @click="selectMenu">
-                <router-link :to="{ name: 'hotelSearch' }">
+                <router-link :to="{ name: 'hotelList' }">
                     <a-icon type="home" />首页
                 </router-link>
             </a-menu-item>
@@ -42,17 +42,25 @@
                         <a-icon type="frown" />异常处理
                     </router-link>
                 </a-menu-item>
-                <a-menu-item key="7" @click="selectMenu">
-                    <router-link :to="{ name: 'creditAdder'}">
-                        <a-icon type="transaction" />信用充值
-                    </router-link>
-                </a-menu-item>
+                <a-sub-menu @click="selectMenu">
+                    <span slot="title"><a-icon type="transaction" /><span>充值中心</span></span>
+                    <a-menu-item key="7" @click="selectMenu">
+                        <router-link :to="{ name: 'creditAdder'}">
+                            信用充值
+                        </router-link>
+                    </a-menu-item>
+                    <a-menu-item key="8" @click="selectMenu">
+                        <router-link :to="{ name: 'lvAdder'}">
+                            等级充值
+                        </router-link>
+                    </a-menu-item>
+                </a-sub-menu>
             </a-sub-menu>
         </a-menu>
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
-                    <a-avatar src="./defaultAvatar.png"></a-avatar>
+                    <a-avatar :src=userInfo.avatarurl size="large"></a-avatar>
                     <span style="font-size: 14px">{{ userInfo.userName }}</span>
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
                 </div>
@@ -92,13 +100,13 @@ export default {
         ])
     },
     mounted() {
-        if (this.$route.name == 'hotelSearch' || this.$route.name == 'hotelDetail') {
+        if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
             this.current = ['1']
         }else if(this.$route.name == 'userInfo') {
             this.current = ['2']
         }else if(this.$route.name == 'manageHotel') {
             this.current = ['3']
-        }else if (this.$route.name == 'oldHotelList'){
+        }else if (this.$route.name == 'hotelSearch'){
             this.current = ['0']
         }else if(this.$route.name == 'designCoupon'){
             this.current = ['5']
@@ -106,7 +114,9 @@ export default {
             this.current = ['6']
         }else if(this.$route.name == 'creditAdder'){
             this.current = ['7']
-        } else {
+        }else if(this.$route.name == 'lvAdder'){
+            this.current = ['8']
+        }else {
             this.current = ['4']
         }
     },

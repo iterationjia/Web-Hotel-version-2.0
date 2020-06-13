@@ -3,6 +3,7 @@ package com.example.hotel.blImpl.order;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.data.user.AccountMapper;
@@ -30,16 +31,21 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
+    private final static String CREDIT_LACK = "您的信用值不足";
     @Autowired
     OrderMapper orderMapper;
     @Autowired
     RoomMapper roomMapper;
+    @Autowired
+    AccountMapper accountMapper;
     @Autowired
     HotelService hotelService;
     @Autowired
     AccountService accountService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    HotelMapper hotelMapper;
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
@@ -47,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
         if(reserveRoomNum>curNum){
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
+
         try {
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH");
             Date date = new Date(System.currentTimeMillis());
@@ -54,8 +61,16 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setCreateDate(curdate);
             orderVO.setOrderState("已预订");
             User user = accountService.getUserInfo(orderVO.getUserId());
-            orderVO.setClientName(user.getUserName());
-            orderVO.setPhoneNumber(user.getPhoneNumber());
+
+            if(user.getCredit()<0){
+                return ResponseVO.buildFailure(CREDIT_LACK);
+            }
+            user.setTotalmoney(user.getTotalmoney()+orderVO.getPrice());
+            user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
+            accountMapper.setLv(user.getId(),user.getLv());
+            accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
+//            orderVO.setClientName(user.getUserName());
+//            orderVO.setPhoneNumber(user.getPhoneNumber());
             Order order = new Order();
             BeanUtils.copyProperties(orderVO,order);
             orderMapper.addOrder(order);
@@ -83,6 +98,11 @@ public class OrderServiceImpl implements OrderService {
         List<Order> managerOrders = new ArrayList<>();
         for (int i=0;i<managerHotels.size();i++){
             managerOrders.addAll(getHotelOrders(managerHotels.get(i).getId()));
+        }
+        for (int i = 0; i < managerOrders.size(); i++) {
+            Order order = managerOrders.get(i);
+            User user = accountService.getUserInfo(order.getUserId());
+            order.setUserLv(user.getLv());
         }
         return managerOrders;
     }
@@ -118,6 +138,13 @@ public class OrderServiceImpl implements OrderService {
         int hours = (int)((to-from)/1000/60/60);
 
         User user = accountService.getUserInfo(orderannual.getUserId());
+
+        //减去totalmoney和lv
+        user.setTotalmoney(user.getTotalmoney()-orderannual.getPrice());
+        user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
+        accountMapper.setLv(user.getId(),user.getLv());
+        accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
+
         //注意等号，比如15:59到21:01,不足6小时，hours=6
         if(hours<=6){
             double curcredit = user.getCredit()-orderannual.getPrice()/2;
@@ -190,6 +217,13 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         BeanUtils.copyProperties(orderVO,order);
         orderMapper.updateOrderComment(order.getId(),order.getStar(),order.getComment());
+        //orderVO.getHotelId();
+        System.out.println(order.getHotelId());
+        int count=orderMapper.getCommentNum(order.getHotelId());
+        double cur_rate=hotelMapper.getCur_rate(order.getHotelId());
+        int newstar=order.getStar();
+        double tar_rate=(cur_rate*count+newstar)/(count+1);
+        hotelMapper.updateRate(order.getHotelId(),tar_rate);
         return ResponseVO.buildSuccess(true);
     }
 

@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.hotel.data.db.DbMapper">
-    <update id="createCommentTable">
-        CREATE TABLE Comment (
-            id int primary key auto_increment,
-            hotelId int,
-            userId int,
-            star double,
-            comment varchar(255)
-        ) character set utf8 collate utf8_bin;
+    <update id="addUserLvColumn">
+        ALTER TABLE User ADD lv int DEFAULT 0;
     </update>
+    <update id="addUserTotalMoneyColumn">
+        ALTER TABLE User ADD totalmoney decimal DEFAULT 0;
+    </update>
+    <update id="addOrderListStarColumn">
+        ALTER TABLE OrderList ADD star int;
+    </update>
+    <update id="addOrderListCommentColumn">
+        ALTER TABLE OrderList ADD comment VARCHAR(255);
+    </update>
+    <insert id="insertSuperUsers">
+        INSERT INTO User VALUES (1,'market@qq.com','123456','老营销号','110',100,'MarketManager',0,0),(0,'manager@qq.com','123456','老管理员','110',100,'Manager',0,0);
+    </insert>
+    <update id="changeManagerId">
+        UPDATE User set id = 0 where username='老管理员'
+    </update>
+    <select id="testLv" resultType="int">
+        select lv from User where id = 0
+    </select>
 </mapper>
