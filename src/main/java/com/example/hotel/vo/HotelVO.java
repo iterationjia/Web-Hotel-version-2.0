@@ -18,11 +18,18 @@ public class HotelVO {
     private String phoneNum;
     private Integer managerId;
     private Integer minPrice;
+    private double totalmoney;
     private boolean scheduled;
     private String img;
 
     private List<RoomVO> rooms;
+    public double getTotalMoney() {
+        return totalmoney;
+    }
 
+    public void setTotalmoney(double totalmoney) {
+        this.totalmoney = totalmoney;
+    }
     public Integer getId() {
         return id;
     }

@@ -30,6 +30,9 @@
         and hotelName like concat('%',#{name},'%')
         and rate&gt;=#{rate0} and rate&lt;=#{rate1}
     </select>
+    <update id="setTotalMoney">
+        update Hotel set totalmoney=#{totalmoney} where id=#{hotelid}
+    </update>
     <update id="setHotelManager">
         update Hotel set manager_id=#{managerid} where id=#{hotelid}
     </update>
@@ -47,7 +50,7 @@
     </resultMap>
 
     <select id="getCur_rate" resultType="double">
-        select cur_rate from Hotel where id=#{hotelid}
+        select rate from Hotel where id=#{hotelid}
     </select>
 
     <update id="updateRate">
