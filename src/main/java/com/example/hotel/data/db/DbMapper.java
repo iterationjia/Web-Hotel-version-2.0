@@ -12,4 +12,6 @@ public interface DbMapper {
     void insertSuperUsers();
     void changeManagerId();
     int testLv();
+    void addHotelTotalMoneyColumn();
+    void addUserAvatarColumn();
 }

@@ -7,7 +7,8 @@ import marketManager from './modules/marketManager'
 import admin from './modules/admin'
 import getters from './getters'
 import {
-  updateDatabaseAPI
+  updateDatabaseAPI,
+  updateDatabase2API
 } from '@/api/db'
 import {message} from "ant-design-vue";
 Vue.use(Vuex)
@@ -27,6 +28,15 @@ export default new Vuex.Store({
   actions: {
     updateDatabase: async() => {
       const res = await updateDatabaseAPI()
+      console.log(res)
+      if (res){
+        message.success('数据库更新成功')
+      } else {
+        message.error('数据库更新失败')
+      }
+    },
+    updateDatabase2: async() => {
+      const res = await updateDatabase2API()
       console.log(res)
       if (res){
         message.success('数据库更新成功')

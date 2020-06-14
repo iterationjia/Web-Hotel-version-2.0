@@ -18,4 +18,9 @@ public class DbController {
     public ResponseVO updateDatabase(){
         return ResponseVO.buildSuccess(dbService.updateDatabase());
     }
+
+    @PostMapping("/updateDatabase2")
+    public ResponseVO updateDatabase2(){
+        return ResponseVO.buildSuccess(dbService.updateDatabase2());
+    }
 }

@@ -26,4 +26,15 @@ public class DbServiceImpl implements DbService {
             return 0;
         }
     }
+
+    @Override
+    public int updateDatabase2() {
+        try{
+            dbMapper.addHotelTotalMoneyColumn();
+            dbMapper.addUserAvatarColumn();
+            return 1;
+        } catch (Exception e){
+            return 0;
+        }
+    }
 }

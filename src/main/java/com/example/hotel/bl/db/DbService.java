@@ -4,4 +4,5 @@ import com.example.hotel.vo.ResponseVO;
 
 public interface DbService {
     int updateDatabase();
+    int updateDatabase2();
 }
