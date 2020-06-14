@@ -141,6 +141,13 @@
                      class="login-button"
                      @click="database()"
              >修改数据库</a-button>
+             <a-button
+                     hidden
+                     size="large"
+                     type="danger"
+                     class="login-button"
+                     @click="database2()"
+             >修改数据库2</a-button>
            </a-form-item>
         </a-tab-pane>
       </a-tabs>
@@ -186,7 +193,8 @@ export default {
     ...mapActions([
       'login',
       'register',
-      'updateDatabase'
+      'updateDatabase',
+      'updateDatabase2'
       ]),
 
     // handler
@@ -273,6 +281,9 @@ export default {
 
     database(){
       this.updateDatabase()
+    },
+    database2(){
+      this.updateDatabase2()
     },
     onChange(e) {
       console.log(`checked = ${e.target.value}`);

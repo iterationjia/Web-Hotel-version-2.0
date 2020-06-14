@@ -1,55 +1,54 @@
 <template>
     <a-modal
-        :visible="addCouponVisible"
-        title="添加优惠策略"
-        cancelText="取消"
-        okText="确定"
-        @cancel="cancel"
-        @ok="handleSubmit"
+:visible="addCouponVisible"
+title="添加优惠策略"
+cancelText="取消"
+okText="确定"
+@cancel="cancel"
+@ok="handleSubmit"
     >
-        <!-- 这里是添加策略模态框区域，请编写表单 -->
-        <a-form :form="form" style="margin-top: 30px" v-bind="formItemLayout">
-            <a-form-item label="优惠劵类型">
-                <a-select
-                        v-decorator="['couponType', {rules: [{required: true, message: '请选择优惠劵类型'}]}]"
-                        @change="changeType"
-                >
-                    <a-select-option value="1">生日特惠</a-select-option>
-                    <a-select-option value="2">多间特惠</a-select-option>
-                    <a-select-option value="3">满减特惠</a-select-option>
-                    <a-select-option value="4">限时特惠</a-select-option>
-                </a-select>
-            </a-form-item>
-            <a-form-item label="劵名">
-                <a-input
-                        placeholder="请填写劵名"
-                        v-decorator="['couponName', { rules: [{ required: true, message: '请填写劵名' }] }]"
-                />
-            </a-form-item>
-            <a-form-item label="优惠简介">
-                <a-input
-                        type="textarea"
-                        :rows="4"
-                        placeholder="请填写优惠简介"
-                        v-decorator="['description', { rules: [{ required: true, message: '请填写优惠简介' }] }]"
-                />
-            </a-form-item>
-            <a-form-item label="达标金额">
-                <a-input
-                        placeholder="请填写达标金额"
-                        v-decorator="['targetMoney', { rules: [{ required: true, message: '请填写达标金额' }] }]"
-                />
-            </a-form-item>
-            <a-form-item label="优惠金额">
-                <a-input
-                        placeholder="请填写优惠金额"
-                        v-decorator="['discountMoney', { rules: [{ required: true, message: '请填写优惠金额' }] }]"
-                />
-            </a-form-item>
-        </a-form>
+    <a-form :form="form" style="margin-top: 30px" v-bind="formItemLayout">
+    <a-form-item label="优惠劵类型">
+    <a-select
+v-decorator="['couponType', {rules: [{required: true, message: '请选择优惠劵类型'}]}]"
+@change="changeType"
+    >
+    <a-select-option value="1">会员特惠</a-select-option>
+    <a-select-option value="2">多间特惠</a-select-option>
+    <a-select-option value="3">满减特惠</a-select-option>
+    <a-select-option value="4">限时特惠</a-select-option>
+    </a-select>
+    </a-form-item>
+    <a-form-item label="劵名">
+    <a-input
+placeholder="请填写劵名"
+v-decorator="['couponName', { rules: [{ required: true, message: '请填写劵名' }] }]"
+    />
+    </a-form-item>
+    <a-form-item label="优惠简介">
+    <a-input
+type="textarea"
+:rows="4"
+placeholder="请填写优惠简介"
+v-decorator="['description', { rules: [{ required: true, message: '请填写优惠简介' }] }]"
+    />
+    </a-form-item>
+    <a-form-item label="达标金额">
+    <a-input
+placeholder="请填写达标金额"
+v-decorator="['targetMoney', { rules: [{ required: true, message: '请填写达标金额' }] }]"
+    />
+    </a-form-item>
+    <a-form-item label="优惠金额">
+    <a-input
+placeholder="请填写优惠金额"
+v-decorator="['discountMoney', { rules: [{ required: true, message: '请填写优惠金额' }] }]"
+    />
+    </a-form-item>
+    </a-form>
     </a-modal>
-</template>
-<script>
+    </template>
+    <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
     name: 'addCouponModal',
@@ -74,7 +73,6 @@ export default {
         ])
     },
     beforeCreate() {
-        // 表单名默认为“form”
         this.form = this.$form.createForm(this, { name: 'addCouponModal' });
     },
     mounted() {
@@ -85,7 +83,6 @@ export default {
             'set_addCouponVisible'
         ]),
         ...mapActions([
-            // addHotelCoupon：添加酒店策略接口
             'addHotelCoupon'
         ]),
         cancel() {
@@ -95,7 +92,7 @@ export default {
             if( v == '3') {
 
             }else{
-                this.$message.warning('请实现')
+
             }
         },
         handleSubmit(e) {
@@ -103,7 +100,6 @@ export default {
             this.form.validateFieldsAndScroll((err, values) => {
                 if (!err) {
                     const data = {
-                        // 这里添加接口参数
                         type: this.form.getFieldValue('couponType'),
                         name: this.form.getFieldValue('couponName'),
                         description: this.form.getFieldValue('description'),

@@ -2,9 +2,17 @@
   <a-card hoverable class="hotelCard ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3">
     <img
       alt="example"
+      v-if="hotel.img==null"
       src="@/assets/cover.jpeg"
       slot="cover"
       referrerPolicy="no-referrer"
+    />
+    <img
+          alt="example"
+          v-else
+          :src="'data:image/jpeg;base64,'+hotel.img"
+          slot="cover"
+          referrerPolicy="no-referrer"
     />
     <a-tooltip :title="hotel.title" placement="top">
       <a-card-meta :title="hotel.name">

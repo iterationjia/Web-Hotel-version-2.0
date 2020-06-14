@@ -52,9 +52,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVO updateUserInfo(int id, String password, String username, String phonenumber) {
+    public ResponseVO updateUserInfo(int id, String password, String username, String phonenumber,String avatarurl) {
         try {
-            accountMapper.updateAccount(id, password, username, phonenumber);
+            accountMapper.updateAccount(id, password, username, phonenumber,avatarurl);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
@@ -66,6 +66,15 @@ public class AccountServiceImpl implements AccountService {
         User user = accountMapper.getAccountByEmail(userVO.getEmail());
         user.setCredit(userVO.getCredit());
         accountMapper.setCredit(user.getId(),user.getCredit());
+        return ResponseVO.buildSuccess(true);
+    }
+
+    public ResponseVO lvSet(UserVO userVO){
+        User user = accountMapper.getAccountByEmail(userVO.getEmail());
+        user.setTotalmoney(userVO.getTotalmoney());
+        user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
+        accountMapper.setLv(user.getId(),user.getLv());
+        accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
         return ResponseVO.buildSuccess(true);
     }
 

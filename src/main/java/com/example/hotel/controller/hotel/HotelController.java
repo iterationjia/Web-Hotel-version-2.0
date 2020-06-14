@@ -8,6 +8,7 @@ import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/hotel")
@@ -27,8 +28,8 @@ public class HotelController {
     }
 
     @GetMapping("/all")
-    public ResponseVO retrieveAllHotels(){
-        return ResponseVO.buildSuccess(hotelService.retrieveHotels());
+    public ResponseVO retrieveAllHotels(@RequestParam Integer userid){
+        return ResponseVO.buildSuccess(hotelService.retrieveHotels(userid));
     }
 
     @GetMapping("/{managerId}/managerHotels")
@@ -49,14 +50,49 @@ public class HotelController {
 
     @PostMapping("/roomInfo")
     public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
-        roomService.insertRoomInfo(hotelRoom);
-        return ResponseVO.buildSuccess();
+        return roomService.insertRoomInfo(hotelRoom);
+//        return ResponseVO.buildSuccess(true);
     }
-
     @GetMapping("/{hotelId}/detail")
     public ResponseVO retrieveHotelDetail(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
     }
 
+    @PostMapping("/editHotel")
+    public ResponseVO editHotel(@RequestBody HotelVO hotelVO){
+        hotelService.editHotel(hotelVO);
+        return ResponseVO.buildSuccess(true);
+    }
+    @PostMapping("/{hotelId}/updateHotelImg")
+    public ResponseVO updateHotelImg(@RequestParam("file") MultipartFile file, @PathVariable Integer hotelId){
+        return ResponseVO.buildSuccess(hotelService.updateHotelImg(file,hotelId));
+    }
+    @GetMapping("/{hotelId}/getHotelImg")
+    public ResponseVO getHotelImg(@PathVariable Integer hotelId){
+        return ResponseVO.buildSuccess(hotelService.getHotelImg(hotelId));
+    }
+    @GetMapping("/editRoomPrice")
+    public ResponseVO editRoomPrice(@RequestParam Integer roomId,@RequestParam Integer val){
+        return ResponseVO.buildSuccess(roomService.editRoomPrice(roomId,val));
+    }
 
+    @GetMapping("/editRoomTotal")
+    public ResponseVO editRoomTotal(@RequestParam Integer roomId,@RequestParam Integer val){
+        return ResponseVO.buildSuccess(roomService.editRoomTotal(roomId,val));
+    }
+
+    @GetMapping("/editRoomCurNum")
+    public ResponseVO editRoomCurNum(@RequestParam Integer roomId,@RequestParam Integer val){
+        return ResponseVO.buildSuccess(roomService.editRoomCurNum(roomId,val));
+    }
+
+    @PostMapping("/{roomId}/deleteRoom")
+    public ResponseVO deleteRoom(@PathVariable Integer roomId){
+        return ResponseVO.buildSuccess(roomService.deleteRoom(roomId));
+    }
+
+    @GetMapping("/{hotelId}/comments")
+    public ResponseVO retrieveComments(@PathVariable Integer hotelId){
+        return ResponseVO.buildSuccess(hotelService.getComments(hotelId));
+    }
 }

@@ -199,9 +199,7 @@ export default {
         cancelOrder() {
             this.set_orderModalVisible(false)
         },
-        confirmOrder() {
 
-        },
         changeDate(v) {
             if(this.totalPrice != ''){
                 this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
@@ -236,6 +234,8 @@ export default {
                         peopleNum: this.form.getFieldValue('peopleNum'),
                         haveChild: this.form.getFieldValue('haveChild'),
                         createDate: '',
+                        clientName: this.form.getFieldValue('clientName'),
+                        phoneNumber: this.form.getFieldValue('phoneNumber'),
                         price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                     }
                     this.addOrder(data)

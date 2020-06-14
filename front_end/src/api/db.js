@@ -8,3 +8,10 @@ export function updateDatabaseAPI() {
         method: 'POST'
     })
 }
+
+export function updateDatabase2API() {
+    return axios({
+        url: `${api.dbPre}/updateDatabase2`,
+        method: 'POST'
+    })
+}

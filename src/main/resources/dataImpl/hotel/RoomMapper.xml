@@ -16,6 +16,18 @@
         update Room set curNum=curNum-#{curNum} where hotel_id=#{hotelId} and roomType=#{roomType}
     </update>
 
+    <update id="editRoomPrice">
+        update Room set price=#{val} where id=#{roomId}
+    </update>
+
+    <update id="editRoomTotal">
+        update Room set total=#{val} where id=#{roomId}
+    </update>
+
+    <update id="editRoomCurNum">
+        update Room set curNum=#{val} where id=#{roomId}
+    </update>
+
     <select id="getRoomCurNum" resultType="int">
         select curNum from Room where hotel_id=#{hotelId} and roomType=#{roomType}
     </select>
@@ -26,6 +38,10 @@
 
     <delete id="deleteHotelRooms">
         delete from Room where hotel_id=#{hotelId}
+    </delete>
+
+    <delete id="deleteRoom">
+        delete from Room where id=#{roomId}
     </delete>
 
     <resultMap id="room" type="com.example.hotel.po.HotelRoom">

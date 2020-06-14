@@ -22,4 +22,11 @@
     <select id="testLv" resultType="int">
         select lv from User where id = 0
     </select>
+
+    <update id="addHotelTotalMoneyColumn">
+        ALTER TABLE Hotel ADD totalmoney decimal DEFAULT 0;
+    </update>
+    <update id="addUserAvatarColumn">
+        ALTER TABLE User ADD avatarurl VARCHAR(255) DEFAULT 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png';
+    </update>
 </mapper>

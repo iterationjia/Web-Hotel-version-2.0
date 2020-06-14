@@ -45,12 +45,17 @@ public class AccountController {
 
     @PostMapping("/{id}/userInfo/update")
     public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
-        return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
+        return accountService.updateUserInfo(id,userInfoVO.getPassword(),userInfoVO.getUserName(),userInfoVO.getPhoneNumber(),userInfoVO.getAvatarurl());
     }
 
     @PostMapping("/creditSet")
     public ResponseVO creditSet(@RequestBody UserVO userVO){
         return accountService.creditSet(userVO);
+    }
+
+    @PostMapping("/lvSet")
+    public ResponseVO lvSet(@RequestBody UserVO userVO){
+        return accountService.lvSet(userVO);
     }
 
     @PostMapping("/getAccountByEmail")
