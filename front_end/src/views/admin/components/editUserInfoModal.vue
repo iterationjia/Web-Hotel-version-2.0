@@ -6,6 +6,7 @@
             okText="确定"
             @cancel="cancel"
             @ok="handleSubmit"
+            destroyOnClose
     >
         <a-Form :form="form">
             <a-form-item v-bind="formItemLayout" label="用户名">
@@ -13,8 +14,8 @@
 
                         v-decorator="[
                         'userName',
-                       { rules: [{required:false}],
-
+                       { rules: [{required:true}],
+                        initialValue:info.userName,
                        }
                     ]"
                 />
@@ -24,8 +25,8 @@
 
                         v-decorator="[
                         'password',
-                         { rules: [{required:false}],
-
+                         { rules: [{required:true}],
+                            initialValue:info.password,
                          }
                     ]"
                 />
@@ -34,18 +35,8 @@
                 <a-input
                         v-decorator="[
                         'phoneNumber',
-                         { rules: [{required:false}],
-
-                         }
-                    ]"
-                />
-            </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="信用值">
-                <a-input
-                        v-decorator="[
-                        'credit',
-                         { rules: [{required:false}],
-
+                         { rules: [{required:true}],
+                            initialValue:info.phoneNumber,
                          }
                     ]"
                 />
@@ -57,6 +48,7 @@
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'editUserInfoModal',
+        props:['info'],
         data() {
             return {
                 formItemLayout: {
@@ -69,6 +61,7 @@
                         sm: { span: 16 },
                     },
                 },
+                userInfo:{},
             }
         },
         computed: {
@@ -106,14 +99,14 @@
                     if (!err) {
                         //console.log(this.editUserInfoParams)
                         const data = {
-                            userName:this.form.getFieldValue('userName')==undefined?this.editUserInfoParams.userName:this.form.getFieldValue('userName'),
-                            password: this.form.getFieldValue('password')==undefined?this.editUserInfoParams.password:this.form.getFieldValue('password'),
-                            phoneNumber:this.form.getFieldValue('phoneNumber')==undefined?this.editUserInfoParams.phoneNumber:this.form.getFieldValue('phoneNumber'),
-                            credit:this.form.getFieldValue('credit')==undefined?this.editUserInfoParams.credit:this.form.getFieldValue('credit'),
+                            userName:this.form.getFieldValue('userName'),
+                            password: this.form.getFieldValue('password'),
+                            phoneNumber:this.form.getFieldValue('phoneNumber'),
+
                         }
                         //console.log(data)
                         this.set_editUserInfoParams(data)
-                        console.log(this.editUserInfoParams)
+                        //console.log(this.editUserInfoParams)
                         this.editUserInfo()
                     }
                 });

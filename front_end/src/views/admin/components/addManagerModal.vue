@@ -95,7 +95,7 @@
                             password: this.form.getFieldValue('password'),
                             userName:this.form.getFieldValue('userName'),
                             phoneNumber:this.form.getFieldValue('phoneNumber'),
-                            credit:this.form.getFieldValue('credit')
+                            credit:10000
                         }
                         console.log(data)
                         this.set_addManagerParams(data)

@@ -73,7 +73,7 @@
         <AddManagerModal></AddManagerModal>
         <AddHotelModal></AddHotelModal>
         <SetHotelManagerModal></SetHotelManagerModal>
-        <EditUserInfoModal></EditUserInfoModal>
+        <EditUserInfoModal :info="userInfo"></EditUserInfoModal>
     </div>
 </template>
 <script>
@@ -196,6 +196,7 @@ export default {
             columns1,
             columns2,
             data: [],
+            userInfo:{},
             form: this.$form.createForm(this, { name: 'manageUser' }),
         }
     },
@@ -241,14 +242,10 @@ export default {
             'set_addHotelModalVisible',
             'set_addManagerModalVisible',
             'set_setHotelManagerModalVisible',
-
             'set_editUserInfoParams',
-
             'set_editUserInfoModalVisible',
             'set_HotelId',
             'set_UserId',
-
-
         ]),
         addHotel() {
             this.set_addHotelModalVisible(true)
@@ -256,22 +253,14 @@ export default {
         addManager(){
             this.set_addManagerModalVisible(true)
         },
-        setHotelManager(record){
-            this.set_setHotelManagerModalVisible(true)
-        },
         EditUserInfo(record){
             //console.log(record)
-            const data={
-                userid:record.id,
-                userName:record.userName,
-                password: record.password,
-                phoneNumber:record.phoneNumber,
-                credit:record.credit,
-            }
+            this.userInfo=record
+            console.log(this.userInfo)
             this.set_UserId(record.id)
-            //console.log(this.userid)
+            console.log(this.userid)
             //console.log(data)
-            this.set_editUserInfoParams(data)
+            //this.set_editUserInfoParams(data)
             //console.log(this.editUserInfoParams)
 
             this.set_editUserInfoModalVisible(true)
@@ -282,6 +271,7 @@ export default {
             this.set_HotelId(record.id)
             //console.log(this.HotelId)
             this.set_setHotelManagerModalVisible(true)
+
         },
         //
         DeleteUser(record){

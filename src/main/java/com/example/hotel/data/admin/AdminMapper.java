@@ -21,7 +21,6 @@ public interface    AdminMapper {
     int editUserInfo(@Param("id") int id,
                      @Param("password") String address,
                      @Param("username") String username,
-                     @Param("credit") double credit,
                      @Param("phonenumber") String phonenumber
     );
 

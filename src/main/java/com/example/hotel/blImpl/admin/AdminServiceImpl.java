@@ -51,10 +51,9 @@ public class AdminServiceImpl implements AdminService {
         user.setId(userForm.getId());
         user.setPassword(userForm.getPassword());
         user.setPhoneNumber(userForm.getPhoneNumber());
-        user.setCredit(userForm.getCredit());
         user.setUserName(userForm.getUserName());
         try {
-            adminMapper.editUserInfo(userid,user.getPassword(),user.getUserName(),user.getCredit(),user.getPhoneNumber());
+            adminMapper.editUserInfo(userid,user.getPassword(),user.getUserName(),user.getPhoneNumber());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ACCOUNT_EXIST);

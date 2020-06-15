@@ -29,8 +29,7 @@ public class AdminController {
     }
     @PostMapping("/{userid}/editUserInfo")
     public ResponseVO editUserInfo(@RequestBody UserForm userForm ,@PathVariable int userid){
-        //System.out.println(userForm.getId());
-        System.out.println(userForm.getCredit());
+        System.out.println(userid);
         System.out.println(userForm.getPassword());
         System.out.println(userForm.getUserName());
         return adminService.editUserInfo(userForm,userid);
@@ -41,15 +40,15 @@ public class AdminController {
         hotelService.addHotel(hotelVO);
         return ResponseVO.buildSuccess(true);
     }
-    @PostMapping("/getAllManagers")
+    @GetMapping("/getAllManagers")
     public ResponseVO getAllManagers(){
         return ResponseVO.buildSuccess(adminService.getAllManagers());
     }
-    @PostMapping("/getAllUsers")
+    @GetMapping("/getAllUsers")
     public ResponseVO getAllUsers(){
         return ResponseVO.buildSuccess(adminService.getAllUsers());
     }
-    @PostMapping("/getVip")
+    @GetMapping("/getVip")
     public ResponseVO getVip(){
         return ResponseVO.buildSuccess(adminService.getVip());
     }

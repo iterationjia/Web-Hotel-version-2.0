@@ -12,8 +12,7 @@
         update User
         set phonenumber=#{phonenumber},
            username=#{username},
-           password=#{password},
-           credit=#{credit}
+           password=#{password}
            where id=#{id};
     </update>
     <select id="getAllUsers" resultMap="User">
