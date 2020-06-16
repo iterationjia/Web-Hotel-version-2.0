@@ -2,6 +2,12 @@
   <div class="hotelList">
     <a-layout>
         <a-layout-content style="min-width: 800px">
+            <a-row>
+                <a-col :span="8" :offset="8">
+                    <a-button @click="showSearchModal" type="primary" style="width: 100%">酒店搜索</a-button>
+                </a-col>
+            </a-row>
+            <br>
             排序方式：
             <a-select  @change="sortChange" style="width: 180px">
 <!--                <a-select-option value="default">默认排序</a-select-option>-->
@@ -9,7 +15,6 @@
                 <a-select-option value="star">星级从高到低</a-select-option>
                 <a-select-option value="price">价格从低到高</a-select-option>
             </a-select>
-            <a-button @click="getlog">test</a-button>
             <a-spin :spinning="hotelListLoading">
             <div class="card-wrapper">
                 <HotelCard :hotel="item" v-for="item in hotelList" :key="item.index" @click.native="jumpToDetails(item.id)"></HotelCard>
@@ -20,16 +25,19 @@
           </a-spin>
       </a-layout-content>
     </a-layout>
+      <SearchModal></SearchModal>
   </div>
 </template>
 <script>
 import HotelCard from './components/hotelCard'
+import SearchModal from "./components/searchModal";
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'home',
   components: {
-    HotelCard
+    HotelCard,
+      SearchModal
   },
   data(){
     return{
@@ -52,6 +60,7 @@ export default {
         'set_hotelListSortedByRate',
         'set_hotelListSortedByPrice',
         'set_hotelListSortedByStar',
+        'set_searchModalVisible'
     ]),
       ...mapActions([
          'getHotelList'
@@ -67,8 +76,8 @@ export default {
 
         }
     },
-      getlog(){
-        console.log(this.hotelList)
+      showSearchModal() {
+        this.set_searchModalVisible(true);
       },
     pageChange(page, pageSize) {
       const data = {

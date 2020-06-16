@@ -3,6 +3,7 @@ package com.example.hotel.bl.user;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author huwen
@@ -46,4 +47,7 @@ public interface AccountService {
     ResponseVO lvSet(UserVO userVO);
 
     User getAccountByEmail(String email);
+
+    ResponseVO updateUserImg(MultipartFile file, Integer userId);
+    String getUserImg(Integer userId);
 }

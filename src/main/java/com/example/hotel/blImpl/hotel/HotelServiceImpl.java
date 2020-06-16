@@ -155,7 +155,7 @@ public class HotelServiceImpl implements HotelService {
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);
-
+        hotelVO.setImg(getHotelImg(hotelId));
         return hotelVO;
     }
     @Override
@@ -178,7 +178,7 @@ public class HotelServiceImpl implements HotelService {
                 User user = accountService.getUserInfo(order.getUserId());
                 CommentVO comment = new CommentVO();
                 comment.setAuthor(user.getUserName());
-//            comment.setAvatar();
+                comment.setAvatar(accountService.getUserImg(user.getId()));
                 comment.setComment(order.getComment());
                 comment.setStar(order.getStar());
                 comment.setDate(order.getCheckOutDate());

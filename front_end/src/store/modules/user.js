@@ -8,6 +8,7 @@ import {
     registerAPI,
     getUserInfoAPI,
     updateUserInfoAPI,
+    updateAvatarAPI,
 } from '@/api/user'
 
 import {
@@ -123,6 +124,17 @@ const user = {
             if(res){
                  message.success('修改成功')
                 dispatch('getUserInfo')
+            }
+        },
+        updateUserAvatar: async({state, dispatch}, data) => {
+            const formData = new FormData();
+            formData.append('file',data)
+            const res = await updateAvatarAPI(state.userId, formData)
+            if(res){
+                message.success('上传成功')
+                dispatch('getUserInfo')
+            } else {
+                message.error('上传失败')
             }
         },
 

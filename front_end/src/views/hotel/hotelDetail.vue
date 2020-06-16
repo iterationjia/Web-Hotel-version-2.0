@@ -9,10 +9,18 @@
                     <a-card style="width: 240px">
                         <img
                             alt="example"
+                            v-if="currentHotelInfo.img==null"
                             src="@/assets/cover.jpeg"
                             slot="cover"
                             referrerPolicy="no-referrer"
                             />
+                        <img
+                                alt="example"
+                                v-else
+                                :src="'data:image/jpeg;base64,'+currentHotelInfo.img"
+                                slot="cover"
+                                referrerPolicy="no-referrer"
+                        />
                     </a-card>
                     <div class="info">
                         <div class="items" v-if="currentHotelInfo.name">
@@ -30,6 +38,7 @@
                         </div>
                         <div class="items" v-if="currentHotelInfo.hotelStar">
                             <span class="label">星级:</span>
+                            <span class="value">{{ currentHotelInfo.hotelStar=='Three'?"三星级":currentHotelInfo.hotelStar=='Four'?"四星级":"五星级" }}</span>
                         </div>
                         <div class="items" v-if="currentHotelInfo.description">
                             <span class="label">酒店简介:</span> 

@@ -29,6 +29,7 @@ const hotel = {
 
         },
         orderModalVisible: false,
+        searchModalVisible: false,
         currentOrderRoom: {
 
         },
@@ -88,6 +89,9 @@ const hotel = {
         set_orderModalVisible: function(state, data) {
             state.orderModalVisible = data
         },
+        set_searchModalVisible: function(state, data) {
+            state.searchModalVisible = data
+        },
         set_currentOrderRoom: function(state, data) {
             state.currentOrderRoom = {
                 ...state.currentOrderRoom,
@@ -116,6 +120,7 @@ const hotel = {
             if(res){
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
+                commit('set_searchModalVisible', false)
             }
         },
         getOrderListByUserAndHotel: async ({commit,state,getters}) => {
@@ -135,13 +140,14 @@ const hotel = {
                 commit('set_currentHotelInfo', res)
             }
         },
-        addOrder: async({ state, commit }, data) => {
+        addOrder: async({ state, dispatch, commit }, data) => {
             //console.log(data)
             const res = await reserveHotelAPI(data)
             console.log(res)
             if(res){
                 message.success('预订成功')
                 commit('set_orderModalVisible', false)
+                dispatch('getHotelById')
             }
         },
         getOrderMatchCoupons: async({ state, commit }, data) => {

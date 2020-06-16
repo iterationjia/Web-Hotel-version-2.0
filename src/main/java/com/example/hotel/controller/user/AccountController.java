@@ -8,7 +8,7 @@ import com.example.hotel.vo.UserInfoVO;
 import com.example.hotel.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController()
@@ -66,5 +66,15 @@ public class AccountController {
             return ResponseVO.buildFailure(ACCOUNT_INFO_ERROR);
         }
         return ResponseVO.buildSuccess(user);
+    }
+
+    @GetMapping("/{id}/getUserImg")
+    public ResponseVO getUserImg(@PathVariable Integer id){
+        return ResponseVO.buildSuccess();
+    }
+
+    @PostMapping("/{id}/updateUserImg")
+    public ResponseVO updateUserImg(@RequestParam("file") MultipartFile file, @PathVariable Integer id){
+        return ResponseVO.buildSuccess(accountService.updateUserImg(file,id));
     }
 }

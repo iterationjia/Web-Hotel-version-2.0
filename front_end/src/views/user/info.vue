@@ -12,12 +12,26 @@
                         <span v-else>{{ userInfo.userName }}</span>
                     </a-form-item>
                     <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                        <a-input
-                                placeholder="请输入有效的头像链接"
-                                v-decorator="['avatarurl', { rules: [{required: true, message: '请输入头像链接' }] }]"
-                                v-if="modify"
-                        />
-                        <span v-else><a-avatar :src=userInfo.avatarurl size="large"></a-avatar></span>
+<!--                        <a-input-->
+<!--                                placeholder="请输入有效的头像链接"-->
+<!--                                v-decorator="['avatarurl', { rules: [{required: true, message: '请输入头像链接' }] }]"-->
+<!--                                v-if="modify"-->
+<!--                        />-->
+                        <div v-if="modify">
+                            <a-upload :defalut-file-list="fileList" list-type="picture" :remove="handleRemove" :before-upload="beforeUpload">
+                                <a-button v-if="fileList.length < 1"> <a-icon type="upload" /> Select File </a-button>
+                            </a-upload>
+                            <a-button
+                                    type="primary"
+                                    :disabled="fileList.length === 0"
+                                    :loading="uploading"
+                                    style="margin-top: 16px"
+                                    @click="handleUpload"
+                            >
+                                {{ uploading ? '上传中' : '上传' }}
+                            </a-button>
+                        </div>
+                        <span v-else><a-avatar :src="'data:image/jpeg;base64,'+userInfo.avatarurl" size="large"></a-avatar></span>
                     </a-form-item>
                     <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <span>{{ userInfo.email }}</span>
@@ -84,14 +98,14 @@
                     </a-tag>
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDetail(record)">订单详情</a-button>
-                        <a-divider type="vertical" v-if="record.orderState == '已执行'"></a-divider>
+                        <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                         <a-popconfirm
                             title="你确定撤销该笔订单吗？"
                             @confirm="confirmCancelOrder(record.id)"
                             @cancel="cancelCancelOrder"
                             okText="确定"
                             cancelText="取消"
-                            v-if="record.orderState == '已执行'"
+                            v-if="record.orderState == '已预订'"
                         >
                             <a-button type="danger" size="small">撤销</a-button>
                         </a-popconfirm>
@@ -182,6 +196,8 @@ export default {
             value: null,
             orderInfo: {},
             showCommentInfo: {},
+            fileList:[],
+            uploading:false
         }
     },
 
@@ -216,6 +232,7 @@ export default {
             'getUserInfo',
             'getUserOrders',
             'updateUserInfo',
+            'updateUserAvatar',
             'cancelOrder',
         ]),
         saveModify() {
@@ -268,6 +285,25 @@ export default {
         showCommentModal(record){
             this.showCommentInfo = record;
             this.set_showCommentVisible(true);
+        },
+        handleRemove(file) {
+            const index = this.fileList.indexOf(file);
+            const newFileList = this.fileList.slice();
+            newFileList.splice(index, 1);
+            this.fileList = newFileList;
+        },
+        beforeUpload(file) {
+            const isLt1M = file.size / 1024 / 1024 < 1;
+            if (!isLt1M) {
+                this.$message.error('图片必须小于 1MB!');
+                return true;
+            } else {
+                this.fileList = [...this.fileList, file];
+                return false;
+            }
+        },
+        handleUpload(){
+            this.updateUserAvatar(this.fileList[0])
         },
     }
 }

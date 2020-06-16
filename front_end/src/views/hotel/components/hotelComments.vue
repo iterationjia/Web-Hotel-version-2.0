@@ -7,7 +7,7 @@
         <a-list-item slot="renderItem" slot-scope="item">
             <a-comment
                     :author="item.author"
-                    :avatar="item.avatar?item.avatar:''"
+                    :avatar="'data:image/jpeg;base64,'+item.avatar"
             >
                 <span slot="actions">
                     <a-rate :value="item.star" disabled></a-rate>

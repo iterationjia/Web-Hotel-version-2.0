@@ -5,11 +5,6 @@
             <span class="title">NJUSE 酒店管理系统</span>
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
-            <a-menu-item key="0" @click="selectMenu">
-                <router-link :to="{ name: 'hotelSearch'}">
-                    <a-icon type="search" />搜索
-                </router-link>
-            </a-menu-item>
             <a-menu-item key="1" @click="selectMenu">
                 <router-link :to="{ name: 'hotelList' }">
                     <a-icon type="home" />首页
@@ -60,7 +55,7 @@
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
-                    <a-avatar :src=userInfo.avatarurl size="large"></a-avatar>
+                    <a-avatar :src="'data:image/jpeg;base64,'+userInfo.avatarurl" size="large"></a-avatar>
                     <span style="font-size: 14px">{{ userInfo.userName }}</span>
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
                 </div>
@@ -106,8 +101,6 @@ export default {
             this.current = ['2']
         }else if(this.$route.name == 'manageHotel') {
             this.current = ['3']
-        }else if (this.$route.name == 'hotelSearch'){
-            this.current = ['0']
         }else if(this.$route.name == 'designCoupon'){
             this.current = ['5']
         }else if(this.$route.name == 'handleException'){
