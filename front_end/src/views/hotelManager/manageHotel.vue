@@ -101,7 +101,7 @@
                             okText="确定"
                             cancelText="取消"
                         >
-                            <a-button type="danger" size="small">删除订单</a-button>
+                            <a-button type="danger" size="small" v-if="record.orderState=='异常'||record.orderState=='已撤销'">删除订单</a-button>
                         </a-popconfirm>
                     </span>
                 </a-table>

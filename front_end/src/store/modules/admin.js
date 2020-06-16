@@ -10,9 +10,6 @@ import {
     editUserInfoAPI,
     getVipListAPI,
 } from '@/api/admin'
-import{
-    addHotelAPI,
-}from '@/api/hotelManager'
 import { message } from 'ant-design-vue'
 import {changeConfirmLocale} from "ant-design-vue/lib/modal/locale";
 import editUserInfoModal from "../../views/admin/components/editUserInfoModal";
@@ -44,7 +41,6 @@ const admin = {
             password:'',
             userName:'',
             phoneNumber:'',
-            credit:''
         },
         adminHotelList:{
 
@@ -116,7 +112,7 @@ const admin = {
     },
     actions: {
         setHotelManager:async({ state, commit, dispatch },obj) => {
-            console.log(obj.hotelid,obj.managerid)
+            //console.log(obj.hotelid,obj.managerid)
             const res = await setHotelManagerAPI(obj.hotelid,obj.managerid)
             //console.log(hotelid,managerid)
             if(res) {
@@ -132,7 +128,7 @@ const admin = {
                 commit('set_managerList', res)
             }
         },
-        getUserList:async({commit})=>{
+        getUserList:async({state, commit})=>{
             const res= await getUserListAPI()
             if(res){
                 console.log(res)
@@ -181,7 +177,7 @@ const admin = {
         deleteUser: async ({ state, dispatch }, userId) => {
             const res = await deleteUserAPI(userId)
             if(res) {
-                dispatch('getManagerList')
+                dispatch('getUserList')
                 message.success('删除成功')
             }else{
                 message.error('删除失败')
@@ -198,7 +194,7 @@ const admin = {
         },
         //
         editUserInfo:async({ state, commit, dispatch }) => {
-            const res = await editUserInfoAPI(state.editUserInfoParams,state.editUserInfoParams.userid)
+            const res = await editUserInfoAPI(state.editUserInfoParams,state.userid)
             console.log(state.editUserInfoParams)
             if(res) {
                 commit('set_editUserInfoModalVisible', false)

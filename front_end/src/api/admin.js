@@ -5,7 +5,7 @@ const api = {
 export function getManagerListAPI(){
     return axios({
         url: `${api.adminPre}/getAllManagers`,
-        method: 'POST'
+        method: 'GET'
     })
 }
 export function editUserInfoAPI(data,userid){
@@ -18,13 +18,13 @@ export function editUserInfoAPI(data,userid){
 export function getUserListAPI(){
     return axios({
         url: `${api.adminPre}/getAllUsers`,
-        method: 'POST'
+        method: 'GET'
     })
 }
 export function getVipListAPI(){
     return axios({
         url: `${api.adminPre}/getVip`,
-        method: 'POST'
+        method: 'GET'
     })
 }
 export function addManagerAPI(data) {
