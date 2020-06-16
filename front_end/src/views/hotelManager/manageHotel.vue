@@ -52,7 +52,7 @@
                     </span>
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDetail(record)">订单详情</a-button>
-                        <a-divider type="vertical"></a-divider>
+                        <a-divider v-if="record.orderState=='已预订'" type="vertical"></a-divider>
 
                         <a-popconfirm
                                 title="确定想执行该订单吗？"
@@ -73,7 +73,6 @@
                         >
                             <a-button  type="default" size="small">订单逾期</a-button>
                         </a-popconfirm>
-                        <a-divider type="vertical" v-if="record.orderState=='已预订'"></a-divider>
                                                 <a-popconfirm
                                                         title="确定恢复该订单吗？"
                                                         @confirm="RecoverOrder(record)"
@@ -92,16 +91,6 @@
                                 v-if="record.orderState=='已入住'"
                         >
                             <a-button  type="default" size="small">退房</a-button>
-                        </a-popconfirm>
-                        <a-divider type="vertical" v-if="record.orderState=='已入住'"></a-divider>
-
-                        <a-popconfirm
-                            title="确定想删除该订单吗？"
-                            @confirm="deleteOrder(record)"
-                            okText="确定"
-                            cancelText="取消"
-                        >
-                            <a-button type="danger" size="small" v-if="record.orderState=='异常'||record.orderState=='已撤销'">删除订单</a-button>
                         </a-popconfirm>
                     </span>
                 </a-table>
@@ -266,7 +255,6 @@ export default {
             'getHotelList',
             'getHotelDetail',
             'deleteHotelByManager',
-            'deleteOrderByManager',
             'getManagerHotelList',
             'getManagerOrderList',
             // 'getAllOrders',
@@ -297,13 +285,6 @@ export default {
         },
         doDeleteHotel(record){
             this.deleteHotelByManager(record.id)
-        },
-        deleteOrder(record){
-            // 我的删除订单和郭增嘉的撤销订单有冲突，先不写
-            // this.deleteOrderByManager({
-            //     id:record.id
-            //
-            // })
         },
         checkOut(record){
             this.checkOutOrder(record)

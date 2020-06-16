@@ -199,7 +199,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseVO deleteOrder(OrderVO orderVO){
+    public ResponseVO deleteOrder(OrderVO orderVO){ // 网站营销人员的删订单
         double per = orderVO.getPrice();
         int orderid = orderVO.getId();
         Order orderdel = orderMapper.getOrderById(orderid);

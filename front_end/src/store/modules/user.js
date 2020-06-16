@@ -85,10 +85,11 @@ const user = {
     },
 
     actions: {
-        login: async ({ dispatch, commit }, userData) => {
+        login: async ({ state, dispatch, commit }, userData) => {
             const res = await loginAPI(userData)
+            console.log(res)
             if(res){
-                setToken(res.id)
+                setToken(res)
                 commit('set_userId', res.id)
                 dispatch('getUserInfo')
                 router.push('/')

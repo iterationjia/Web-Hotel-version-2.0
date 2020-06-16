@@ -217,7 +217,7 @@ const admin = {
                 })
                 commit('set_addManagerModalVisible', false)
                 message.success('添加成功')
-                dispatch('getManagerList')
+                dispatch('getUserList')
             }else{
                 message.error('添加失败')
             }

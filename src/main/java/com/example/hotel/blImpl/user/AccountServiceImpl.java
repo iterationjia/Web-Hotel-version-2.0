@@ -43,6 +43,7 @@ public class AccountServiceImpl implements AccountService {
         if (null == user || !user.getPassword().equals(userForm.getPassword())) {
             return null;
         }
+        user.setAvatarurl(getUserImg(user.getId()));
         return user;
     }
 
