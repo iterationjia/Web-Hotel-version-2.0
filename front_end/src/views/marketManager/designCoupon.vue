@@ -1,5 +1,5 @@
 <template>
-    <a-modal
+    <a-tabs
             :visible="addCouponVisible"
             title="添加优惠策略"
             cancelText="取消"
@@ -44,7 +44,7 @@
                 />
             </a-form-item>
         </a-form>
-    </a-modal>
+    </a-tabs>
 </template>
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex'
