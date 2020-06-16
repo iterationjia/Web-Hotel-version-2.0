@@ -11,8 +11,14 @@
                 <span slot="price" slot-scope="text">
                     <span>￥{{ text }}</span>
                 </span>
+                <span slot="bedType" slot-scope="text, record">
+                    <span>{{record.roomType=='大床房'?'一张大床':record.roomType=='双床房'?'两张单人床':'一张大床和一张单人床'}}</span>
+                </span>
+                <span slot="peopleNum" slot-scope="text, record">
+                    <span>{{record.roomType=='大床房'?'1或2':record.roomType=='双床房'?'2':'3'}}</span>
+                </span>
                 <span slot="action" slot-scope="text, record">
-                    <a-button type="primary" @click="order(record)">预定</a-button>
+                    <a-button type="primary" :disabled="record.curNum==0" @click="order(record)">预定</a-button>
                 </span>
             </a-table>
         </div>
@@ -32,16 +38,18 @@ const columns = [
       title: '床型',
       dataIndex: 'bedType',
       key: 'bedType',
+      scopedSlots: { customRender: 'bedType'}
     },
     {
-      title: '早餐',
-      dataIndex: 'breakfast',
-      key: 'breakfast',
+      title: '剩余房间',
+      dataIndex: 'curNum',
+      key: 'curNum'
     },
     {
-      title: '入住人数',
+      title: '建议入住人数',
       key: 'peopleNum',
       dataIndex: 'peopleNum',
+      scopedSlots: { customRender: 'peopleNum'}
     },
     {
       title: '房价',

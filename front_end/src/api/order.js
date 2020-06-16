@@ -15,10 +15,29 @@ export function getAllOrdersAPI() {
         method: 'GET',
     })
 }
+export function getManagerOrdersAPI(param) {
+    return axios({
+        url: `${api.orderPre}/${param.managerId}/getManagerOrders`,
+        method: 'GET',
+    })
+}
 export function getUserOrdersAPI(data) {
     return axios({
         url: `${api.orderPre}/${data.userId}/getUserOrders`,
         method: 'GET',
+    })
+}
+export function getUserHotelOrdersAPI(data) {
+    return axios({
+        url: `${api.orderPre}/${data.userId}/${data.hotelId}/getUserHotelOrders`,
+        method: 'GET',
+    })
+}
+export function checkOutAPI(data) {
+    return axios({
+        url: `${api.orderPre}/checkOut`,
+        method: 'POST',
+        data
     })
 }
 export function cancelOrderAPI(orderId) {
@@ -27,3 +46,45 @@ export function cancelOrderAPI(orderId) {
         method: 'GET',
     })
 }
+
+
+export function execOrderAPI(orderId){
+    return axios({
+        url: `${api.orderPre}/${orderId}/execOrder`,
+        method: 'GET',
+
+    })
+}
+export function recoverOrderAPI(orderid){
+    //console.log(orderid)
+    return axios({
+        url: `${api.orderPre}/${orderid}/recoverOrder`,
+        method: 'GET',
+
+    })
+}
+export function setOrderExcepAPI(orderid){
+    //console.log(orderid)
+    return axios({
+        url: `${api.orderPre}/${orderid}/setOrderExcep`,
+        method: 'GET',
+
+    })
+}
+
+export function deleteOrderAPI(data) {
+    return axios({
+        url: `${api.orderPre}/deleteOrder`,
+        method: 'POST',
+        data,
+    })
+}
+
+export function updateUserOrderCommentAPI(data){
+    return axios({
+        url: `${api.orderPre}/updateOrderComment`,
+        method: 'POST',
+        data
+    })
+}
+

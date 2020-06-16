@@ -6,15 +6,36 @@
         insert into Hotel(address,bizRegion,hotelDescription,hotelStar,hotelName,phoneNum,rate,manager_id)
         values (#{address},#{bizRegion},#{description},#{hotelStar},#{hotelName},#{phoneNum},#{rate},#{managerId})
     </insert>
-
+    <update id="editHotel">
+        update Hotel
+        set hotelName=#{name}, address=#{address},hotelStar=#{hotelStar},hotelDescription=#{description},phoneNum=#{phoneNum}
+        where id=#{id}
+    </update>
     <select id="selectAllHotel" resultMap="Hotel">
         select * from Hotel
     </select>
+    <delete id="deleteHotel">
+        delete from Hotel where id=#{hotelid}
+    </delete>
     <select id="selectById" resultMap="Hotel">
         select * from Hotel where id=#{id}
     </select>
-
-
+    <select id="selectManagerHotels" resultMap="Hotel">
+        select * from Hotel where manager_id=#{managerId}
+    </select>
+    <select id="selectSearchedHotel" resultMap="Hotel">
+        select * from Hotel
+        where bizRegion=#{region}
+        and address like concat('%',#{address},'%')
+        and hotelName like concat('%',#{name},'%')
+        and rate&gt;=#{rate0} and rate&lt;=#{rate1}
+    </select>
+    <update id="setTotalMoney">
+        update Hotel set totalmoney=#{totalmoney} where id=#{hotelid}
+    </update>
+    <update id="setHotelManager">
+        update Hotel set manager_id=#{managerid} where id=#{hotelid}
+    </update>
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"></id>
         <result column="address" property="address"></result>
@@ -28,5 +49,12 @@
 
     </resultMap>
 
+    <select id="getCur_rate" resultType="double">
+        select rate from Hotel where id=#{hotelid}
+    </select>
+
+    <update id="updateRate">
+        update Hotel set rate=#{tar_rate} where id=#{hotelid}
+    </update>
 
 </mapper>

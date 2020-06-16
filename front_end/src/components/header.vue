@@ -3,11 +3,10 @@
         <div class="label">
             <img src="@/assets/logo.svg" class="logo" alt="logo" @click="jumpToHome">
             <span class="title">NJUSE 酒店管理系统</span>
-            
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
             <a-menu-item key="1" @click="selectMenu">
-                <router-link to="/hotel/hotelList">
+                <router-link :to="{ name: 'hotelList' }">
                     <a-icon type="home" />首页
                 </router-link>
             </a-menu-item>
@@ -19,16 +18,44 @@
                      <a-icon type="switcher" />酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Admin'">
+            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Manager'">
                 <router-link :to="{ name: 'manageUser'}">
-                     <a-icon type="user" />账户管理
+                     <a-icon type="user" />后台管理
                 </router-link>
             </a-menu-item>
+            <a-sub-menu @click="selectMenu" v-if="userInfo.userType=='MarketManager'">
+                <span slot="title" class="submenu-title-wrapper">
+                    <a-icon type="down-circle" />职责列表
+                </span>
+                <a-menu-item key="5" @click="selectMenu">
+                    <router-link :to="{ name: 'designCoupon'}">
+                        <a-icon type="plus-circle" />添加优惠
+                    </router-link>
+                </a-menu-item>
+                <a-menu-item key="6" @click="selectMenu">
+                    <router-link :to="{ name: 'handleException'}">
+                        <a-icon type="frown" />异常处理
+                    </router-link>
+                </a-menu-item>
+                <a-sub-menu @click="selectMenu">
+                    <span slot="title"><a-icon type="transaction" /><span>充值中心</span></span>
+                    <a-menu-item key="7" @click="selectMenu">
+                        <router-link :to="{ name: 'creditAdder'}">
+                            信用充值
+                        </router-link>
+                    </a-menu-item>
+                    <a-menu-item key="8" @click="selectMenu">
+                        <router-link :to="{ name: 'lvAdder'}">
+                            等级充值
+                        </router-link>
+                    </a-menu-item>
+                </a-sub-menu>
+            </a-sub-menu>
         </a-menu>
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
-                    <a-avatar src="./defaultAvatar.png"></a-avatar>
+                    <a-avatar :src="'data:image/jpeg;base64,'+userInfo.avatarurl" size="large"></a-avatar>
                     <span style="font-size: 14px">{{ userInfo.userName }}</span>
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
                 </div>
@@ -74,6 +101,14 @@ export default {
             this.current = ['2']
         }else if(this.$route.name == 'manageHotel') {
             this.current = ['3']
+        }else if(this.$route.name == 'designCoupon'){
+            this.current = ['5']
+        }else if(this.$route.name == 'handleException'){
+            this.current = ['6']
+        }else if(this.$route.name == 'creditAdder'){
+            this.current = ['7']
+        }else if(this.$route.name == 'lvAdder'){
+            this.current = ['8']
         }else {
             this.current = ['4']
         }
@@ -95,7 +130,6 @@ export default {
             this.$router.push({ name: 'userInfo', params: { userId: this.userId } })
         },
         jumpToHome() {
-
         }
     }
 }

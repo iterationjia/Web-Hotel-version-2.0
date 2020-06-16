@@ -116,6 +116,16 @@
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
+          <a-form-item>
+            <a-radio-group v-model="value" default-value="0" button-style="solid" size="large">
+              <a-radio-button value="0">
+                客户
+              </a-radio-button>
+              <a-radio-button value="1">
+                酒店工作人员
+              </a-radio-button>
+            </a-radio-group>
+          </a-form-item>
            <a-form-item style="margin-top:24px">
             <a-button
               size="large"
@@ -124,7 +134,21 @@
               :loading="registerLoading"
               @click="handleRegister()"
             >确定</a-button>
-          </a-form-item>
+             <a-button
+                     hidden
+                     size="large"
+                     type="danger"
+                     class="login-button"
+                     @click="database()"
+             >修改数据库</a-button>
+             <a-button
+                     hidden
+                     size="large"
+                     type="danger"
+                     class="login-button"
+                     @click="database2()"
+             >修改数据库2</a-button>
+           </a-form-item>
         </a-tab-pane>
       </a-tabs>
     </a-form>
@@ -146,6 +170,7 @@ export default {
       loginLoading: false,
       registerLoading: false,
       form: this.$form.createForm(this),
+      value: 0
     }
   },
   computed: {
@@ -167,7 +192,9 @@ export default {
   methods: {
     ...mapActions([
       'login',
-      'register'
+      'register',
+      'updateDatabase',
+      'updateDatabase2'
       ]),
 
     // handler
@@ -235,9 +262,9 @@ export default {
             email: this.form.getFieldValue('registerUserMail'),
             password: this.form.getFieldValue('registerPassword'),
             phoneNumber: this.form.getFieldValue('registerPhoneNumber'),
-            username: this.form.getFieldValue('registerUsername'),
-            credit: 100,
-            userType: 1
+            userName: this.form.getFieldValue('registerUsername'),
+            credit: 10000,
+            userType: this.value
           }
           await this.register(data).then(() => {
             this.customActiveKey = 'tab1'
@@ -250,7 +277,17 @@ export default {
           this.registerLoading = false
         }
       });
-    }
+    },
+
+    database(){
+      this.updateDatabase()
+    },
+    database2(){
+      this.updateDatabase2()
+    },
+    onChange(e) {
+      console.log(`checked = ${e.target.value}`);
+    },
   }
 }
 </script>

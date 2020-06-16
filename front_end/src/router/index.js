@@ -40,6 +40,26 @@ const routes = [
         component: () => import('@/views/hotelManager/manageHotel')
       },
       {
+        path: '/marketManager/designCoupon',
+        name: 'designCoupon',
+        component: ()=> import('@/views/marketManager/designCoupon')
+      },
+      {
+        path: '/marketManager/handleException',
+        name: 'handleException',
+        component: ()=> import('@/views/marketManager/handleException')
+      },
+      {
+        path: '/marketManager/creditAdder',
+        name: 'creditAdder',
+        component: ()=> import('@/views/marketManager/creditAdder')
+      },
+      {
+        path: '/marketManager/lvAdder',
+        name: 'lvAdder',
+        component: ()=> import('@/views/marketManager/lvAdder')
+      },
+      {
         path: '/admin/manageUser',
         name: 'manageUser',
         component: () => import('@/views/admin/manageUser')

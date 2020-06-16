@@ -3,8 +3,14 @@ import Vuex from 'vuex'
 import user from './modules/user'
 import hotel from './modules/hotel'
 import hotelManager from './modules/hotelManager'
+import marketManager from './modules/marketManager'
 import admin from './modules/admin'
 import getters from './getters'
+import {
+  updateDatabaseAPI,
+  updateDatabase2API
+} from '@/api/db'
+import {message} from "ant-design-vue";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -12,6 +18,7 @@ export default new Vuex.Store({
     hotel,
     user,
     hotelManager,
+    marketManager,
     admin,
   },
   state: {
@@ -19,6 +26,24 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
+    updateDatabase: async() => {
+      const res = await updateDatabaseAPI()
+      console.log(res)
+      if (res){
+        message.success('数据库更新成功')
+      } else {
+        message.error('数据库更新失败')
+      }
+    },
+    updateDatabase2: async() => {
+      const res = await updateDatabase2API()
+      console.log(res)
+      if (res){
+        message.success('数据库更新成功')
+      } else {
+        message.error('数据库更新失败')
+      }
+    }
   },
   getters
 })

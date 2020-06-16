@@ -8,11 +8,13 @@ import {
     registerAPI,
     getUserInfoAPI,
     updateUserInfoAPI,
+    updateAvatarAPI,
 } from '@/api/user'
 
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
+    updateUserOrderCommentAPI
 } from '@/api/order'
 
 const getDefaultState = () => {
@@ -23,12 +25,17 @@ const getDefaultState = () => {
         },
         userOrderList: [
 
-        ]
+        ],
+        userOrderTypeList: [],
+        orderDetailVisible: false,
+        showCommentVisible: false,
+        commentVisible: false,
     }
 }
 
 const user = {
     state : getDefaultState(),
+
 
     mutations: {
         reset_state: function(state) {
@@ -56,17 +63,36 @@ const user = {
         },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
-        }
+        },
+        set_userOrderListType: function(state, data){
+            if (data=='scheduled'){
+                state.userOrderTypeList = this.getters.userScheduledOrderList
+            } else if (data=='executed'){
+                state.userOrderTypeList = this.getters.userExecutedOrderList
+            } else if (data=='error'){
+                state.userOrderTypeList = this.getters.userErrorOrderList
+            }
+        },
+        set_orderDetailVisible: function (state, data) {
+            state.orderDetailVisible = data
+        },
+        set_showCommentVisible: function (state, data) {
+            state.showCommentVisible = data
+        },
+        set_commentVisible: function (state, data) {
+            state.commentVisible = data
+        },
     },
 
     actions: {
-        login: async ({ dispatch, commit }, userData) => {
+        login: async ({ state, dispatch, commit }, userData) => {
             const res = await loginAPI(userData)
+            console.log(res)
             if(res){
-                setToken(res.id)
+                setToken(res)
                 commit('set_userId', res.id)
                 dispatch('getUserInfo')
-                router.push('/hotel/hotelList')
+                router.push('/')
             }
         },
         register: async({ commit }, data) => {
@@ -97,8 +123,27 @@ const user = {
             }
             const res = await updateUserInfoAPI(params)
             if(res){
-                message.success('修改成功')
+                 message.success('修改成功')
                 dispatch('getUserInfo')
+            }
+        },
+        updateUserAvatar: async({state, dispatch}, data) => {
+            const formData = new FormData();
+            formData.append('file',data)
+            const res = await updateAvatarAPI(state.userId, formData)
+            if(res){
+                message.success('上传成功')
+                dispatch('getUserInfo')
+            } else {
+                message.error('上传失败')
+            }
+        },
+
+        //评论
+        updateUserOrderComment: async({state},data) =>{
+            const res = await updateUserOrderCommentAPI(data)
+            if(res){
+                message.success('评论成功')
             }
         },
         getUserOrders: async({ state, commit }) => {
@@ -108,7 +153,8 @@ const user = {
             const res = await getUserOrdersAPI(data)
             if(res){
                 commit('set_userOrderList', res)
-                console.log(state.userOrderList)
+                commit('set_userOrderListType', 'scheduled')
+                //console.log(state.userOrderList)
             }
         },
         cancelOrder: async({ state, dispatch }, orderId) => {

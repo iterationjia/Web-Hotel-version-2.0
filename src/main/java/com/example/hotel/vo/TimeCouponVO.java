@@ -7,6 +7,7 @@ public class TimeCouponVO extends CouponVO {
     private LocalDateTime endTime;
 
     //自行决定是打折还是直接减金额 如果选择打折就把targetMoney变为负数 否则就把discount变为负数
+    //我选择直接减金额
 
     private double discount;
     private Integer targetMoney;

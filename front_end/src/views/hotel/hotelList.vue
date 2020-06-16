@@ -2,7 +2,20 @@
   <div class="hotelList">
     <a-layout>
         <a-layout-content style="min-width: 800px">
-          <a-spin :spinning="hotelListLoading">
+            <a-row>
+                <a-col :span="8" :offset="8">
+                    <a-button @click="showSearchModal" type="primary" style="width: 100%">酒店搜索</a-button>
+                </a-col>
+            </a-row>
+            <br>
+            排序方式：
+            <a-select  @change="sortChange" style="width: 180px">
+<!--                <a-select-option value="default">默认排序</a-select-option>-->
+                <a-select-option value="rate">评分从高到低</a-select-option>
+                <a-select-option value="star">星级从高到低</a-select-option>
+                <a-select-option value="price">价格从低到高</a-select-option>
+            </a-select>
+            <a-spin :spinning="hotelListLoading">
             <div class="card-wrapper">
                 <HotelCard :hotel="item" v-for="item in hotelList" :key="item.index" @click.native="jumpToDetails(item.id)"></HotelCard>
                 <div v-for="item in emptyBox" :key="item.name" class="emptyBox ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3">
@@ -12,24 +25,24 @@
           </a-spin>
       </a-layout-content>
     </a-layout>
+      <SearchModal></SearchModal>
   </div>
 </template>
 <script>
 import HotelCard from './components/hotelCard'
+import SearchModal from "./components/searchModal";
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'home',
   components: {
-    HotelCard
+    HotelCard,
+      SearchModal
   },
   data(){
     return{
       emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}]
     }
-  },
-  async mounted() {
-    await this.getHotelList()
   },
   computed: {
     ...mapGetters([
@@ -37,22 +50,42 @@ export default {
       'hotelListLoading'
     ])
   },
+    async mounted() {
+        await this.getHotelList()
+    },
   methods: {
     ...mapMutations([
       'set_hotelListParams',
-      'set_hotelListLoading'
+      'set_hotelListLoading',
+        'set_hotelListSortedByRate',
+        'set_hotelListSortedByPrice',
+        'set_hotelListSortedByStar',
+        'set_searchModalVisible'
     ]),
-    ...mapActions([
-      'getHotelList'
-    ]),
+      ...mapActions([
+         'getHotelList'
+      ]),
+    sortChange(value){
+        if (value=="rate"){
+            this.set_hotelListSortedByRate()
+        } else if (value=="price"){
+            this.set_hotelListSortedByPrice()
+        } else if (value=="star"){
+            this.set_hotelListSortedByStar()
+        } else {
 
+        }
+    },
+      showSearchModal() {
+        this.set_searchModalVisible(true);
+      },
     pageChange(page, pageSize) {
       const data = {
         pageNo: page - 1
       }
       this.set_hotelListParams(data)
       this.set_hotelListLoading(true)
-      this.getHotelList()
+        // this.getHotelList()
     },
     jumpToDetails(id){
       this.$router.push({ name: 'hotelDetail', params: { hotelId: id }})
