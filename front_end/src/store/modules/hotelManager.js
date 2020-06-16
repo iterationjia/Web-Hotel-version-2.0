@@ -1,9 +1,6 @@
 import {
     addRoomAPI,
     addHotelAPI,
-
-
-
     editHotelAPI,
     updateHotelImgAPI,
     getManagerHotelsAPI,
@@ -13,14 +10,9 @@ import {
     deleteRoomAPI,
 } from '@/api/hotelManager'
 import {
-    getHotelByIdAPI
+    getHotelByIdAPI,
 } from "@/api/hotel";
 import {
-    deleteHotelAPI
-} from "@/api/admin";
-import {
-    getAllOrdersAPI,
-    deleteOrderAPI,
     execOrderAPI,
     checkOutAPI,
     getManagerOrdersAPI,
@@ -95,11 +87,6 @@ const hotelManager = {
         set_addHotelModalVisible: function(state, data) {
             state.addHotelModalVisible = data
         },
-        //work
-        set_execOrderVisible:function(state,data){
-            state.execOrderVisible=data
-        },
-//
         set_addHotelParams: function(state, data) {
             state.addHotelParams = {
                 ...state.addHotelParams,
@@ -138,12 +125,6 @@ const hotelManager = {
         }
     },
     actions: {
-        // getAllOrders: async({ state, commit }) => {
-        //     const res = await getAllOrdersAPI()
-        //     if(res){
-        //         commit('set_orderList', res)
-        //     }
-        // },
         getHotelDetail: async ({state, commit}) => {
             const res = await getHotelByIdAPI({
                 hotelId: state.activeHotelId
@@ -179,15 +160,6 @@ const hotelManager = {
                 message.error('退房失败')
             }
         },
-        deleteHotelByManager: async ({ state, dispatch }, hotelId) => {
-            const res = await deleteHotelAPI(hotelId)
-            if(res) {
-                dispatch('getManagerHotelList')
-                message.success('删除成功')
-            }else{
-                message.error('删除失败')
-            }
-        },
         execOrder: async ({ state, dispatch }, orderId) => {
             const res = await execOrderAPI(orderId)
             if(res) {
@@ -216,12 +188,12 @@ const hotelManager = {
             }else{
                 message.error('操作失败')
             }
-},
-//
+        },
         addHotel: async({ state, dispatch, commit }) => {
             const res = await addHotelAPI(state.addHotelParams)
             if(res){
                 dispatch('getHotelList')
+                dispatch('getManagerHotelList')
                 commit('set_addHotelParams', {
                     name: '',
                     address: '',

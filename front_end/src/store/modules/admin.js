@@ -3,9 +3,7 @@ import {
     addManagerAPI,
     deleteUserAPI,
     getHotelsAPI,
-    deleteHotelAPI,
     setHotelManagerAPI,
-    addCommentTableAPI,
     getUserListAPI,
     editUserInfoAPI,
     getVipListAPI,
@@ -18,8 +16,6 @@ const admin = {
     state: {
         hotelid:0,
         userid:0,
-
-        // HotelId: 0 ,
         managerList: [
 
         ],
@@ -93,12 +89,10 @@ const admin = {
             }
         },
         set_editUserInfoParams: function(state,data){
-            //console.log(state.editUserInfoParams)
             state.editUserInfoParams={
                 ...state.editUserInfoParams,
                 ...data,
             }
-            //console.log(state.editUserInfoParams)
         },
         set_addHotelModalVisible: function(state, data) {
             state.addHotelModalVisible = data
@@ -112,9 +106,7 @@ const admin = {
     },
     actions: {
         setHotelManager:async({ state, commit, dispatch },obj) => {
-            //console.log(obj.hotelid,obj.managerid)
             const res = await setHotelManagerAPI(obj.hotelid,obj.managerid)
-            //console.log(hotelid,managerid)
             if(res) {
                 message.success('设置成功')
                 dispatch('getHotelList')
@@ -135,7 +127,6 @@ const admin = {
                 commit('set_userList',res)
             }
         },
-        //
         getHotelList: async({ state, commit}) => {
             const res = await getHotelsAPI()
            // console.log(res)
@@ -152,28 +143,6 @@ const admin = {
             }
 
         },
-
-        // addHotel: async({ state, dispatch, commit }) => {
-        //     const res = await addHotelAPI(state.addHotelParams)
-        //     //console.log(res)
-        //     if(res){
-        //         commit('set_addHotelParams', {
-        //             name: '',
-        //             address: '',
-        //             bizRegion:'XiDan',
-        //             hotelStar:'',
-        //             rate: 0,
-        //             description:'',
-        //             phoneNum:'',
-        //             managerId:'',
-        //         })
-        //         commit('set_addHotelModalVisible', false)
-        //         message.success('添加成功')
-        //         dispatch('getHotelList')
-        //     }else{
-        //         message.error('添加失败')
-        //     }
-        // },
         deleteUser: async ({ state, dispatch }, userId) => {
             const res = await deleteUserAPI(userId)
             if(res) {
@@ -183,16 +152,7 @@ const admin = {
                 message.error('删除失败')
             }
         },
-        deleteHotel: async ({ state, dispatch }, hotelId) => {
-            const res = await deleteHotelAPI(hotelId)
-            if(res) {
-                dispatch('getHotelList')
-                message.success('删除成功')
-            }else{
-                message.error('删除失败')
-            }
-        },
-        //
+
         editUserInfo:async({ state, commit, dispatch }) => {
             const res = await editUserInfoAPI(state.editUserInfoParams,state.userid)
             console.log(state.editUserInfoParams)

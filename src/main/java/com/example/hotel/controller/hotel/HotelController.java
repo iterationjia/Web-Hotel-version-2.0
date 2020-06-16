@@ -22,7 +22,6 @@ public class HotelController {
 
     @PostMapping("/addHotel")
     public ResponseVO createHotel(@RequestBody HotelVO hotelVO) throws ServiceException {
-
         hotelService.addHotel(hotelVO);
         return ResponseVO.buildSuccess(true);
     }
@@ -94,5 +93,9 @@ public class HotelController {
     @GetMapping("/{hotelId}/comments")
     public ResponseVO retrieveComments(@PathVariable Integer hotelId){
         return ResponseVO.buildSuccess(hotelService.getComments(hotelId));
+    }
+    @PostMapping("/{hotelid}/deleteHotel")
+    public ResponseVO deleteHotel(@PathVariable Integer hotelid){
+        return hotelService.deleteHotel(hotelid);
     }
 }

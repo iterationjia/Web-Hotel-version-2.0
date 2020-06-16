@@ -34,22 +34,13 @@ export function addManagerAPI(data) {
         data
     })
 }
-//
 export function getHotelsAPI() {
     return axios({
         url: `${api.adminPre}/getHotels`,
         method: 'GET'
     })
 }
-export function addHotelAPI(data) {
-    return axios({
-        url: `${api.adminPre}/addHotel`,
-        method: 'POST',
-        data,
-    })
-}
 export function setHotelManagerAPI(hotelid,managerid) {
-   // console.log(hotelid,managerid)
     return axios({
         url: `${api.adminPre}/${hotelid}/${managerid}/setHotelManager`,
         method: 'POST',
@@ -59,13 +50,6 @@ export function setHotelManagerAPI(hotelid,managerid) {
 export function deleteUserAPI(userid) {
     return axios({
         url: `${api.adminPre}/${userid}/deleteUser`,
-        method: 'POST',
-
-    })
-}
-export function deleteHotelAPI(hotelid) {
-    return axios({
-        url: `${api.adminPre}/${hotelid}/deleteHotel`,
         method: 'POST',
 
     })

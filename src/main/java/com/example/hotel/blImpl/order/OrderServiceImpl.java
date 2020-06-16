@@ -245,10 +245,11 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO updateOrderComment(OrderVO orderVO){
         Order order = new Order();
         BeanUtils.copyProperties(orderVO,order);
+        int count=orderMapper.getCommentNum(order.getHotelId());
         orderMapper.updateOrderComment(order.getId(),order.getStar(),order.getComment());
         //orderVO.getHotelId();
         //System.out.println(order.getHotelId());
-        int count=orderMapper.getCommentNum(order.getHotelId());
+        System.out.println(count);
         double cur_rate=hotelMapper.getCur_rate(order.getHotelId());
         int newstar=order.getStar();
         double tar_rate=(cur_rate*count+newstar)/(count+1);

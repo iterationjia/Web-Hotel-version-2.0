@@ -44,3 +44,10 @@ export function getHotelCommentsAPI(data) {
         method: 'GET'
     })
 }
+export function deleteHotelAPI(hotelid) {
+    return axios({
+        url: `${api.hotelPre}/${hotelid}/deleteHotel`,
+        method: 'POST',
+
+    })
+}
