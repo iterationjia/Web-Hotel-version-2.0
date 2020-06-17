@@ -1,6 +1,5 @@
 package com.example.hotel.controller.order;
 
-import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;

@@ -34,8 +34,6 @@ public class OrderServiceImpl implements OrderService {
     HotelService hotelService;
     @Autowired
     AccountService accountService;
-    @Autowired
-    OrderService orderService;
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
@@ -92,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getManagerOrders(Integer managerid){
         List<HotelVO> managerHotels = hotelService.retrieveManagerHotels(managerid);
-        List<Order> managerOrders = orderService.getAllOrders();
+        List<Order> managerOrders = getAllOrders();
         managerOrders = managerOrders.stream().filter(order -> managerHotels.stream().anyMatch(hotelVO -> hotelVO.getId().equals(order.getHotelId()))).collect(Collectors.toList());
         for (int i = 0; i < managerOrders.size(); i++) {
             Order order = managerOrders.get(i);

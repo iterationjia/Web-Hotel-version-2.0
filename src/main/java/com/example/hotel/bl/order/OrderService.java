@@ -22,7 +22,7 @@ public interface OrderService {
     ResponseVO addOrder(OrderVO orderVO);
     ResponseVO setOrderExcep(int orderid);
     ResponseVO recoverOrder(int orderid);
-    //ResponseVO updateOrderComment(OrderVO orderVO);
+
     /**
      * 获得所有订单信息
      * @return
