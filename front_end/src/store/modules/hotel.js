@@ -1,10 +1,10 @@
-    import { message } from 'ant-design-vue'
-import store from '@/store'
+import { message } from 'ant-design-vue'
 import {
     getHotelsAPI,
     getHotelByIdAPI,
     getHotelListBySearchAPI,
     getHotelCommentsAPI,
+    deleteHotelAPI,
 } from '@/api/hotel'
 import {
     reserveHotelAPI,
@@ -164,7 +164,17 @@ const hotel = {
                 console.log(res)
                 commit('set_hotelComments', res)
             }
-        }
+        },
+        deleteHotel: async ({ state, dispatch }, hotelId) => {
+            const res = await deleteHotelAPI(hotelId)
+            if(res) {
+                dispatch('getHotelList')
+                dispatch('getManagerHotelList')
+                message.success('删除成功')
+            }else{
+                message.error('删除失败')
+            }
+        },
     }
 }
 

@@ -2,8 +2,6 @@ package com.example.hotel.controller.admin;
 
 import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.bl.hotel.HotelService;
-import com.example.hotel.blImpl.admin.AdminServiceImpl;
-import com.example.hotel.po.Hotel;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
@@ -61,10 +59,6 @@ public class AdminController {
     public ResponseVO deleteUser(@PathVariable int userid){
     return adminService.deleteUser(userid);
 }
-    @PostMapping("/{hotelid}/deleteHotel")
-    public ResponseVO deleteHotel(@PathVariable Integer hotelid){
-        return hotelService.deleteHotel(hotelid);
-    }
     @PostMapping("/{hotelid}/{managerid}/setHotelManager")
     public ResponseVO setHotelManager(@PathVariable Integer hotelid,@PathVariable int managerid){
 //        System.out.println(hotelid);
