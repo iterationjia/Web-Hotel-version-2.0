@@ -20,6 +20,7 @@ import java.util.Base64;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+
     private final static String ACCOUNT_EXIST = "账号已存在";
     private final static String UPDATE_ERROR = "修改失败";
 
