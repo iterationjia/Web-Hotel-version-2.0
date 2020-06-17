@@ -68,4 +68,9 @@ public class RoomServiceImpl implements RoomService {
     public int deleteRoom(Integer roomId) {
         return roomMapper.deleteRoom(roomId);
     }
+
+    @Override
+    public int getMinPrice(Integer hotelId) {
+        return roomMapper.getMinPrice(hotelId);
+    }
 }

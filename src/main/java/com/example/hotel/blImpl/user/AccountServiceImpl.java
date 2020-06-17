@@ -132,4 +132,13 @@ public class AccountServiceImpl implements AccountService {
         Base64.Encoder encoder = Base64.getEncoder();
         return encoder.encodeToString(data);
     }
+
+    @Override
+    public void updateVip(Integer userId, Double money) {
+        User user = accountMapper.getAccountById(userId);
+        double newMoney = user.getTotalmoney()+money;
+        int newLv = (int) ((newMoney<=10000)?(newMoney/1000):(9+newMoney/10000));
+        accountMapper.setTotalMoney(userId, newMoney);
+        accountMapper.setLv(userId, newLv);
+    }
 }

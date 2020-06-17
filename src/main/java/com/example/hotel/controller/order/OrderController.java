@@ -19,7 +19,6 @@ import java.text.ParseException;
 @RestController()
 @RequestMapping("/api/order")
 public class OrderController {
-    private HotelService hotelService;
     @Autowired
     private OrderService orderService;
 
@@ -41,17 +40,19 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
+    // 获得酒店管理员所管理酒店的全部订单
     @GetMapping("/{managerid}/getManagerOrders")
     public ResponseVO retrieveManagerOrders(@PathVariable Integer managerid){
-        // 检索某个酒店管理员已预订的订单
         return ResponseVO.buildSuccess(orderService.getManagerOrders(managerid));
     }
 
+    // 获得某个用户的全部订单
     @GetMapping("/{userid}/getUserOrders")
     public  ResponseVO retrieveUserOrders(@PathVariable Integer userid){
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
+    // 获得某个用户在某个酒店的订单
     @GetMapping("{userid}/{hotelid}/getUserHotelOrders")
     public ResponseVO retrieveUserHotelOrders(@PathVariable Integer userid, @PathVariable Integer hotelid){
         return ResponseVO.buildSuccess(orderService.getUserHotelOrders(userid,hotelid));
@@ -68,11 +69,9 @@ public class OrderController {
     }
 
     @GetMapping("/{orderid}/execOrder")
-    //
     public ResponseVO execOrder(@PathVariable int orderid){
         return orderService.execOrder(orderid);
     }
-
 
     @PostMapping("/deleteOrder")
     public ResponseVO deleteOrder(@RequestBody OrderVO orderVO){
@@ -83,13 +82,4 @@ public class OrderController {
     public ResponseVO updateOrderComment(@RequestBody OrderVO orderVO){
         return orderService.updateOrderComment(orderVO);
     }
-
-
-    @GetMapping("/{hotelId}/allOrders")
-    //
-    public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
-        return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));
-    }
-
-
 }

@@ -5,8 +5,6 @@ import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.hotel.HotelMapper;
-import com.example.hotel.data.hotel.RoomMapper;
-import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.enums.HotelStar;
 import com.example.hotel.enums.UserType;
@@ -31,19 +29,10 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private HotelMapper hotelMapper;
-
-    @Autowired
-    private RoomMapper roomMapper;
-
-    @Autowired
-    private OrderMapper orderMapper;
-
     @Autowired
     private AccountService accountService;
-
     @Autowired
     private OrderService orderService;
-
     @Autowired
     private RoomService roomService;
 
@@ -69,11 +58,16 @@ public class HotelServiceImpl implements HotelService {
         hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
         hotelMapper.insertHotel(hotel);
     }
+
+    @Override
     public ResponseVO deleteHotel(Integer hotelid) {
         //删除酒店逻辑的具体实现（注意可能有和别的业务类之间的交互）
         //数据库操作
         hotelMapper.deleteHotel(hotelid);
-        roomMapper.deleteHotelRooms(hotelid);
+        List<HotelRoom> hotelRooms =  roomService.retrieveHotelRoomInfo(hotelid);
+        for (HotelRoom hotelRoom: hotelRooms){
+            roomService.deleteRoom(hotelRoom.getId());
+        }
         return ResponseVO.buildSuccess(true);
     }
     @Override
@@ -94,18 +88,19 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelVO> retrieveHotels(int userid) {
+        // userid用来判断酒店是否预定过
         List<HotelVO> allHotels =  hotelMapper.selectAllHotel();
         for (int i=0;i<allHotels.size();i++){
             HotelVO hotelVO = allHotels.get(i);
-            Integer minPrice = roomMapper.getMinPrice(hotelVO.getId());
-            int orderNum = orderMapper.getUserHotelOrderNum(userid, hotelVO.getId());
+            Integer minPrice = roomService.getMinPrice(hotelVO.getId());
+            int orderNum = orderService.getUserHotelOrders(userid,hotelVO.getId()).size();
             if (orderNum==0){
                 hotelVO.setScheduled(false);
             } else {
                 hotelVO.setScheduled(true);
             }
             if (minPrice!=null){
-                hotelVO.setMinPrice(roomMapper.getMinPrice(hotelVO.getId()));
+                hotelVO.setMinPrice(roomService.getMinPrice(hotelVO.getId()));
             } else {
                 hotelVO.setMinPrice(-1);
             }
@@ -124,15 +119,15 @@ public class HotelServiceImpl implements HotelService {
         List<HotelVO> searchedHotelsList = hotelMapper.selectSearchedHotel(region, address, name, star, rate0, rate1);
         for (int i=0;i<searchedHotelsList.size();i++){
             HotelVO hotelVO = searchedHotelsList.get(i);
-            Integer minPrice = roomMapper.getMinPrice(hotelVO.getId());
-            int orderNum = orderMapper.getUserHotelOrderNum(userid, hotelVO.getId());
+            Integer minPrice = roomService.getMinPrice(hotelVO.getId());
+            int orderNum = orderService.getUserHotelOrders(userid, hotelVO.getId()).size();
             if (orderNum==0){
                 hotelVO.setScheduled(false);
             } else {
                 hotelVO.setScheduled(true);
             }
             if (minPrice!=null){
-                hotelVO.setMinPrice(roomMapper.getMinPrice(hotelVO.getId()));
+                hotelVO.setMinPrice(roomService.getMinPrice(hotelVO.getId()));
             } else {
                 hotelVO.setMinPrice(-1);
             }
@@ -170,7 +165,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<CommentVO> getComments(Integer hotelId) {
-        List<Order> hotelOrders = orderMapper.getHotelOrders(hotelId);
+        List<Order> hotelOrders = orderService.getHotelOrders(hotelId);
         List<CommentVO> comments = new ArrayList<CommentVO>();
         for (int i = 0; i<hotelOrders.size(); i++){
             Order order = hotelOrders.get(i);
@@ -234,4 +229,16 @@ public class HotelServiceImpl implements HotelService {
         return encoder.encodeToString(data);
     }
 
+    @Override
+    public void updateTotalMoney(Integer hotelId, Double money) {
+        hotelMapper.updateTotalMoney(hotelId,money);
+    }
+
+    @Override
+    public void updateRate(Integer hotelId, Integer count, Integer newRate) {
+        double cur_rate = hotelMapper.getCur_rate(hotelId);
+        double tar_rate = (cur_rate*count+newRate)/(count+1);
+        tar_rate=(double)Math.round(tar_rate*10)/10;
+        hotelMapper.updateRate(hotelId,tar_rate);
+    }
 }

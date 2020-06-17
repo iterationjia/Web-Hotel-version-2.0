@@ -50,4 +50,5 @@ public interface AccountService {
 
     ResponseVO updateUserImg(MultipartFile file, Integer userId);
     String getUserImg(Integer userId);
+    void updateVip(Integer userId, Double money);
 }

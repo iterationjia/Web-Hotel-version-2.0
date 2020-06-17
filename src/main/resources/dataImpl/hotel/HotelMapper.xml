@@ -33,6 +33,9 @@
     <update id="setTotalMoney">
         update Hotel set totalmoney=#{totalmoney} where id=#{hotelid}
     </update>
+    <update id="updateTotalMoney">
+        update Hotel set totalmoney=totalmoney+#{money} where id=#{hotelid}
+    </update>
     <update id="setHotelManager">
         update Hotel set manager_id=#{managerid} where id=#{hotelid}
     </update>
