@@ -32,7 +32,5 @@ public interface AdminService {
     List<User> getAllManagers();
     List<User> getAllUsers();
     List<User> getVip();
-    //
-    List<HotelVO> getHotels();
 
 }

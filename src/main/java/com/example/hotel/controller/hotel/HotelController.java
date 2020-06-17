@@ -92,4 +92,9 @@ public class HotelController {
     public ResponseVO deleteHotel(@PathVariable Integer hotelid){
         return hotelService.deleteHotel(hotelid);
     }
+
+    @PostMapping("/{hotelid}/{managerid}/setHotelManager")
+    public ResponseVO setHotelManager(@PathVariable Integer hotelid,@PathVariable int managerid){
+        return hotelService.setHotelManager(hotelid,managerid);
+    }
 }

@@ -41,3 +41,9 @@ export function deleteHotelAPI(hotelid) {
 
     })
 }
+export function setHotelManagerAPI(hotelid,managerid) {
+    return axios({
+        url: `${api.hotelPre}/${hotelid}/${managerid}/setHotelManager`,
+        method: 'POST',
+    })
+}

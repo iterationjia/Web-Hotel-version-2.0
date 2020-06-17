@@ -24,10 +24,6 @@
         order by lv desc
 
     </select>
-<!--    <select id="getHotels" resultMap="Hotel">-->
-<!--        select * from hotel-->
-<!--    </select>-->
-
     <delete id="deleteUser">
         delete from User where id=#{userid}
     </delete>

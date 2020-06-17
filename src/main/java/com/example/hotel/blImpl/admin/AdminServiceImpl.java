@@ -67,9 +67,7 @@ public class AdminServiceImpl implements AdminService {
     public List<User> getVip() {
         return adminMapper.getVip();
     }
-    public List<HotelVO> getHotels() {
-        return adminMapper.getHotels();
-    }
+    @Override
     public ResponseVO deleteUser(int userid) {
         //删除用户逻辑的具体实现（注意可能有和别的业务类之间的交互）
         //数据库操作
