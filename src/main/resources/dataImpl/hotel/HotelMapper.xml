@@ -30,9 +30,6 @@
         and hotelName like concat('%',#{name},'%')
         and rate&gt;=#{rate0} and rate&lt;=#{rate1}
     </select>
-    <update id="setTotalMoney">
-        update Hotel set totalmoney=#{totalmoney} where id=#{hotelid}
-    </update>
     <update id="updateTotalMoney">
         update Hotel set totalmoney=totalmoney+#{money} where id=#{hotelid}
     </update>
