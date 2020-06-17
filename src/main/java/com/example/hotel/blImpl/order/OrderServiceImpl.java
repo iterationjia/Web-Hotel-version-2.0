@@ -6,6 +6,7 @@ import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
+import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -195,4 +197,23 @@ public class OrderServiceImpl implements OrderService {
         return ResponseVO.buildSuccess(true);
     }
 
+    @Override
+    public List<CommentVO> getComments(Integer hotelId) {
+        List<Order> hotelOrders = getHotelOrders(hotelId);
+        List<CommentVO> comments = new ArrayList<CommentVO>();
+        for (int i = 0; i<hotelOrders.size(); i++){
+            Order order = hotelOrders.get(i);
+            if ((order.getStar()!=null)&&(order.getComment()!=null)){
+                User user = accountService.getUserInfo(order.getUserId());
+                CommentVO comment = new CommentVO();
+                comment.setAuthor(user.getUserName());
+                comment.setAvatar(accountService.getUserImg(user.getId()));
+                comment.setComment(order.getComment());
+                comment.setStar(order.getStar());
+                comment.setDate(order.getCheckOutDate());
+                comments.add(comment);
+            }
+        }
+        return comments;
+    }
 }

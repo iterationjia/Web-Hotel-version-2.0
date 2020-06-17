@@ -71,6 +71,10 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public int getMinPrice(Integer hotelId) {
-        return roomMapper.getMinPrice(hotelId);
+        try{
+            return roomMapper.getMinPrice(hotelId);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

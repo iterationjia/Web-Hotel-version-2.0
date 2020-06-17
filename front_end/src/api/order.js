@@ -87,4 +87,10 @@ export function updateUserOrderCommentAPI(data){
         data
     })
 }
+export function getCommentsAPI(data) {
+    return axios({
+        url: `${api.orderPre}/${data.hotelId}/comments`,
+        method: 'GET'
+    })
+}
 

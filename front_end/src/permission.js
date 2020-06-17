@@ -10,8 +10,6 @@ router.beforeEach(async(to, from, next) => {
     // determine whether the user has logged in
     const hasToken = getToken()
     if (hasToken) {
-        console.log(hasToken)
-        console.log(hasToken.id)
         store.commit('set_userId', hasToken.id)
         store.commit('set_userInfo', hasToken)
       if (to.path === '/login') {

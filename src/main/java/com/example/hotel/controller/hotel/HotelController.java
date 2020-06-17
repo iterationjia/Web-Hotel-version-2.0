@@ -3,7 +3,6 @@ package com.example.hotel.controller.hotel;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.po.HotelRoom;
-import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +20,14 @@ public class HotelController {
 
 
     @PostMapping("/addHotel")
-    public ResponseVO createHotel(@RequestBody HotelVO hotelVO) throws ServiceException {
+    public ResponseVO createHotel(@RequestBody HotelVO hotelVO){
         hotelService.addHotel(hotelVO);
         return ResponseVO.buildSuccess(true);
     }
 
     @GetMapping("/all")
-    public ResponseVO retrieveAllHotels(@RequestParam Integer userid){
-        return ResponseVO.buildSuccess(hotelService.retrieveHotels(userid));
+    public ResponseVO retrieveAllHotels(){
+        return ResponseVO.buildSuccess(hotelService.retrieveHotels());
     }
 
     @GetMapping("/{managerId}/managerHotels")
@@ -42,9 +41,8 @@ public class HotelController {
                                              @RequestParam String address,
                                              @RequestParam String name,
                                              @RequestParam String star,
-                                             @RequestParam Integer rate0, @RequestParam Integer rate1,
-                                             @RequestParam Integer userid){
-        return ResponseVO.buildSuccess(hotelService.retrieveSearchedHotels(region,address,name,star,rate0,rate1,userid));
+                                             @RequestParam Integer rate0, @RequestParam Integer rate1){
+        return ResponseVO.buildSuccess(hotelService.retrieveSearchedHotels(region,address,name,star,rate0,rate1));
     }
 
     @PostMapping("/roomInfo")
@@ -90,10 +88,6 @@ public class HotelController {
         return ResponseVO.buildSuccess(roomService.deleteRoom(roomId));
     }
 
-    @GetMapping("/{hotelId}/comments")
-    public ResponseVO retrieveComments(@PathVariable Integer hotelId){
-        return ResponseVO.buildSuccess(hotelService.getComments(hotelId));
-    }
     @PostMapping("/{hotelid}/deleteHotel")
     public ResponseVO deleteHotel(@PathVariable Integer hotelid){
         return hotelService.deleteHotel(hotelid);

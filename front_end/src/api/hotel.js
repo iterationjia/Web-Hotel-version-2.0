@@ -2,13 +2,10 @@ import { axios } from '@/utils/request'
 const api = {
     hotelPre: '/api/hotel'
 }
-export function getHotelsAPI(userid) {
+export function getHotelsAPI() {
     return axios({
         url: `${api.hotelPre}/all`,
         method: 'get',
-        params: {
-            userid: userid
-        }
     })
 }
 export function getHotelByIdAPI(param) {
@@ -17,7 +14,7 @@ export function getHotelByIdAPI(param) {
         method: 'GET',
     })
 }
-export function getHotelListBySearchAPI(data,userid){
+export function getHotelListBySearchAPI(data){
     return axios({
         url: `${api.hotelPre}/search`,
         method: 'GET',
@@ -28,7 +25,6 @@ export function getHotelListBySearchAPI(data,userid){
             star: data.star,
             rate0: data.rate[0],
             rate1: data.rate[1],
-            userid: userid
         }
     })
 }
@@ -36,12 +32,6 @@ export function changeHotelTotalMoneyAPI(hotelId,price) {
     return axios({
         url: `${api.hotelPre}/${hotelId}/${price}/changeHotelTotalMoney`,
         method: 'POST',
-    })
-}
-export function getHotelCommentsAPI(data) {
-    return axios({
-        url: `${api.hotelPre}/${data.hotelId}/comments`,
-        method: 'GET'
     })
 }
 export function deleteHotelAPI(hotelid) {

@@ -3,12 +3,12 @@ import {
     getHotelsAPI,
     getHotelByIdAPI,
     getHotelListBySearchAPI,
-    getHotelCommentsAPI,
     deleteHotelAPI,
 } from '@/api/hotel'
 import {
     reserveHotelAPI,
-    getUserHotelOrdersAPI
+    getUserHotelOrdersAPI,
+    getCommentsAPI,
 } from '@/api/order'
 import {
     orderMatchCouponsAPI,
@@ -62,7 +62,6 @@ const hotel = {
                 } else {
                     return 0
                 }
-                // return a.hotelStar>b.hotelStar
             })
         },
         set_hotelListParams: function(state, data) {
@@ -110,14 +109,35 @@ const hotel = {
         getHotelList: async({commit, state, getters}) => {
             const res = await getHotelsAPI(getters.userId)
             if(res){
+                for (var i = 0; i<res.length; i++) {
+                    const n_res = await getUserHotelOrdersAPI({
+                        hotelId: res[i].id,
+                        userId: getters.userId
+                    })
+                    if (n_res.length > 0) {
+                        res[i]["scheduled"] = true
+                    } else {
+                        res[i]["scheduled"] = false
+                    }
+                }
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
             }
         },
         getHotelListBySearch: async ({commit, state, getters}, data) => {
             const res = await getHotelListBySearchAPI(data,getters.userId)
-            console.log(res)
             if(res){
+                for (var i = 0; i<res.length; i++) {
+                    const n_res = await getUserHotelOrdersAPI({
+                        hotelId: res[i].id,
+                        userId: getters.userId
+                    })
+                    if (n_res.length > 0) {
+                        res[i]["scheduled"] = true
+                    } else {
+                        res[i]["scheduled"] = false
+                    }
+                }
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
                 commit('set_searchModalVisible', false)
@@ -157,11 +177,10 @@ const hotel = {
             }
         },
         getHotelComments: async ({state, commit}) => {
-            const res = await getHotelCommentsAPI({
+            const res = await getCommentsAPI({
                 hotelId: state.currentHotelId
             })
             if (res) {
-                console.log(res)
                 commit('set_hotelComments', res)
             }
         },

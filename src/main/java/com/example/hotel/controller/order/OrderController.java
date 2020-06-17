@@ -81,4 +81,9 @@ public class OrderController {
     public ResponseVO updateOrderComment(@RequestBody OrderVO orderVO){
         return orderService.updateOrderComment(orderVO);
     }
+
+    @GetMapping("/{hotelId}/comments")
+    public ResponseVO retrieveComments(@PathVariable Integer hotelId){
+        return ResponseVO.buildSuccess(orderService.getComments(hotelId));
+    }
 }

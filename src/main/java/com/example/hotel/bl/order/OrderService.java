@@ -1,12 +1,12 @@
 package com.example.hotel.bl.order;
 
 import com.example.hotel.po.Order;
+import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @Author: chenyizong
@@ -58,4 +58,5 @@ public interface OrderService {
     ResponseVO deleteOrder(OrderVO orderVO);
 
     ResponseVO updateOrderComment(OrderVO orderVO);
+    List<CommentVO> getComments(Integer hotelId);
 }
