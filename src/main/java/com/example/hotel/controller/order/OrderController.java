@@ -8,13 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
-
-/**
- * @Author: chenyizong
- * @Date: 2020-02-29
- */
-
-
 @RestController()
 @RequestMapping("/api/order")
 public class OrderController {
@@ -57,6 +50,7 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getUserHotelOrders(userid,hotelid));
     }
 
+    //用户撤销自己的订单
     @GetMapping("/{orderid}/annulOrder")
     public ResponseVO annulOrder(@PathVariable int orderid) throws ParseException {
         return orderService.annulOrder(orderid);
@@ -72,6 +66,7 @@ public class OrderController {
         return orderService.execOrder(orderid);
     }
 
+    //网站营销人员删除订单
     @PostMapping("/deleteOrder")
     public ResponseVO deleteOrder(@RequestBody OrderVO orderVO){
         return orderService.deleteOrder(orderVO);

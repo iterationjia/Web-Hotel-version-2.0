@@ -2,7 +2,6 @@ package com.example.hotel.blImpl.db;
 
 import com.example.hotel.bl.db.DbService;
 import com.example.hotel.data.db.DbMapper;
-import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

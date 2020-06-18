@@ -6,10 +6,6 @@ import com.example.hotel.vo.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * @Author: chenyizong
- * @Date: 2020-03-04
- */
 @RestController()
 @RequestMapping("/api/admin")
 public class AdminController {
