@@ -24,11 +24,13 @@ public class CouponServiceImpl implements CouponService {
     public CouponServiceImpl(TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy,
                              TimeCouponStrategyImpl timeCouponStrategy,
                              MemberCouponStrategyImpl memberCouponStrategy,
+                             ManyHousesCouponImpl manyHousesCoupon,
                              CouponMapper couponMapper) {
         this.couponMapper = couponMapper;
         strategyList.add(targetMoneyCouponStrategy);
         strategyList.add(timeCouponStrategy);
         strategyList.add(memberCouponStrategy);
+        strategyList.add(manyHousesCoupon);
     }
 
 
@@ -90,6 +92,21 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CouponVO addMemberCoupon(MemberCouponVO couponVO) {
+        Coupon coupon = new Coupon();
+        coupon.setCouponName(couponVO.getName());
+        coupon.setDescription(couponVO.getDescription());
+        coupon.setCouponType(couponVO.getType());
+        coupon.setTargetMoney(couponVO.getTargetMoney());
+        coupon.setHotelId(couponVO.getHotelId());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        coupon.setStatus(1);
+        int result = couponMapper.insertCoupon(coupon);
+        couponVO.setId(result);
+        return couponVO;
+    }
+
+    @Override
+    public CouponVO addManyHousesCoupon(ManyHousesCouponVO couponVO) {
         Coupon coupon = new Coupon();
         coupon.setCouponName(couponVO.getName());
         coupon.setDescription(couponVO.getDescription());

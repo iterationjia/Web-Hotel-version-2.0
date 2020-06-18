@@ -36,6 +36,14 @@ public class CouponController {
         return ResponseVO.buildSuccess(couponVO);
     }
 
+    @PostMapping("/manyHouses")
+    public ResponseVO addManyHousesCoupon(@RequestBody ManyHousesCouponVO manyHousesCouponVO) {
+
+        CouponVO couponVO = couponService.addManyHousesCoupon(manyHousesCouponVO);
+
+        return ResponseVO.buildSuccess(couponVO);
+    }
+
     @GetMapping("/hotelAllCoupons")
     public ResponseVO getHotelAllCoupons(@RequestParam Integer hotelId) {
         return ResponseVO.buildSuccess(couponService.getHotelAllCoupon(hotelId));
