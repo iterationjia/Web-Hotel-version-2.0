@@ -1,14 +1,17 @@
 import {
-    getAllOrdersAPI,
     deleteOrderAPI,
 } from '@/api/order'
-import { message } from 'ant-design-vue'
-
 import {
     creditSetAPI,
     lvSetAPI,
     getAccountByEmailAPI
 } from "@/api/user";
+import{
+    getCouponListAPI,
+    deleteCouponAPI,
+}from'@/api/coupon';
+import { message } from 'ant-design-vue'
+
 
 const marketManager = {
     state: {
@@ -16,6 +19,7 @@ const marketManager = {
         userCredit: 0,
         userlv: 0,
         totalmoney: 0,
+        couponList:[],
     },
     mutations: {
         set_orderList: function(state, data) {
@@ -29,15 +33,19 @@ const marketManager = {
         },
         set_userTotalMoney : function (state,data) {
             state.totalmoney = data
-        }
+        },
+        set_couponList:function (state,data) {
+            state.couponList = data
+        },
     },
     actions: {
-        getAllOrders: async({ state, commit}) => {
-            const res = await getAllOrdersAPI()
+        getCouponList: async({ state, commit}) => {
+            const res = await getCouponListAPI()
             if(res){
-                commit('set_orderList', res)
+                commit('set_couponList', res)
             }
         },
+
         deleteOrder: async({state,dispatch}, data) => {
             //console.log(data)
             const res = await deleteOrderAPI(data)
@@ -47,6 +55,16 @@ const marketManager = {
                 message.success('撤销成功')
             }else{
                 message.error('撤销失败')
+            }
+        },
+
+        deleteCoupon: async({state,dispatch}, data) => {
+            const res = await deleteCouponAPI(data)
+            if(res) {
+                dispatch('getCouponList')
+                message.success('删除成功')
+            }else{
+                message.error('删除失败')
             }
         },
 

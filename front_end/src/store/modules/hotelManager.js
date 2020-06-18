@@ -300,6 +300,7 @@ const hotelManager = {
                 commit('set_addCouponVisible', false)
                 commit('set_couponVisible', true)
                 dispatch('getHotelCoupon')
+                dispatch('getCouponList')
             }else{
                 // 添加失败后的操作
                 message.error('添加失败')

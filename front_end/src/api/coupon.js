@@ -25,3 +25,18 @@ export function orderMatchCouponsAPI(params) {
         params,
     })
 }
+
+export function getCouponListAPI(){
+    return axios({
+        url: `${api.couponPre}/getCouponList`,
+        method: 'GET'
+    })
+}
+
+export function deleteCouponAPI(couponid) {
+    return axios({
+        url: `${api.couponPre}/${couponid}/deleteCoupon`,
+        method: 'POST',
+
+    })
+}

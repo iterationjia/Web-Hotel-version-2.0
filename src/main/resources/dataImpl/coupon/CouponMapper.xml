@@ -9,9 +9,16 @@
     </insert>
 
     <select id="selectByHotelId" resultMap="Coupon">
-        select * from Coupon where hotelId=#{hotelId}
+        select * from coupon where hotelId=#{hotelId}
     </select>
 
+    <select id="getCouponList" resultMap="Coupon">
+        select * from coupon where hotelId=0
+    </select>
+
+    <delete id="deleteCoupon">
+        delete from coupon where id=#{couponid}
+    </delete>
 
     <resultMap id="Coupon" type="com.example.hotel.po.Coupon">
         <result column="description" property="description"></result>
