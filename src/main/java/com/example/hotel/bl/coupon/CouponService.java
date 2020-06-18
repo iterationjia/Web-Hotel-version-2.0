@@ -26,6 +26,8 @@ public interface CouponService {
      * @param couponVO
      * @return
      */
+    List<Coupon> getAllAvailableCoupon(Integer hotelId);
+
     CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO);
 
     /**
@@ -49,7 +51,7 @@ public interface CouponService {
      */
     CouponVO addManyHousesCoupon(ManyHousesCouponVO couponVO);
 
-    List<User> getCouponList();
+    List<Coupon> getCouponList();
 
     ResponseVO deleteCoupon(int couponId);
 }

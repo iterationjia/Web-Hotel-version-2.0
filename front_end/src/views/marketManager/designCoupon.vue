@@ -5,7 +5,7 @@
         </div>
         <a-table
                 :columns="columns"
-                :dataSource="couponList"
+                :dataSource="websiteCouponList"
                 bordered
         >
                 <span slot="couponType" slot-scope="value">
@@ -75,13 +75,13 @@
         },
         computed: {
             ...mapGetters([
-                'couponList',
+                'websiteCouponList',
                 'couponVisible',
                 'addCouponVisible',
             ]),
         },
         mounted() {
-            this.getCouponList()
+            this.getWebsiteCouponList()
         },
         methods: {
             ...mapMutations([
@@ -89,7 +89,7 @@
                 'set_addCouponVisible',
             ]),
             ...mapActions([
-                'getCouponList',
+                'getWebsiteCouponList',
                 'deleteCoupon',
             ]),
             addCoupon(){

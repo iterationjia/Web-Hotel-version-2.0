@@ -67,7 +67,7 @@ public class CouponController {
     }
 
     @GetMapping("/getCouponList")
-    public ResponseVO getCouponList(){
+    public ResponseVO getWebsiteCouponList(){
         return ResponseVO.buildSuccess(couponService.getCouponList());
     }
 
