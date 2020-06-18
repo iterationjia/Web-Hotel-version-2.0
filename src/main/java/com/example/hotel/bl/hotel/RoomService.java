@@ -40,4 +40,5 @@ public interface RoomService {
     int editRoomTotal(Integer roomId, Integer val);
     int editRoomCurNum(Integer roomId, Integer val);
     int deleteRoom(Integer roomId);
+    int getMinPrice(Integer hotelId);
 }

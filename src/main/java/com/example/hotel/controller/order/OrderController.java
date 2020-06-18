@@ -1,6 +1,5 @@
 package com.example.hotel.controller.order;
 
-import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
@@ -9,17 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
-
-/**
- * @Author: chenyizong
- * @Date: 2020-02-29
- */
-
-
 @RestController()
 @RequestMapping("/api/order")
 public class OrderController {
-    private HotelService hotelService;
     @Autowired
     private OrderService orderService;
 
@@ -41,22 +32,25 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
+    // 获得酒店管理员所管理酒店的全部订单
     @GetMapping("/{managerid}/getManagerOrders")
     public ResponseVO retrieveManagerOrders(@PathVariable Integer managerid){
-        // 检索某个酒店管理员已预订的订单
         return ResponseVO.buildSuccess(orderService.getManagerOrders(managerid));
     }
 
+    // 获得某个用户的全部订单
     @GetMapping("/{userid}/getUserOrders")
     public  ResponseVO retrieveUserOrders(@PathVariable Integer userid){
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
+    // 获得某个用户在某个酒店的订单
     @GetMapping("{userid}/{hotelid}/getUserHotelOrders")
     public ResponseVO retrieveUserHotelOrders(@PathVariable Integer userid, @PathVariable Integer hotelid){
         return ResponseVO.buildSuccess(orderService.getUserHotelOrders(userid,hotelid));
     }
 
+    //用户撤销自己的订单
     @GetMapping("/{orderid}/annulOrder")
     public ResponseVO annulOrder(@PathVariable int orderid) throws ParseException {
         return orderService.annulOrder(orderid);
@@ -68,12 +62,11 @@ public class OrderController {
     }
 
     @GetMapping("/{orderid}/execOrder")
-    //
     public ResponseVO execOrder(@PathVariable int orderid){
         return orderService.execOrder(orderid);
     }
 
-
+    //网站营销人员删除订单
     @PostMapping("/deleteOrder")
     public ResponseVO deleteOrder(@RequestBody OrderVO orderVO){
         return orderService.deleteOrder(orderVO);
@@ -84,12 +77,8 @@ public class OrderController {
         return orderService.updateOrderComment(orderVO);
     }
 
-
-    @GetMapping("/{hotelId}/allOrders")
-    //
-    public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
-        return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));
+    @GetMapping("/{hotelId}/comments")
+    public ResponseVO retrieveComments(@PathVariable Integer hotelId){
+        return ResponseVO.buildSuccess(orderService.getComments(hotelId));
     }
-
-
 }

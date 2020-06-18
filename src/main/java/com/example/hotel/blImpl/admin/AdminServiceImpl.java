@@ -2,32 +2,20 @@ package com.example.hotel.blImpl.admin;
 
 import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.data.admin.AdminMapper;
-import com.example.hotel.data.db.DbMapper;
 import com.example.hotel.enums.UserType;
-import com.example.hotel.po.Order;
-import com.example.hotel.po.Hotel;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
-import com.example.hotel.vo.HotelVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-/**
- * @Author: chenyizong
- * @Date: 2020-03-04
- */
 @Service
 public class AdminServiceImpl implements AdminService {
     private final static String ACCOUNT_EXIST = "账号已存在";
     @Autowired
     AdminMapper adminMapper;
-    @Autowired
-    DbMapper dbMapper;
     @Override
     public ResponseVO addManager(UserForm userForm) {
         User user = new User();
@@ -74,9 +62,7 @@ public class AdminServiceImpl implements AdminService {
     public List<User> getVip() {
         return adminMapper.getVip();
     }
-    public List<HotelVO> getHotels() {
-        return adminMapper.getHotels();
-    }
+    @Override
     public ResponseVO deleteUser(int userid) {
         //删除用户逻辑的具体实现（注意可能有和别的业务类之间的交互）
         //数据库操作

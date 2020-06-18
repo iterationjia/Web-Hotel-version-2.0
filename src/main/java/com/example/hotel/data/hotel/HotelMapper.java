@@ -32,8 +32,6 @@ public interface HotelMapper {
 
     int setHotelManager(@Param("hotelid")Integer hotelid,
                         @Param("managerid")int managerid);
-    int setTotalMoney(@Param("hotelid")Integer hotelid,
-                        @Param("totalmoney")double totalmoney);
 
     int editHotel(@Param("id") Integer id,
                   @Param("name") String name,
@@ -44,4 +42,5 @@ public interface HotelMapper {
 
     double getCur_rate(@Param("hotelid")Integer hotelid);
     int updateRate(@Param("hotelid")Integer hotelid,@Param("tar_rate")double tar_rate);
+    void updateTotalMoney(@Param("hotelid") Integer hotelid, @Param("money")double money);
 }

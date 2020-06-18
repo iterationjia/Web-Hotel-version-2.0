@@ -2,15 +2,15 @@ import {
     getManagerListAPI,
     addManagerAPI,
     deleteUserAPI,
-    getHotelsAPI,
-    setHotelManagerAPI,
     getUserListAPI,
     editUserInfoAPI,
     getVipListAPI,
 } from '@/api/admin'
+import {
+    getHotelsAPI,
+    setHotelManagerAPI,
+} from '@/api/hotel'
 import { message } from 'ant-design-vue'
-import {changeConfirmLocale} from "ant-design-vue/lib/modal/locale";
-import editUserInfoModal from "../../views/admin/components/editUserInfoModal";
 
 const admin = {
     state: {
@@ -129,9 +129,7 @@ const admin = {
         },
         getHotelList: async({ state, commit}) => {
             const res = await getHotelsAPI()
-           // console.log(res)
             if(res){
-
                 commit('set_HotelList', res)
             }
         },

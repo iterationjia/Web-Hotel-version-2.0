@@ -2,8 +2,6 @@ package com.example.hotel.blImpl.coupon;
 
 import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.po.Coupon;
-import com.example.hotel.vo.CouponVO;
-import com.example.hotel.vo.HotelTargetMoneyCouponVO;
 import com.example.hotel.vo.OrderVO;
 import org.springframework.stereotype.Service;
 

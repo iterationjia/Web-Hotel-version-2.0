@@ -15,11 +15,6 @@
         <a-tag color="blue" slot="orderState" slot-scope="text">
             {{ text }}
         </a-tag>
-        <span slot="action" slot-scope="record">
-            <a-button @click="showOrderDetail" size="small" type="primary">订单详情</a-button>
-            <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
-            <a-divider type="vertical" v-else-if="record.orderState == '已执行'"></a-divider>
-        </span>
     </a-table>
 </template>
 
@@ -59,13 +54,7 @@
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState',
             scopedSlots: { customRender: 'orderState' }
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: { customRender: 'action' },
-        },
-
+        }
     ];
     export default {
         name: "hotelOrderList",

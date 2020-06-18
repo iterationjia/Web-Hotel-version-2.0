@@ -56,7 +56,6 @@ export function execOrderAPI(orderId){
     })
 }
 export function recoverOrderAPI(orderid){
-    //console.log(orderid)
     return axios({
         url: `${api.orderPre}/${orderid}/recoverOrder`,
         method: 'GET',
@@ -64,7 +63,6 @@ export function recoverOrderAPI(orderid){
     })
 }
 export function setOrderExcepAPI(orderid){
-    //console.log(orderid)
     return axios({
         url: `${api.orderPre}/${orderid}/setOrderExcep`,
         method: 'GET',
@@ -85,6 +83,12 @@ export function updateUserOrderCommentAPI(data){
         url: `${api.orderPre}/updateOrderComment`,
         method: 'POST',
         data
+    })
+}
+export function getCommentsAPI(data) {
+    return axios({
+        url: `${api.orderPre}/${data.hotelId}/comments`,
+        method: 'GET'
     })
 }
 
