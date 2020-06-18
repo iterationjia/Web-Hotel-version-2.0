@@ -12,6 +12,10 @@
         select * from coupon where hotelId=#{hotelId}
     </select>
 
+    <select id="selectAvailableCoupon" resultMap="Coupon">
+        select * from coupon where hotelId=#{hotelId} or hotelId=0
+    </select>
+
     <select id="getCouponList" resultMap="Coupon">
         select * from coupon where hotelId=0
     </select>

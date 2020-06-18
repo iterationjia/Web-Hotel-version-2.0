@@ -15,7 +15,9 @@ public interface CouponMapper {
 
     List<Coupon> selectByHotelId(Integer hotelId);
 
-    List<User> getCouponList();
+    List<Coupon> selectAvailableCoupon(Integer hotelId);
+
+    List<Coupon> getCouponList();
 
     int deleteCoupon(@Param("couponid")int couponid);
 }

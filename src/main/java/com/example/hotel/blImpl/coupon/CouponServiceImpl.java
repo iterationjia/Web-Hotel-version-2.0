@@ -39,7 +39,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public List<Coupon> getMatchOrderCoupon(OrderVO orderVO) {
 
-        List<Coupon> hotelCoupons = getHotelAllCoupon(orderVO.getHotelId());
+        List<Coupon> hotelCoupons = getAllAvailableCoupon(orderVO.getHotelId());
 
         List<Coupon> availAbleCoupons = new ArrayList<>();
 
@@ -58,6 +58,12 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupon> getHotelAllCoupon(Integer hotelId) {
         List<Coupon> hotelCoupons = couponMapper.selectByHotelId(hotelId);
         return hotelCoupons;
+    }
+
+    @Override
+    public List<Coupon> getAllAvailableCoupon(Integer hotelId) {
+        List<Coupon> availableCoupons = couponMapper.selectAvailableCoupon(hotelId);
+        return availableCoupons;
     }
 
     @Override
@@ -122,7 +128,7 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public List<User> getCouponList(){
+    public List<Coupon> getCouponList(){
 
         return couponMapper.getCouponList();
 

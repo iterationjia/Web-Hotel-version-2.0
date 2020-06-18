@@ -7,7 +7,7 @@ import {
     getAccountByEmailAPI
 } from "@/api/user";
 import{
-    getCouponListAPI,
+    getWebsiteCouponListAPI,
     deleteCouponAPI,
 }from'@/api/coupon';
 import { message } from 'ant-design-vue'
@@ -19,7 +19,7 @@ const marketManager = {
         userCredit: 0,
         userlv: 0,
         totalmoney: 0,
-        couponList:[],
+        websiteCouponList:[],
     },
     mutations: {
         set_orderList: function(state, data) {
@@ -34,15 +34,15 @@ const marketManager = {
         set_userTotalMoney : function (state,data) {
             state.totalmoney = data
         },
-        set_couponList:function (state,data) {
-            state.couponList = data
+        set_websiteCouponList:function (state,data) {
+            state.websiteCouponList = data
         },
     },
     actions: {
-        getCouponList: async({ state, commit}) => {
-            const res = await getCouponListAPI()
+        getWebsiteCouponList: async({ state, commit}) => {
+            const res = await getWebsiteCouponListAPI()
             if(res){
-                commit('set_couponList', res)
+                commit('set_websiteCouponList', res)
             }
         },
 
@@ -61,7 +61,7 @@ const marketManager = {
         deleteCoupon: async({state,dispatch}, data) => {
             const res = await deleteCouponAPI(data)
             if(res) {
-                dispatch('getCouponList')
+                dispatch('getWebsiteCouponList')
                 message.success('删除成功')
             }else{
                 message.error('删除失败')

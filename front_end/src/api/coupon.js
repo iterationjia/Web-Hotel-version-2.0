@@ -26,7 +26,7 @@ export function orderMatchCouponsAPI(params) {
     })
 }
 
-export function getCouponListAPI(){
+export function getWebsiteCouponListAPI(){
     return axios({
         url: `${api.couponPre}/getCouponList`,
         method: 'GET'

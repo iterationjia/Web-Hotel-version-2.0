@@ -13,7 +13,7 @@
         </div>
         <a-table
                 :columns="columns"
-                :dataSource="couponList"
+                :dataSource="hotelCouponList"
         >
             <span slot="couponType" slot-scope="value">
                 <a-tag color="red" v-if="value==1">会员特惠</a-tag>
@@ -31,7 +31,6 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddCoupon from './addCoupon'
 
 const columns = [
-    // 这里定义列表头
     {
         title: '优惠类型',
         dataIndex: 'couponType',
@@ -63,7 +62,7 @@ export default {
     computed: {
         ...mapGetters([
             'couponVisible',
-            'couponList',
+            'hotelCouponList',
         ])
     },
     methods: {
