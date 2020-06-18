@@ -105,6 +105,87 @@
                             hotelId: 0
                         }
                         this.addHotelCoupon(data)
+                        /*const data1 = {
+                            type: this.form.getFieldValue('couponType'),
+                            name: this.form.getFieldValue('couponName'),
+                            description: this.form.getFieldValue('description'),
+                            targetMoney: this.form.getFieldValue('targetMoney'),
+                            discountMoney: this.form.getFieldValue('discountMoney'),
+                            hotelId: 2
+                        }
+                        this.addHotelCoupon(data1)
+                        const data2 = {
+                            type: this.form.getFieldValue('couponType'),
+                            name: this.form.getFieldValue('couponName'),
+                            description: this.form.getFieldValue('description'),
+                            targetMoney: this.form.getFieldValue('targetMoney'),
+                            discountMoney: this.form.getFieldValue('discountMoney'),
+                            hotelId: 3
+                        }
+                        this.addHotelCoupon(data2)
+                        const data3 = {
+                            type: this.form.getFieldValue('couponType'),
+                            name: this.form.getFieldValue('couponName'),
+                            description: this.form.getFieldValue('description'),
+                            targetMoney: this.form.getFieldValue('targetMoney'),
+                            discountMoney: this.form.getFieldValue('discountMoney'),
+                            hotelId: 4
+                        }
+                        this.addHotelCoupon(data3)
+                        const data4 = {
+                            type: this.form.getFieldValue('couponType'),
+                            name: this.form.getFieldValue('couponName'),
+                            description: this.form.getFieldValue('description'),
+                            targetMoney: this.form.getFieldValue('targetMoney'),
+                            discountMoney: this.form.getFieldValue('discountMoney'),
+                            hotelId: 5
+                        }
+                        this.addHotelCoupon(data4)
+                        const data5 = {
+                            type: this.form.getFieldValue('couponType'),
+                            name: this.form.getFieldValue('couponName'),
+                            description: this.form.getFieldValue('description'),
+                            targetMoney: this.form.getFieldValue('targetMoney'),
+                            discountMoney: this.form.getFieldValue('discountMoney'),
+                            hotelId: 6
+                        }
+                        this.addHotelCoupon(data5)
+                        const data6 = {
+                            type: this.form.getFieldValue('couponType'),
+                            name: this.form.getFieldValue('couponName'),
+                            description: this.form.getFieldValue('description'),
+                            targetMoney: this.form.getFieldValue('targetMoney'),
+                            discountMoney: this.form.getFieldValue('discountMoney'),
+                            hotelId: 7
+                        }
+                        this.addHotelCoupon(data6)
+                        const data7 = {
+                            type: this.form.getFieldValue('couponType'),
+                            name: this.form.getFieldValue('couponName'),
+                            description: this.form.getFieldValue('description'),
+                            targetMoney: this.form.getFieldValue('targetMoney'),
+                            discountMoney: this.form.getFieldValue('discountMoney'),
+                            hotelId: 8
+                        }
+                        this.addHotelCoupon(data7)
+                        const data8 = {
+                            type: this.form.getFieldValue('couponType'),
+                            name: this.form.getFieldValue('couponName'),
+                            description: this.form.getFieldValue('description'),
+                            targetMoney: this.form.getFieldValue('targetMoney'),
+                            discountMoney: this.form.getFieldValue('discountMoney'),
+                            hotelId: 9
+                        }
+                        this.addHotelCoupon(data8)
+                        const data9 = {
+                            type: this.form.getFieldValue('couponType'),
+                            name: this.form.getFieldValue('couponName'),
+                            description: this.form.getFieldValue('description'),
+                            targetMoney: this.form.getFieldValue('targetMoney'),
+                            discountMoney: this.form.getFieldValue('discountMoney'),
+                            hotelId: 10
+                        }
+                        this.addHotelCoupon(data9)*/
                     }
                 });
             },
