@@ -21,31 +21,13 @@ public class TimeCouponStrategyImpl implements CouponMatchStrategy {
      */
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
-<<<<<<< HEAD
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-        String time1 = "2020-06-11 00:00:00";
-        String time2 = "2020-11-17 00:00:00";
-        //LocalDateTime start1= LocalDateTime.of(2020,11,11);
-        //LocalDateTime end1= LocalDateTime.of(2020,11,17);
-        //String st=orderVO.getCheckInDate();
-        DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        //LocalDateTime start = LocalDateTime.parse(st, dtf1);
-        //String ed=orderVO.getCheckOutDate();
-        //DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        //LocalDateTime end = LocalDateTime.parse(ed, dtf1);
-        LocalDateTime begin = LocalDateTime.parse(time1, dtf1);
-        LocalDateTime finish = LocalDateTime.parse(time2, dtf1);
-        LocalDateTime now=LocalDateTime.now();
-        if (coupon.getCouponType() == 4 && now.isAfter(begin) && now.isBefore(finish)){
-=======
-        String time1 = "2020-06-11 00:00:00";
+        String time1 = "2020-11-11 00:00:00";
         String time2 = "2020-11-17 00:00:00";
         DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime begin = LocalDateTime.parse(time1, dtf1);
         LocalDateTime finish = LocalDateTime.parse(time2, dtf1);
         LocalDateTime now = LocalDateTime.now();
         if (coupon.getCouponType() == 4 && now.isAfter(begin) && now.isBefore(finish)&& orderVO.getPrice() >= coupon.getTargetMoney()) {
->>>>>>> 806cba7b0de42deb98915412829a7e762534f78c
             return true;
         }
 
