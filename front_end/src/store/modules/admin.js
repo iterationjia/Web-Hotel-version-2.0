@@ -145,6 +145,7 @@ const admin = {
             const res = await deleteUserAPI(userId)
             if(res) {
                 dispatch('getUserList')
+                dispatch('getManagerList')
                 message.success('删除成功')
             }else{
                 message.error('删除失败')
@@ -176,6 +177,7 @@ const admin = {
                 commit('set_addManagerModalVisible', false)
                 message.success('添加成功')
                 dispatch('getUserList')
+                dispatch('getManagerList')
             }else{
                 message.error('添加失败')
             }
