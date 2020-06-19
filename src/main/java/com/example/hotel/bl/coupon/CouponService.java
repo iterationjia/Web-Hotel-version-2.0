@@ -1,6 +1,7 @@
 package com.example.hotel.bl.coupon;
 
 import com.example.hotel.po.Coupon;
+import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public interface CouponService {
      * @param couponVO
      * @return
      */
+    List<Coupon> getAllAvailableCoupon(Integer hotelId);
+
     CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO);
 
     /**
@@ -47,4 +50,8 @@ public interface CouponService {
      * @return
      */
     CouponVO addManyHousesCoupon(ManyHousesCouponVO couponVO);
+
+    List<Coupon> getCouponList();
+
+    ResponseVO deleteCoupon(int couponId);
 }

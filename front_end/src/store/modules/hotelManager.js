@@ -59,7 +59,7 @@ const hotelManager = {
         execOrderVisible:false,
 
         activeHotelId: 0,
-        couponList: [],
+        hotelCouponList: [],
         orderDetailVisible: false,
     },
     mutations: {
@@ -114,8 +114,8 @@ const hotelManager = {
         set_activeHotelId: function(state, data) {
             state.activeHotelId = data
         },
-        set_couponList: function(state, data) {
-            state.couponList = data
+        set_hotelCouponList: function(state, data) {
+            state.hotelCouponList = data
         },
         set_addCouponVisible: function(state, data) {
             state.addCouponVisible =data
@@ -232,7 +232,7 @@ const hotelManager = {
             const res = await hotelAllCouponsAPI(state.activeHotelId)
             if(res) {
                 // 获取到酒店策略之后的操作（将获取到的数组赋值给couponList）
-                commit('set_couponList', res)
+                commit('set_hotelCouponList', res)
             }
         },
         editHotel: async ({ dispatch, commit }, data) => {
@@ -300,6 +300,7 @@ const hotelManager = {
                 commit('set_addCouponVisible', false)
                 commit('set_couponVisible', true)
                 dispatch('getHotelCoupon')
+                dispatch('getWebsiteCouponList')
             }else{
                 // 添加失败后的操作
                 message.error('添加失败')

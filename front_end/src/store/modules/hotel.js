@@ -161,7 +161,7 @@ const hotel = {
             }
         },
         addOrder: async({ state, dispatch, commit }, data) => {
-            //console.log(data)
+            console.log(data)
             const res = await reserveHotelAPI(data)
             console.log(res)
             if(res){

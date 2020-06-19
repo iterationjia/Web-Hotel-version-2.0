@@ -110,8 +110,8 @@ export default {
             'set_orderList',
         ]),
         ...mapActions([
-            'getAllOrders',
             'deleteOrder',
+            'getAllOrders'
         ]),
 
         showModal(num) {

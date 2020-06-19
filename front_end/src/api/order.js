@@ -3,6 +3,7 @@ const api = {
     orderPre: '/api/order'
 }
 export function reserveHotelAPI(data) {
+    console.log(data)
     return axios({
         url: `${api.orderPre}/addOrder`,
         method: 'POST',
