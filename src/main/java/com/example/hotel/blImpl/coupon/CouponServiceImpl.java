@@ -4,6 +4,7 @@ import com.example.hotel.bl.coupon.CouponService;
 import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.data.coupon.CouponMapper;
 import com.example.hotel.po.Coupon;
+import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public List<Coupon> getMatchOrderCoupon(OrderVO orderVO) {
 
-        List<Coupon> hotelCoupons = getHotelAllCoupon(orderVO.getHotelId());
+        List<Coupon> hotelCoupons = getAllAvailableCoupon(orderVO.getHotelId());
 
         List<Coupon> availAbleCoupons = new ArrayList<>();
 
@@ -57,6 +58,12 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupon> getHotelAllCoupon(Integer hotelId) {
         List<Coupon> hotelCoupons = couponMapper.selectByHotelId(hotelId);
         return hotelCoupons;
+    }
+
+    @Override
+    public List<Coupon> getAllAvailableCoupon(Integer hotelId) {
+        List<Coupon> availableCoupons = couponMapper.selectAvailableCoupon(hotelId);
+        return availableCoupons;
     }
 
     @Override
@@ -118,5 +125,20 @@ public class CouponServiceImpl implements CouponService {
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
         return couponVO;
+    }
+
+    @Override
+    public List<Coupon> getCouponList(){
+
+        return couponMapper.getCouponList();
+
+    };
+
+    @Override
+    public ResponseVO deleteCoupon(int couponid) {
+        //删除用户逻辑的具体实现（注意可能有和别的业务类之间的交互）
+        //数据库操作
+        couponMapper.deleteCoupon(couponid);
+        return ResponseVO.buildSuccess(true);
     }
 }

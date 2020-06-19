@@ -66,5 +66,15 @@ public class CouponController {
         return ResponseVO.buildSuccess(couponService.getMatchOrderCoupon(requestOrderVO));
     }
 
+    @GetMapping("/getCouponList")
+    public ResponseVO getWebsiteCouponList(){
+        return ResponseVO.buildSuccess(couponService.getCouponList());
+    }
 
+    @PostMapping("/{couponid}/deleteCoupon")
+    public ResponseVO deleteUser(@PathVariable int couponid){
+        return couponService.deleteCoupon(couponid);
+    }
 }
+
+
