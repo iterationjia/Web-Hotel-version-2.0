@@ -112,7 +112,7 @@
                         <!--评价-->
                         <a-divider type="vertical" v-else-if="record.orderState == '已退房'"></a-divider>
                         <span v-if="record.orderState == '已退房'">
-                            <template v-if="record.star==null">
+                            <template v-if="record.star==0">
                                 <a-button type="default" size="small" @click="commentModal(record.id,record.hotelId)">评价</a-button>
                             </template>
                             <template v-if="record.star>0">

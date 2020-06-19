@@ -130,6 +130,8 @@ export default {
             this.$router.push({ name: 'userInfo', params: { userId: this.userId } })
         },
         jumpToHome() {
+
+            this.$router.push({ name: 'hotelList'})
         }
     }
 }
