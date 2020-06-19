@@ -1,5 +1,6 @@
 import {
     deleteOrderAPI,
+    getAllOrdersAPI
 } from '@/api/order'
 import {
     creditSetAPI,
@@ -43,6 +44,13 @@ const marketManager = {
             const res = await getWebsiteCouponListAPI()
             if(res){
                 commit('set_websiteCouponList', res)
+            }
+        },
+
+        getAllOrders: async({ state, commit }) => {
+            const res = await getAllOrdersAPI()
+            if(res){
+                commit('set_orderList', res)
             }
         },
 

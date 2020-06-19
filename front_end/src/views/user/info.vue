@@ -12,11 +12,7 @@
                         <span v-else>{{ userInfo.userName }}</span>
                     </a-form-item>
                     <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-<!--                        <a-input-->
-<!--                                placeholder="请输入有效的头像链接"-->
-<!--                                v-decorator="['avatarurl', { rules: [{required: true, message: '请输入头像链接' }] }]"-->
-<!--                                v-if="modify"-->
-<!--                        />-->
+
                         <div v-if="modify">
                             <a-upload :defalut-file-list="fileList" list-type="picture" :remove="handleRemove" :before-upload="beforeUpload">
                                 <a-button v-if="fileList.length < 1"> <a-icon type="upload" /> Select File </a-button>
