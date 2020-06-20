@@ -42,8 +42,8 @@ public class AdminControllerTest {
                 "        \"password\": \"123456\",\n" +
                 "        \"userName\":\"test\",\n" +
                 "        \"phoneNumber\": \"123\",\n" +
-                "        \"credit\": 10000,\n" +
-                "   }";
+                "        \"credit\": 10000\n" +
+                "        }";
         // 前端向后端传的对象以JSON格式传送
         // 嫌写转义符麻烦的话，可以新建一个json文件写好，然后用idea复制，idea会自动帮你加转义符
         String res = mockMvc.perform(
