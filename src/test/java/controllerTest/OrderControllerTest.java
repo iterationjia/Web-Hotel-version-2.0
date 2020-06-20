@@ -1,8 +1,10 @@
-package controllerTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.alibaba.fastjson.JSON;
 import com.example.hotel.HotelApplication;
+import com.example.hotel.data.order.OrderMapper;
+
 import org.json.JSONObject;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -22,7 +26,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class OrderControllerTest {
 
     private MockMvc mockMvc;
-
+    @Autowired
+    OrderMapper orderMapper;
     @Autowired
     private WebApplicationContext wac;
 
@@ -37,7 +42,8 @@ public class OrderControllerTest {
     }
 
     @org.junit.Test
-    public void test1() throws Exception {
+    //测试前置条件:数据库中必须有userId为1的用户
+    public void testAddOrder() throws Exception {
         String orderJson ="{\n" +
                 "    \"userId\":1,\n" +
                 "    \"hotelId\":2,\n" +
@@ -67,4 +73,107 @@ public class OrderControllerTest {
         assertTrue(new JSONObject(res).getBoolean("success"));
         // ResponseVO里面有Boolean success, String message, Object content三个成员，我判断success是不是true就知道测试是否成功
     }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有orderId为201的已预订订单
+    public void testExecOrder() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/order/99/execOrder")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有orderId为201的已预订订单
+    public void testSetOrderExcep() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/order/201/setOrderExcep")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有orderId为203的异常订单
+    public void testRecoverOrder() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/order/203/recoverOrder")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testRetrieveAllOrders() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/order/getAllOrders")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有managerId为2的酒店工作人员
+    public void testGetManagerOrders() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/order/2/getManagerOrders")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有userId为1的用户
+    public void testRetrieveUserOrders() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/order/1/getUserOrders")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有userId为1的用户和hotelId为2的酒店
+    public void testGetUserHotelOrders() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/order/1/2/getUserHotelOrders")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有orderId为201的已预订订单
+    public void testAnnulOrder() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/order/201/annulOrder")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有hotelId为2的酒店
+    public void testRetrieveComments() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/order/2/comments")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有orderId为202的已入住订单
+    public void testCheckOut() throws Exception {
+        String orderJson = JSON.toJSONString(orderMapper.getOrderById(202));
+        String res = mockMvc.perform(
+                post("/api/order/checkOut").contentType(MediaType.APPLICATION_JSON).content(orderJson)
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    //测试前置条件:数据库中必须有orderId为204的已退房订单
+    public void testUpdateOrderComment() throws Exception {
+        String orderJson = JSON.toJSONString(orderMapper.getOrderById(204));
+        String res = mockMvc.perform(
+                post("/api/order/updateOrderComment").contentType(MediaType.APPLICATION_JSON).content(orderJson)
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+
+
 }

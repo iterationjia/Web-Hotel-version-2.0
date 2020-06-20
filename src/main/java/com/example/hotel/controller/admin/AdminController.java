@@ -18,9 +18,6 @@ public class AdminController {
     }
     @PostMapping("/{userid}/editUserInfo")
     public ResponseVO editUserInfo(@RequestBody UserForm userForm ,@PathVariable int userid){
-        System.out.println(userid);
-        System.out.println(userForm.getPassword());
-        System.out.println(userForm.getUserName());
         return adminService.editUserInfo(userForm,userid);
     }
     @GetMapping("/getAllManagers")
