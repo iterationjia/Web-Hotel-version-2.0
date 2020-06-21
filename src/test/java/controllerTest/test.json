@@ -23,5 +23,15 @@
         "phoneNum": "12306",
         "hotelStar": "Five",
         "managerId": 6
+    },
+    "magager":{
+        "email":"test@qq.com",
+        "password": "123456",
+        "username":"test",
+        "phonenumber": "123",
+        "credit": 10000,
+        "usertype": "HotelManager",
+        "lv": 0,
+        "totalmoney": 0
     }
 }
