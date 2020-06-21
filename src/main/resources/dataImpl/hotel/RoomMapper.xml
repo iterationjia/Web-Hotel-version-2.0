@@ -36,10 +36,6 @@
         select min(price) from Room where hotel_id=#{hotelId}
     </select>
 
-    <delete id="deleteHotelRooms">
-        delete from Room where hotel_id=#{hotelId}
-    </delete>
-
     <delete id="deleteRoom">
         delete from Room where id=#{roomId}
     </delete>

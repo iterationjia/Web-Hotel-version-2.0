@@ -1,7 +1,6 @@
 package com.example.hotel.data.order;
 
 import com.example.hotel.po.Order;
-import com.example.hotel.vo.OrderVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

@@ -24,5 +24,10 @@
         "phoneNum": "12306",
         "hotelStar": "Five",
         "managerId": 6
+    },
+    "hotelRoom": {
+        "roomType": "BigBed",
+        "hotelId": 2,
+        "price": 300
     }
 }

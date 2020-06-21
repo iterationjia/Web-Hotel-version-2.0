@@ -64,4 +64,141 @@ public class HotelControllerTest {
         assertTrue(new JSONObject(res).getBoolean("success"));
         // ResponseVO里面有Boolean success, String message, Object content三个成员，我判断success是不是true就知道测试是否成功
     }
+
+    @org.junit.Test
+    public void testRetrieveAllHotels() throws Exception {
+        String res = mockMvc.perform(
+            get("/api/hotel/all")
+        ).andReturn().getResponse().getContentAsString();
+        JSONObject object = new JSONObject(res);
+        System.out.println(object.getString("content"));
+        assertTrue(object.getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testRetreieveManagerAllHotels() throws Exception {
+        String managerId = "6";
+        String res = mockMvc.perform(
+            get("/api/hotel/"+managerId+"/managerHotels")
+        ).andReturn().getResponse().getContentAsString();
+        JSONObject object = new JSONObject(res);
+        System.out.println(object.getString("content"));
+        assertTrue(object.getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testRetrieveSearchedHotels() throws Exception {
+        String region = "XiDan";
+        String address = "南京";
+        String name = "";
+        String star = "";
+        int rate0 = 3;
+        int rate1 = 5;
+        String res = mockMvc.perform(
+            get("/api/hotel/search").param("region", region).param("address", address)
+            .param("name", name).param("star", star).param("rate0", String.valueOf(rate0))
+            .param("rate1", String.valueOf(rate1))
+        ).andReturn().getResponse().getContentAsString();
+        JSONObject object = new JSONObject(res);
+        System.out.println(object.getString("content"));
+        assertTrue(object.getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testAddRoomInfo() throws Exception {
+        // 前置条件：hotelId为2的酒店不存在BigBed
+        String hotelRoomJson = "{\n" +
+                "        \"roomType\": \"BigBed\",\n" +
+                "        \"hotelId\": 2,\n" +
+                "        \"price\": 300\n" +
+                "    }";
+        String res = mockMvc.perform(
+            post("/api/hotel/roomInfo").contentType(MediaType.APPLICATION_JSON).content(hotelRoomJson)
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testRetrieveHotelDetail() throws Exception {
+        // 前置条件：hotelId为1的酒店存在
+        int hotelId = 1;
+        String res = mockMvc.perform(
+            get("/api/hotel/"+String.valueOf(hotelId)+"/detail")
+        ).andReturn().getResponse().getContentAsString();
+        JSONObject object = new JSONObject(res);
+        System.out.println(object.getString("content"));
+        assertTrue(object.getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testEditHotel() throws Exception {
+        // 前置条件：hotelId为2的酒店存在
+        String hotelJson ="{\n" +
+                "        \"name\": \"老八酒店\",\n" +
+                "        \"description\": \"奥利给兄弟们，造它就完了！\",\n" +
+                "        \"address\": \"葫芦岛\",\n" +
+                "        \"phoneNum\": \"12306\",\n" +
+                "        \"hotelStar\": \"Five\",\n" +
+                "        \"id\": 2\n" +
+                "    }";
+        String res = mockMvc.perform(
+                post("/api/hotel/editHotel").contentType(MediaType.APPLICATION_JSON).content(hotelJson)
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testEditRoom() throws Exception {
+        // 前置条件：hotelId为1的酒店存在
+        int roomId = 2;
+        int val = 30;
+        String res1 = mockMvc.perform(
+            get("/api/hotel/editRoomPrice")
+            .param("roomId", String.valueOf(roomId))
+            .param("val", String.valueOf(val))
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res1).getBoolean("success"));
+
+        String res2 = mockMvc.perform(
+            get("/api/hotel/editRoomTotal")
+            .param("roomId", String.valueOf(roomId))
+            .param("val", String.valueOf(val))
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res2).getBoolean("success"));
+
+        String res3 = mockMvc.perform(
+            get("/api/hotel/editRoomCurNum")
+            .param("roomId", String.valueOf(roomId))
+            .param("val", String.valueOf(val))
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res3).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testDeleteRoom() throws Exception {
+        int roomId = 2;
+        String res = mockMvc.perform(
+            post("/api/hotel/"+String.valueOf(roomId)+"/deleteRoom")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testDeleteHotel() throws Exception {
+        int hotelId = 2;
+        String res = mockMvc.perform(
+            post("/api/hotel/"+String.valueOf(hotelId)+"/deleteHotel")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void tesSetHotelManager() throws Exception {
+        int hotelId = 2;
+        int managerId = 6;
+        String res = mockMvc.perform(
+            post("/api/hotel/"+String.valueOf(hotelId)+"/"+String.valueOf(managerId)+"/setHotelManager")
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
 }
