@@ -24,6 +24,11 @@
         "hotelStar": "Five",
         "managerId": 6
     },
+    "hotelRoom": {
+        "roomType": "BigBed",
+        "hotelId": 2,
+        "price": 300
+    },
     "magager":{
         "email":"test@qq.com",
         "password": "123456",

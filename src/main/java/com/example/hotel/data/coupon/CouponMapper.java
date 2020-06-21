@@ -1,7 +1,6 @@
 package com.example.hotel.data.coupon;
 
 import com.example.hotel.po.Coupon;
-import com.example.hotel.po.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
