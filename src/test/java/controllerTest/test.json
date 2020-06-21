@@ -1,6 +1,5 @@
 {
     "order": {
-
         "userId":1,
         "hotelId":2,
         "hotelName": "儒家酒店",
@@ -29,5 +28,15 @@
         "roomType": "BigBed",
         "hotelId": 2,
         "price": 300
+    },
+    "magager":{
+        "email":"test@qq.com",
+        "password": "123456",
+        "username":"test",
+        "phonenumber": "123",
+        "credit": 10000,
+        "usertype": "HotelManager",
+        "lv": 0,
+        "totalmoney": 0
     }
 }

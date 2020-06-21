@@ -45,7 +45,7 @@ public class OrderController {
     }
 
     // 获得某个用户在某个酒店的订单
-    @GetMapping("{userid}/{hotelid}/getUserHotelOrders")
+    @GetMapping("/{userid}/{hotelid}/getUserHotelOrders")
     public ResponseVO retrieveUserHotelOrders(@PathVariable Integer userid, @PathVariable Integer hotelid){
         return ResponseVO.buildSuccess(orderService.getUserHotelOrders(userid,hotelid));
     }
