@@ -38,11 +38,10 @@ public class AdminControllerTest {
     @org.junit.Test
     public void testAddManager() throws Exception {
         String managerJson ="{\n" +
-                "        \"email\":\"test@qq.com\",\n" +
+                "        \"email\":\"testAddManager@qq.com\",\n" +
                 "        \"password\": \"123456\",\n" +
-                "        \"userName\":\"test\",\n" +
-                "        \"phoneNumber\": \"123\",\n" +
-                "        \"credit\": 10000,\n" +
+                "        \"userName\":\"testAddManager\",\n" +
+                "        \"phoneNumber\": \"123\"\n" +
                 "   }";
         // 前端向后端传的对象以JSON格式传送
         // 嫌写转义符麻烦的话，可以新建一个json文件写好，然后用idea复制，idea会自动帮你加转义符
@@ -59,5 +58,52 @@ public class AdminControllerTest {
         // 这里是接收请求的返回值，也就是ResponseVO，以字符串形式
         assertTrue(new JSONObject(res).getBoolean("success"));
         // ResponseVO里面有Boolean success, String message, Object content三个成员，我判断success是不是true就知道测试是否成功
+    }
+
+    @org.junit.Test
+    public void testEditUserInfo() throws Exception {
+        //前置条件：user表中存在id为5的行
+        String editJson ="{\n" +
+                "        \"password\": \"1234567\",\n" +
+                "        \"userName\":\"testEditUserInfo\",\n" +
+                "        \"phoneNumber\": \"1243\"\n" +
+                "   }";
+        String res = mockMvc.perform(
+                post("/api/admin/5/editUserInfo").contentType(MediaType.APPLICATION_JSON).content(editJson)
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testGetAllManagers() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/admin/getAllManagers").contentType(MediaType.APPLICATION_JSON)
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testGetAllUsers() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/admin/getAllUsers").contentType(MediaType.APPLICATION_JSON)
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testGetVip() throws Exception {
+        String res = mockMvc.perform(
+                get("/api/admin/getVip").contentType(MediaType.APPLICATION_JSON)
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
+    }
+
+    @org.junit.Test
+    public void testDeleteUser() throws Exception {
+        //前置条件：user表中存在id为5的行
+        String res = mockMvc.perform(
+                post("/api/admin/5/deleteUser").contentType(MediaType.APPLICATION_JSON)
+        ).andReturn().getResponse().getContentAsString();
+        assertTrue(new JSONObject(res).getBoolean("success"));
     }
 }
