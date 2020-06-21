@@ -149,7 +149,7 @@ public class HotelControllerTest {
 
     @org.junit.Test
     public void testEditRoom() throws Exception {
-        // 前置条件：hotelId为1的酒店存在
+        // 前置条件：roomId为2的客房存在
         int roomId = 2;
         int val = 30;
         String res1 = mockMvc.perform(
@@ -176,6 +176,7 @@ public class HotelControllerTest {
 
     @org.junit.Test
     public void testDeleteRoom() throws Exception {
+        // 前置条件：roomId为2的客房存在
         int roomId = 2;
         String res = mockMvc.perform(
             post("/api/hotel/"+String.valueOf(roomId)+"/deleteRoom")
@@ -185,6 +186,7 @@ public class HotelControllerTest {
 
     @org.junit.Test
     public void testDeleteHotel() throws Exception {
+        // 前置条件：hotelId为2的酒店存在
         int hotelId = 2;
         String res = mockMvc.perform(
             post("/api/hotel/"+String.valueOf(hotelId)+"/deleteHotel")
@@ -194,6 +196,7 @@ public class HotelControllerTest {
 
     @org.junit.Test
     public void tesSetHotelManager() throws Exception {
+        // 前置条件：hotelId为2的酒店存在
         int hotelId = 2;
         int managerId = 6;
         String res = mockMvc.perform(
