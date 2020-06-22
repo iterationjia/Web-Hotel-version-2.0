@@ -76,7 +76,7 @@ public class AccountControllerTest {
         String userJson ="{\n" +
                 "        \"email\":\"333@qq.com\",\n" +
                 "        \"password\": \"123456\"\n" +
-                "   }";
+        "   }";
         String res = mockMvc.perform(
                 post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(userJson)
         ).andReturn().getResponse().getContentAsString();
@@ -140,14 +140,5 @@ public class AccountControllerTest {
         assertTrue(new JSONObject(res).getBoolean("success"));
     }
 
-//    @org.junit.Test
-//    public void testUpdateUserImage() throws Exception {
-//        String userJson ="{\n" +
-//                "        \"email\":\"333@qq.com\"\n" +
-//                "   }";
-//        String res = mockMvc.perform(
-//                post("/api/5/updateUserImg").contentType(MediaType.APPLICATION_JSON).content(userJson)
-//        ).andReturn().getResponse().getContentAsString();
-//        assertTrue(new JSONObject(res).getBoolean("success"));
-//    }
+
 }
