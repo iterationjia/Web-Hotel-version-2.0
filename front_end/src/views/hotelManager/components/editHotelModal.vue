@@ -128,9 +128,14 @@
                 this.fileList = newFileList;
             },
             beforeUpload(file) {
-                this.fileList = [...this.fileList, file];
-                // console.log(this.fileList);
-                return false;
+                const isLt1M = file.size / 1024 / 1024 < 1;
+                if (!isLt1M) {
+                    this.$message.error('图片必须小于 1MB!');
+                    return true;
+                } else {
+                    this.fileList = [...this.fileList, file];
+                    return false;
+                }
             },
             handleUpload(){
                 this.updateHotelImg({

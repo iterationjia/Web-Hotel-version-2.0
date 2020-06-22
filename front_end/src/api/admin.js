@@ -5,7 +5,7 @@ const api = {
 export function getManagerListAPI(){
     return axios({
         url: `${api.adminPre}/getAllManagers`,
-        method: 'POST'
+        method: 'GET'
     })
 }
 export function editUserInfoAPI(data,userid){
@@ -18,13 +18,13 @@ export function editUserInfoAPI(data,userid){
 export function getUserListAPI(){
     return axios({
         url: `${api.adminPre}/getAllUsers`,
-        method: 'POST'
+        method: 'GET'
     })
 }
 export function getVipListAPI(){
     return axios({
         url: `${api.adminPre}/getVip`,
-        method: 'POST'
+        method: 'GET'
     })
 }
 export function addManagerAPI(data) {
@@ -34,38 +34,9 @@ export function addManagerAPI(data) {
         data
     })
 }
-//
-export function getHotelsAPI() {
-    return axios({
-        url: `${api.adminPre}/getHotels`,
-        method: 'GET'
-    })
-}
-export function addHotelAPI(data) {
-    return axios({
-        url: `${api.adminPre}/addHotel`,
-        method: 'POST',
-        data,
-    })
-}
-export function setHotelManagerAPI(hotelid,managerid) {
-   // console.log(hotelid,managerid)
-    return axios({
-        url: `${api.adminPre}/${hotelid}/${managerid}/setHotelManager`,
-        method: 'POST',
-
-    })
-}
 export function deleteUserAPI(userid) {
     return axios({
         url: `${api.adminPre}/${userid}/deleteUser`,
-        method: 'POST',
-
-    })
-}
-export function deleteHotelAPI(hotelid) {
-    return axios({
-        url: `${api.adminPre}/${hotelid}/deleteHotel`,
         method: 'POST',
 
     })

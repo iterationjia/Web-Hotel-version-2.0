@@ -55,3 +55,11 @@ export function lvSetAPI(data) {
         data
     })
 }
+
+export function updateAvatarAPI(userid,data) {
+    return axios({
+        url: `${api.userPre}/${userid}/updateUserImg`,
+        method: 'POST',
+        data
+    })
+}

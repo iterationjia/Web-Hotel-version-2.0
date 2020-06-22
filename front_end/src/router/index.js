@@ -20,11 +20,6 @@ const routes = [
     component: ()=> import('@/views/layout'),
     children: [
       {
-        path: '/hotel/search',
-        name: 'hotelSearch',
-        component: ()=> import('@/views/hotel/hotelSearch')
-      },
-      {
         path: '/hotel/hotelList',
         name: 'hotelList',
         component: () => import('@/views/hotel/hotelList')

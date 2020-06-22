@@ -20,6 +20,7 @@ const getters = {
   currentHotelInfo: state => state.hotel.currentHotelInfo,
   currentHotelId: state => state.hotel.currentHotelId,
   orderModalVisible: state => state.hotel.orderModalVisible,
+  searchModalVisible: state => state.hotel.searchModalVisible,
   currentOrderRoom: state => state.hotel.currentOrderRoom,
   orderMatchCouponList: state => state.hotel.orderMatchCouponList,
   hotelComments: state => state.hotel.hotelComments,
@@ -66,7 +67,7 @@ const getters = {
     return state.hotelManager.managerOrderList.filter(order => ((order.orderState!='已执行')&&(order.orderState!='已预订')&&(order.orderState!='已入住')&&(order.orderState!='已退房')))
   },
   hotelDetail: state => state.hotelManager.hotelDetail,
-  couponList: state => state.hotelManager.couponList,
+  hotelCouponList: state => state.hotelManager.hotelCouponList,
   orderDetailVisible: state => state.hotelManager.orderDetailVisible,
   //marketManager
   managerExceptionalOrderList: state => {
@@ -75,6 +76,7 @@ const getters = {
   userCredit: state => state.marketManager.userCredit,
   userlv: state => state.marketManager.userlv,
   totalmoney: state => state.marketManager.totalmoney,
+  websiteCouponList: state => state.marketManager.websiteCouponList,
 }
   
   export default getters

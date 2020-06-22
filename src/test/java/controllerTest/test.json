@@ -1,0 +1,42 @@
+{
+    "order": {
+        "userId":1,
+        "hotelId":2,
+        "hotelName": "儒家酒店",
+        "checkInDate":"2020-06-19 15",
+        "checkOutDate":"2020-06-20 15",
+        "roomType":"BigBed",
+        "roomNum":1,
+        "peopleNum":1,
+        "haveChild":false,
+        "createDate":"2020-06-18 16",
+        "price":3000,
+        "clientName":"老用户",
+        "phoneNumber":"110"
+    },
+    "hotel": {
+        "name": "老八酒店",
+        "description": "奥利给兄弟们，造它就完了！",
+        "address": "葫芦岛",
+        "bizRegion":"XiDan",
+        "rate": 0,
+        "phoneNum": "12306",
+        "hotelStar": "Five",
+        "managerId": 6
+    },
+    "hotelRoom": {
+        "roomType": "BigBed",
+        "hotelId": 2,
+        "price": 300
+    },
+    "magager":{
+        "email":"test@qq.com",
+        "password": "123456",
+        "username":"test",
+        "phonenumber": "123",
+        "credit": 10000,
+        "usertype": "HotelManager",
+        "lv": 0,
+        "totalmoney": 0
+    }
+}

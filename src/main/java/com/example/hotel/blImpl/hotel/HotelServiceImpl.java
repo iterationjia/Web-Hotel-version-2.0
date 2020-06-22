@@ -2,26 +2,17 @@ package com.example.hotel.blImpl.hotel;
 
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
-import com.example.hotel.bl.order.OrderService;
-import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.hotel.HotelMapper;
-import com.example.hotel.data.hotel.RoomMapper;
-import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.enums.HotelStar;
-import com.example.hotel.enums.UserType;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.po.HotelRoom;
-import com.example.hotel.po.Order;
-import com.example.hotel.po.User;
-import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,31 +22,11 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private HotelMapper hotelMapper;
-
-    @Autowired
-    private RoomMapper roomMapper;
-
-    @Autowired
-    private OrderMapper orderMapper;
-
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private OrderService orderService;
-
     @Autowired
     private RoomService roomService;
 
     @Override
-    public void addHotel(HotelVO hotelVO) throws ServiceException {
-        User manager = accountService.getUserInfo(hotelVO.getManagerId());
-        if(manager == null ||
-                !(manager.getUserType().equals(UserType.HotelManager)
-                        ||(manager.getUserType().equals(UserType.Manager))))
-        {
-            throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
-        }
+    public void addHotel(HotelVO hotelVO) {
         Hotel hotel = new Hotel();
         hotel.setDescription(hotelVO.getDescription());
         hotel.setAddress(hotelVO.getAddress());
@@ -69,11 +40,16 @@ public class HotelServiceImpl implements HotelService {
         hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
         hotelMapper.insertHotel(hotel);
     }
+
+    @Override
     public ResponseVO deleteHotel(Integer hotelid) {
         //删除酒店逻辑的具体实现（注意可能有和别的业务类之间的交互）
         //数据库操作
         hotelMapper.deleteHotel(hotelid);
-        roomMapper.deleteHotelRooms(hotelid);
+        List<HotelRoom> hotelRooms =  roomService.retrieveHotelRoomInfo(hotelid);
+        for (HotelRoom hotelRoom: hotelRooms){
+            roomService.deleteRoom(hotelRoom.getId());
+        }
         return ResponseVO.buildSuccess(true);
     }
     @Override
@@ -88,27 +64,11 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelVO> retrieveHotels() {
-
-        return hotelMapper.selectAllHotel();
-    }
-
-    @Override
-    public List<HotelVO> retrieveHotels(int userid) {
+        // userid用来判断酒店是否预定过
         List<HotelVO> allHotels =  hotelMapper.selectAllHotel();
         for (int i=0;i<allHotels.size();i++){
             HotelVO hotelVO = allHotels.get(i);
-            Integer minPrice = roomMapper.getMinPrice(hotelVO.getId());
-            int orderNum = orderMapper.getUserHotelOrderNum(userid, hotelVO.getId());
-            if (orderNum==0){
-                hotelVO.setScheduled(false);
-            } else {
-                hotelVO.setScheduled(true);
-            }
-            if (minPrice!=null){
-                hotelVO.setMinPrice(roomMapper.getMinPrice(hotelVO.getId()));
-            } else {
-                hotelVO.setMinPrice(-1);
-            }
+            hotelVO.setMinPrice(roomService.getMinPrice(hotelVO.getId()));
             hotelVO.setImg(getHotelImg(hotelVO.getId()));
         }
         return allHotels;
@@ -120,22 +80,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<HotelVO> retrieveSearchedHotels(String region,String address,String name,String star, Integer rate0,Integer rate1,int userid) {
+    public List<HotelVO> retrieveSearchedHotels(String region,String address,String name,String star, Integer rate0,Integer rate1) {
         List<HotelVO> searchedHotelsList = hotelMapper.selectSearchedHotel(region, address, name, star, rate0, rate1);
         for (int i=0;i<searchedHotelsList.size();i++){
             HotelVO hotelVO = searchedHotelsList.get(i);
-            Integer minPrice = roomMapper.getMinPrice(hotelVO.getId());
-            int orderNum = orderMapper.getUserHotelOrderNum(userid, hotelVO.getId());
-            if (orderNum==0){
-                hotelVO.setScheduled(false);
-            } else {
-                hotelVO.setScheduled(true);
-            }
-            if (minPrice!=null){
-                hotelVO.setMinPrice(roomMapper.getMinPrice(hotelVO.getId()));
-            } else {
-                hotelVO.setMinPrice(-1);
-            }
+            hotelVO.setMinPrice(roomService.getMinPrice(hotelVO.getId()));
             hotelVO.setImg(getHotelImg(hotelVO.getId()));
         }
         return searchedHotelsList;
@@ -155,7 +104,7 @@ public class HotelServiceImpl implements HotelService {
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);
-
+        hotelVO.setImg(getHotelImg(hotelId));
         return hotelVO;
     }
     @Override
@@ -163,30 +112,6 @@ public class HotelServiceImpl implements HotelService {
         hotelMapper.setHotelManager(hotelid,managerid);
         return ResponseVO.buildSuccess(true);
     };
-    /**
-     * @param hotelId
-     * @return
-     */
-
-    @Override
-    public List<CommentVO> getComments(Integer hotelId) {
-        List<Order> hotelOrders = orderMapper.getHotelOrders(hotelId);
-        List<CommentVO> comments = new ArrayList<CommentVO>();
-        for (int i = 0; i<hotelOrders.size(); i++){
-            Order order = hotelOrders.get(i);
-            if ((order.getStar()!=null)&&(order.getComment()!=null)){
-                User user = accountService.getUserInfo(order.getUserId());
-                CommentVO comment = new CommentVO();
-                comment.setAuthor(user.getUserName());
-//            comment.setAvatar();
-                comment.setComment(order.getComment());
-                comment.setStar(order.getStar());
-                comment.setDate(order.getCheckOutDate());
-                comments.add(comment);
-            }
-        }
-        return comments;
-    }
 
     @Override
     public void editHotel(HotelVO hotelVO) {
@@ -234,4 +159,16 @@ public class HotelServiceImpl implements HotelService {
         return encoder.encodeToString(data);
     }
 
+    @Override
+    public void updateTotalMoney(Integer hotelId, Double money) {
+        hotelMapper.updateTotalMoney(hotelId,money);
+    }
+
+    @Override
+    public void updateRate(Integer hotelId, Integer count, Integer newRate) {
+        double cur_rate = hotelMapper.getCur_rate(hotelId);
+        double tar_rate = (cur_rate*count+newRate)/(count+1);
+        tar_rate=(double)Math.round(tar_rate*10)/10;
+        hotelMapper.updateRate(hotelId,tar_rate);
+    }
 }

@@ -1,7 +1,6 @@
 package com.example.hotel.data.order;
 
 import com.example.hotel.po.Order;
-import com.example.hotel.vo.OrderVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -31,12 +30,9 @@ public interface OrderMapper {
     int execOrder(@Param("orderid") int orderid);
     int setOrderExcep(@Param("orderid") int orderid);
     void checkOut(@Param("orderid") int orderid);
-    int getUserHotelOrderNum(@Param("userid") int userid,@Param("hotelid") int hotelid);
-//
     Order getOrderById(@Param("orderid") int orderid);
 
     int annualSubCredit(@Param("orderid") int orderid ,@Param("credit") double credit);
     int updateOrderComment(@Param("orderid") int orderid , @Param("star") int star,@Param("comment") String comment);
-    int getCommentStar(@Param("hotelid") int hotelid, @Param("star") int star);
     int getCommentNum(@Param("hotelid") int hotelid);
 }

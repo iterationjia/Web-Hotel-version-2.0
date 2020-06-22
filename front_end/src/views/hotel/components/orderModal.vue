@@ -6,6 +6,7 @@
         okText="下单"
         @cancel="cancelOrder"
         @ok="handleSubmit"
+        destroyOnClose
     >
         <a-form :form="form">
             <a-form-item v-bind="formItemLayout" label="房型信息">
@@ -107,7 +108,6 @@
                 <a-table
                     :columns="columns"
                     :dataSource="orderMatchCouponList"
-                    :showHeader="false"
                     bordered
                     v-if="orderMatchCouponList.length>0"
                 >
@@ -138,10 +138,6 @@ const columns = [
         title: '优惠类型',
         dataIndex: 'couponName',
         scopedSlots: {customRender: 'couponName'}
-    },
-    {
-        title: '折扣',
-        dataIndex: 'discount',
     },
 
     {
@@ -190,7 +186,8 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'set_orderModalVisible'
+            'set_orderModalVisible',
+            'set_orderMatchCouponList',
         ]),
         ...mapActions([
             'addOrder',
@@ -198,11 +195,13 @@ export default {
         ]),
         cancelOrder() {
             this.set_orderModalVisible(false)
+            this.set_orderMatchCouponList([])
         },
 
         changeDate(v) {
             if(this.totalPrice != ''){
                 this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
+                this.finalPrice = this.totalPrice
             }
         },
         changePeopleNum(v){
@@ -210,6 +209,7 @@ export default {
         },
         changeRoomNum(v) {
             this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]),'day')
+            this.finalPrice = this.totalPrice
         },
         onchange() {
             this.finalPrice = this.totalPrice
@@ -239,6 +239,7 @@ export default {
                         price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                     }
                     this.addOrder(data)
+                    this.set_orderMatchCouponList([])
                 }
             });
         },

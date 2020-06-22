@@ -3,14 +3,10 @@ package com.example.hotel.blImpl.order;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
-import com.example.hotel.data.hotel.HotelMapper;
-import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.order.OrderMapper;
-import com.example.hotel.data.user.AccountMapper;
-import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.po.Order;
-import com.example.hotel.po.Hotel;
 import com.example.hotel.po.User;
+import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
@@ -37,17 +33,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderMapper orderMapper;
     @Autowired
-    RoomMapper roomMapper;
-    @Autowired
-    AccountMapper accountMapper;
-    @Autowired
-    HotelMapper hotelMapper;
-    @Autowired
     HotelService hotelService;
     @Autowired
     AccountService accountService;
-    @Autowired
-    OrderService orderService;
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
@@ -64,20 +52,11 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setCreateDate(curdate);
             orderVO.setOrderState("已预订");
             User user = accountService.getUserInfo(orderVO.getUserId());
-
             if(user.getCredit()<0){
                 return ResponseVO.buildFailure(CREDIT_LACK);
             }
-            HotelVO hotel = hotelMapper.selectById(orderVO.getHotelId());
-            hotel.setTotalmoney(hotel.getTotalMoney()+orderVO.getPrice());
-            hotelMapper.setTotalMoney(hotel.getId(),hotel.getTotalMoney());
-            //System.out.println(hotel.getId());
-            user.setTotalmoney(user.getTotalmoney()+orderVO.getPrice());
-            user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
-            accountMapper.setLv(user.getId(),user.getLv());
-            accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
-//            orderVO.setClientName(user.getUserName());
-//            orderVO.setPhoneNumber(user.getPhoneNumber());
+            hotelService.updateTotalMoney(orderVO.getHotelId(), orderVO.getPrice()); // 酒店总销售额修改
+            accountService.updateVip(orderVO.getUserId(), orderVO.getPrice()); // 用户等级修改
             Order order = new Order();
             BeanUtils.copyProperties(orderVO,order);
             orderMapper.addOrder(order);
@@ -91,54 +70,31 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO recoverOrder (int orderid){
         Order order = orderMapper.getOrderById(orderid);
-        order.setOrderState("已执行");
-        HotelVO hotel = hotelMapper.selectById(order.getHotelId());
-        hotel.setTotalmoney(hotel.getTotalMoney()+order.getPrice());
-        hotelMapper.setTotalMoney(hotel.getId(),hotel.getTotalMoney());
         orderMapper.execOrder(orderid);
-        User user = accountService.getUserInfo(order.getUserId());
-
-        //加上totalmoney和lv
-        user.setTotalmoney(user.getTotalmoney()+order.getPrice());
-        user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
-        accountMapper.setLv(user.getId(),user.getLv());
-        accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
+        hotelService.updateTotalMoney(order.getHotelId(), order.getPrice()); // 酒店销售额修改
+        accountService.updateVip(order.getUserId(), order.getPrice()); // 用户等级修改
         return ResponseVO.buildSuccess(true);
     }
+
     @Override
     public ResponseVO setOrderExcep (int orderid){
         Order order = orderMapper.getOrderById(orderid);
         order.setOrderState("异常");
         orderMapper.setOrderExcep(orderid);
-        HotelVO hotel = hotelMapper.selectById(order.getHotelId());
-        hotel.setTotalmoney(hotel.getTotalMoney()-order.getPrice());
-        hotelMapper.setTotalMoney(hotel.getId(),hotel.getTotalMoney());
-        User user = accountService.getUserInfo(order.getUserId());
-
-        //减去totalmoney和lv
-        user.setTotalmoney(user.getTotalmoney()-order.getPrice());
-        user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
-        accountMapper.setLv(user.getId(),user.getLv());
-        accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
+        hotelService.updateTotalMoney(order.getHotelId(), order.getPrice()*(-1)); // 酒店销售额修改
+        accountService.updateVip(order.getUserId(), (-1)*order.getPrice()); // 用户等级修改
         return ResponseVO.buildSuccess(true);
     }
     @Override
     public List<Order> getAllOrders() {
         return orderMapper.getAllOrders();
     }
-    @Override
-    public List<Order> getHotelOrders(Integer hotelId) {
-        List<Order> orders = orderService.getAllOrders();
-        return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
-    }
 
     @Override
     public List<Order> getManagerOrders(Integer managerid){
         List<HotelVO> managerHotels = hotelService.retrieveManagerHotels(managerid);
-        List<Order> managerOrders = new ArrayList<>();
-        for (int i=0;i<managerHotels.size();i++){
-            managerOrders.addAll(getHotelOrders(managerHotels.get(i).getId()));
-        }
+        List<Order> managerOrders = getAllOrders();
+        managerOrders = managerOrders.stream().filter(order -> managerHotels.stream().anyMatch(hotelVO -> hotelVO.getId().equals(order.getHotelId()))).collect(Collectors.toList());
         for (int i = 0; i < managerOrders.size(); i++) {
             Order order = managerOrders.get(i);
             User user = accountService.getUserInfo(order.getUserId());
@@ -150,6 +106,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getUserOrders(int userid) {
         return orderMapper.getUserOrders(userid);
+    }
+
+    @Override
+    public List<Order> getHotelOrders(int hotelId) {
+        return orderMapper.getHotelOrders(hotelId);
     }
 
     @Override
@@ -178,15 +139,8 @@ public class OrderServiceImpl implements OrderService {
         int hours = (int)((to-from)/1000/60/60);
 
         User user = accountService.getUserInfo(orderannual.getUserId());
-
-        HotelVO hotel = hotelMapper.selectById(orderannual.getHotelId());
-        hotel.setTotalmoney(hotel.getTotalMoney()+orderannual.getPrice());
-        //减去totalmoney和lv
-        user.setTotalmoney(user.getTotalmoney()-orderannual.getPrice());
-        user.setLv((int) ((user.getTotalmoney()<=10000)?(user.getTotalmoney()/1000):(9+user.getTotalmoney()/10000)));
-        accountMapper.setLv(user.getId(),user.getLv());
-        accountMapper.setTotalMoney(user.getId(),user.getTotalmoney());
-
+        hotelService.updateTotalMoney(orderannual.getHotelId(), orderannual.getPrice()); // 酒店销售额修改
+        accountService.updateVip(orderannual.getUserId(), (-1)*orderannual.getPrice()); // 用户等级修改
         //注意等号，比如15:59到21:01,不足6小时，hours=6
         if(hours<=6){
             double curcredit = user.getCredit()-orderannual.getPrice()/2;
@@ -199,7 +153,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseVO deleteOrder(OrderVO orderVO){
+    public ResponseVO deleteOrder(OrderVO orderVO){ // 网站营销人员的删订单
         double per = orderVO.getPrice();
         int orderid = orderVO.getId();
         Order orderdel = orderMapper.getOrderById(orderid);
@@ -223,38 +177,44 @@ public class OrderServiceImpl implements OrderService {
         int roomNum = orderVO.getRoomNum();
         String roomType = orderVO.getRoomType();
         orderMapper.checkOut(orderId);
-        roomMapper.updateRoomInfo(hotelId,roomType,roomNum*(-1));
-        // roomMapper.updateRoomInfo写好的是扣除多少房间，所以我直接乘负一，退房的就加多少房间
+        hotelService.updateRoomInfo(hotelId, roomType, roomNum*(-1));
+        // updateRoomInfo写好的是扣除多少房间，所以我直接乘负一，退房的就加多少房间
         return ResponseVO.buildSuccess(true);
     }
 
     @Override
     public ResponseVO execOrder(int orderid) {
-        //执行订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
-        Order orderexec = orderMapper.getOrderById(orderid);
-        orderexec.setOrderState("已执行");
         //数据库操作
         orderMapper.execOrder(orderid);
-        //roomnum置为负
-        //hotelService.updateRoomInfo(orderexec.getHotelId(),orderexec.getRoomType(),-orderexec.getRoomNum());
         return ResponseVO.buildSuccess(true);
     }
 
 
     @Override
     public ResponseVO updateOrderComment(OrderVO orderVO){
-        Order order = new Order();
-        BeanUtils.copyProperties(orderVO,order);
-        orderMapper.updateOrderComment(order.getId(),order.getStar(),order.getComment());
-        //orderVO.getHotelId();
-        //System.out.println(order.getHotelId());
-        int count=orderMapper.getCommentNum(order.getHotelId());
-        double cur_rate=hotelMapper.getCur_rate(order.getHotelId());
-        int newstar=order.getStar();
-        double tar_rate=(cur_rate*count+newstar)/(count+1);
-        tar_rate=(double)Math.round(tar_rate*10)/10;
-        hotelMapper.updateRate(order.getHotelId(),tar_rate);
+        int count=orderMapper.getCommentNum(orderVO.getHotelId());
+        orderMapper.updateOrderComment(orderVO.getId(),orderVO.getStar(),orderVO.getComment());
+        hotelService.updateRate(orderVO.getHotelId(), count, orderVO.getStar());
         return ResponseVO.buildSuccess(true);
     }
 
+    @Override
+    public List<CommentVO> getComments(Integer hotelId) {
+        List<Order> hotelOrders = getHotelOrders(hotelId);
+        List<CommentVO> comments = new ArrayList<CommentVO>();
+        for (int i = 0; i<hotelOrders.size(); i++){
+            Order order = hotelOrders.get(i);
+            if ((order.getStar()!=null)&&(order.getComment()!=null)){
+                User user = accountService.getUserInfo(order.getUserId());
+                CommentVO comment = new CommentVO();
+                comment.setAuthor(user.getUserName());
+                comment.setAvatar(accountService.getUserImg(user.getId()));
+                comment.setComment(order.getComment());
+                comment.setStar(order.getStar());
+                comment.setDate(order.getCheckOutDate());
+                comments.add(comment);
+            }
+        }
+        return comments;
+    }
 }

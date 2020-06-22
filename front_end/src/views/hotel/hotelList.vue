@@ -2,14 +2,25 @@
   <div class="hotelList">
     <a-layout>
         <a-layout-content style="min-width: 800px">
-            排序方式：
-            <a-select  @change="sortChange" style="width: 180px">
-<!--                <a-select-option value="default">默认排序</a-select-option>-->
-                <a-select-option value="rate">评分从高到低</a-select-option>
-                <a-select-option value="star">星级从高到低</a-select-option>
-                <a-select-option value="price">价格从低到高</a-select-option>
-            </a-select>
-            <a-button @click="getlog">test</a-button>
+            <a-row style="margin-bottom: 50px">
+                <a-col :span="8" :offset="3">
+                    排序方式：
+                    <a-radio-group v-model="value" @change="sortChange">
+                        <a-radio-button value="rate">
+                            评分从高到低
+                        </a-radio-button>
+                        <a-radio-button value="star">
+                            星级从高到低
+                        </a-radio-button>
+                        <a-radio-button value="price">
+                            价格从低到高
+                        </a-radio-button>
+                    </a-radio-group>
+                </a-col>
+                <a-col :span="6" :offset="4">
+                    <a-button @click="showSearchModal" type="primary" style="width: 100%">酒店搜索</a-button>
+                </a-col>
+            </a-row>
             <a-spin :spinning="hotelListLoading">
             <div class="card-wrapper">
                 <HotelCard :hotel="item" v-for="item in hotelList" :key="item.index" @click.native="jumpToDetails(item.id)"></HotelCard>
@@ -20,20 +31,24 @@
           </a-spin>
       </a-layout-content>
     </a-layout>
+      <SearchModal></SearchModal>
   </div>
 </template>
 <script>
 import HotelCard from './components/hotelCard'
+import SearchModal from "./components/searchModal";
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'home',
   components: {
-    HotelCard
+    HotelCard,
+      SearchModal
   },
   data(){
     return{
-      emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}]
+      emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}],
+        value: ''
     }
   },
   computed: {
@@ -52,23 +67,24 @@ export default {
         'set_hotelListSortedByRate',
         'set_hotelListSortedByPrice',
         'set_hotelListSortedByStar',
+        'set_searchModalVisible'
     ]),
       ...mapActions([
          'getHotelList'
       ]),
-    sortChange(value){
-        if (value=="rate"){
+    sortChange(){
+        if (this.value=="rate"){
             this.set_hotelListSortedByRate()
-        } else if (value=="price"){
+        } else if (this.value=="price"){
             this.set_hotelListSortedByPrice()
-        } else if (value=="star"){
+        } else if (this.value=="star"){
             this.set_hotelListSortedByStar()
         } else {
 
         }
     },
-      getlog(){
-        console.log(this.hotelList)
+      showSearchModal() {
+        this.set_searchModalVisible(true);
       },
     pageChange(page, pageSize) {
       const data = {

@@ -1,8 +1,6 @@
 package com.example.hotel.data.admin;
 
 import com.example.hotel.po.User;
-import com.example.hotel.po.Hotel;
-import com.example.hotel.vo.HotelVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -21,7 +19,6 @@ public interface    AdminMapper {
     int editUserInfo(@Param("id") int id,
                      @Param("password") String address,
                      @Param("username") String username,
-                     @Param("credit") double credit,
                      @Param("phonenumber") String phonenumber
     );
 
@@ -29,7 +26,6 @@ public interface    AdminMapper {
 
     List<User> getAllUsers();
     List<User> getVip();
-    List<HotelVO> getHotels();
     int deleteUser(@Param("userid")int userid);
 
 }

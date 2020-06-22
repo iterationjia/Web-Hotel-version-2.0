@@ -5,7 +5,7 @@
                 title="订单详情"
                 :footer="null"
                 @cancel="cancel"
-
+                destroyOnClose
         >
             <a-row>
                 <a-col :span="8">
@@ -63,7 +63,7 @@
                     <a-statistic :value="info.comment">
                         <span slot="title">
                             <div>评价</div>
-                            <a-rate :default-value="info.star" disabled /> {{info.star}}分
+                            <a-rate :value="info.star" disabled /> {{info.star}}分
                         </span>
                     </a-statistic>
                 </a-col>

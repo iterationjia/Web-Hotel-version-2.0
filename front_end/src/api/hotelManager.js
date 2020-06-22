@@ -15,15 +15,7 @@ export function getManagerHotelsAPI(param) {
         method: 'GET'
     })
 }
-export function addHotelAPI(data) {
-    return axios({
-        url: `${api.hotelPre}/addHotel`,
-        method: 'POST',
-        data,
-    })
 
-
-}
 export function editHotelAPI(data) {
     return axios({
         url: `${api.hotelPre}/editHotel`,
@@ -72,5 +64,12 @@ export function deleteRoomAPI(roomId) {
     return axios({
         url: `${api.hotelPre}/${roomId}/deleteRoom`,
         method: 'POST'
+    })
+}
+export function addHotelAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/addHotel`,
+        method: 'POST',
+        data,
     })
 }

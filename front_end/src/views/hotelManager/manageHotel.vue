@@ -52,7 +52,7 @@
                     </span>
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDetail(record)">订单详情</a-button>
-                        <a-divider type="vertical"></a-divider>
+                        <a-divider v-if="record.orderState=='已预订'" type="vertical"></a-divider>
 
                         <a-popconfirm
                                 title="确定想执行该订单吗？"
@@ -63,7 +63,7 @@
                         >
                             <a-button  type="default" size="small">执行订单</a-button>
                         </a-popconfirm>
-                        <a-divider type="vertical" v-if="record.orderState=='已预订'"></a-divider>
+                        <a-divider type="vertical" v-if="record.orderState=='已预订'||record.orderState=='已入住'"></a-divider>
                         <a-popconfirm
                                 title="确定将该订单置为异常吗？"
                                 @confirm="SetOrderExcep(record)"
@@ -72,18 +72,19 @@
                                 v-if="record.orderState=='已预订'"
                         >
                             <a-button  type="default" size="small">订单逾期</a-button>
+
                         </a-popconfirm>
-                        <a-divider type="vertical" v-if="record.orderState=='已预订'"></a-divider>
-                                                <a-popconfirm
-                                                        title="确定恢复该订单吗？"
-                                                        @confirm="RecoverOrder(record)"
-                                                        okText="确定"
-                                                        cancelText="取消"
-                                                        v-if="record.orderState=='异常'"
-                                                >
+                         <a-divider type="vertical" v-if="record.orderState=='异常'"></a-divider>
+                        <a-popconfirm
+                                title="确定恢复该订单吗？"
+                                @confirm="RecoverOrder(record)"
+                                okText="确定"
+                                cancelText="取消"
+                                v-if="record.orderState=='异常'"
+                        >
                             <a-button  type="default" size="small">恢复订单</a-button>
                         </a-popconfirm>
-                        <a-divider type="vertical" v-if="record.orderState=='异常'"></a-divider>
+
                         <a-popconfirm
                                 title="确定想退房吗？"
                                 @confirm="checkOut(record)"
@@ -92,16 +93,6 @@
                                 v-if="record.orderState=='已入住'"
                         >
                             <a-button  type="default" size="small">退房</a-button>
-                        </a-popconfirm>
-                        <a-divider type="vertical" v-if="record.orderState=='已入住'"></a-divider>
-
-                        <a-popconfirm
-                            title="确定想删除该订单吗？"
-                            @confirm="deleteOrder(record)"
-                            okText="确定"
-                            cancelText="取消"
-                        >
-                            <a-button type="danger" size="small">删除订单</a-button>
                         </a-popconfirm>
                     </span>
                 </a-table>
@@ -265,8 +256,7 @@ export default {
         ...mapActions([
             'getHotelList',
             'getHotelDetail',
-            'deleteHotelByManager',
-            'deleteOrderByManager',
+            'deleteHotel',
             'getManagerHotelList',
             'getManagerOrderList',
             // 'getAllOrders',
@@ -296,14 +286,7 @@ export default {
             this.getHotelCoupon()
         },
         doDeleteHotel(record){
-            this.deleteHotelByManager(record.id)
-        },
-        deleteOrder(record){
-            // 我的删除订单和郭增嘉的撤销订单有冲突，先不写
-            // this.deleteOrderByManager({
-            //     id:record.id
-            //
-            // })
+            this.deleteHotel(record.id)
         },
         checkOut(record){
             this.checkOutOrder(record)

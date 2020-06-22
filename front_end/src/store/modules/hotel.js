@@ -1,14 +1,14 @@
-    import { message } from 'ant-design-vue'
-import store from '@/store'
+import { message } from 'ant-design-vue'
 import {
     getHotelsAPI,
     getHotelByIdAPI,
     getHotelListBySearchAPI,
-    getHotelCommentsAPI,
+    deleteHotelAPI,
 } from '@/api/hotel'
 import {
     reserveHotelAPI,
-    getUserHotelOrdersAPI
+    getUserHotelOrdersAPI,
+    getCommentsAPI,
 } from '@/api/order'
 import {
     orderMatchCouponsAPI,
@@ -29,6 +29,7 @@ const hotel = {
 
         },
         orderModalVisible: false,
+        searchModalVisible: false,
         currentOrderRoom: {
 
         },
@@ -61,7 +62,6 @@ const hotel = {
                 } else {
                     return 0
                 }
-                // return a.hotelStar>b.hotelStar
             })
         },
         set_hotelListParams: function(state, data) {
@@ -88,6 +88,9 @@ const hotel = {
         set_orderModalVisible: function(state, data) {
             state.orderModalVisible = data
         },
+        set_searchModalVisible: function(state, data) {
+            state.searchModalVisible = data
+        },
         set_currentOrderRoom: function(state, data) {
             state.currentOrderRoom = {
                 ...state.currentOrderRoom,
@@ -106,16 +109,38 @@ const hotel = {
         getHotelList: async({commit, state, getters}) => {
             const res = await getHotelsAPI(getters.userId)
             if(res){
+                for (var i = 0; i<res.length; i++) {
+                    const n_res = await getUserHotelOrdersAPI({
+                        hotelId: res[i].id,
+                        userId: getters.userId
+                    })
+                    if (n_res.length > 0) {
+                        res[i]["scheduled"] = true
+                    } else {
+                        res[i]["scheduled"] = false
+                    }
+                }
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
             }
         },
         getHotelListBySearch: async ({commit, state, getters}, data) => {
             const res = await getHotelListBySearchAPI(data,getters.userId)
-            console.log(res)
             if(res){
+                for (var i = 0; i<res.length; i++) {
+                    const n_res = await getUserHotelOrdersAPI({
+                        hotelId: res[i].id,
+                        userId: getters.userId
+                    })
+                    if (n_res.length > 0) {
+                        res[i]["scheduled"] = true
+                    } else {
+                        res[i]["scheduled"] = false
+                    }
+                }
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
+                commit('set_searchModalVisible', false)
             }
         },
         getOrderListByUserAndHotel: async ({commit,state,getters}) => {
@@ -135,13 +160,14 @@ const hotel = {
                 commit('set_currentHotelInfo', res)
             }
         },
-        addOrder: async({ state, commit }, data) => {
-            //console.log(data)
+        addOrder: async({ state, dispatch, commit }, data) => {
+            console.log(data)
             const res = await reserveHotelAPI(data)
             console.log(res)
             if(res){
                 message.success('预订成功')
                 commit('set_orderModalVisible', false)
+                dispatch('getHotelById')
             }
         },
         getOrderMatchCoupons: async({ state, commit }, data) => {
@@ -151,14 +177,23 @@ const hotel = {
             }
         },
         getHotelComments: async ({state, commit}) => {
-            const res = await getHotelCommentsAPI({
+            const res = await getCommentsAPI({
                 hotelId: state.currentHotelId
             })
             if (res) {
-                console.log(res)
                 commit('set_hotelComments', res)
             }
-        }
+        },
+        deleteHotel: async ({ state, dispatch }, hotelId) => {
+            const res = await deleteHotelAPI(hotelId)
+            if(res) {
+                dispatch('getHotelList')
+                dispatch('getManagerHotelList')
+                message.success('删除成功')
+            }else{
+                message.error('删除失败')
+            }
+        },
     }
 }
 

@@ -44,7 +44,7 @@
 
 <script>
     import {mapActions, mapGetters, mapMutations} from "vuex";
-
+    import { message } from 'ant-design-vue'
     const formTailLayout = {
         labelCol: { span: 8 },
         wrapperCol: { span: 8, offset: 8 },
@@ -94,6 +94,7 @@
             handleSubmit(e){
                 e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
+                    if(this.yuans<=0) err=true;
                     if (!err) {
                         const data = {
                             userName: this.form.getFieldValue('userName'),
@@ -104,6 +105,7 @@
                     }
                     else{
                         console.log("problem occur")
+                        message.error('充值金额必须大于0')
                     }
                 });
             },

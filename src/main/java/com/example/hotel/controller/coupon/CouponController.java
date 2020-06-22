@@ -36,6 +36,14 @@ public class CouponController {
         return ResponseVO.buildSuccess(couponVO);
     }
 
+    @PostMapping("/manyHouses")
+    public ResponseVO addManyHousesCoupon(@RequestBody ManyHousesCouponVO manyHousesCouponVO) {
+
+        CouponVO couponVO = couponService.addManyHousesCoupon(manyHousesCouponVO);
+
+        return ResponseVO.buildSuccess(couponVO);
+    }
+
     @GetMapping("/hotelAllCoupons")
     public ResponseVO getHotelAllCoupons(@RequestParam Integer hotelId) {
         return ResponseVO.buildSuccess(couponService.getHotelAllCoupon(hotelId));
@@ -58,5 +66,15 @@ public class CouponController {
         return ResponseVO.buildSuccess(couponService.getMatchOrderCoupon(requestOrderVO));
     }
 
+    @GetMapping("/getCouponList")
+    public ResponseVO getWebsiteCouponList(){
+        return ResponseVO.buildSuccess(couponService.getCouponList());
+    }
 
+    @PostMapping("/{couponid}/deleteCoupon")
+    public ResponseVO deleteUser(@PathVariable int couponid){
+        return couponService.deleteCoupon(couponid);
+    }
 }
+
+

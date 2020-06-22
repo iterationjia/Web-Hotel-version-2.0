@@ -6,6 +6,7 @@
             okText="确定"
             @cancel="cancel"
             @ok="handleSubmit"
+            destroyOnClose
     >
         <a-Form :form="form">
             <a-form-item v-bind="formItemLayout" label="用户邮箱">
@@ -95,9 +96,8 @@
                             password: this.form.getFieldValue('password'),
                             userName:this.form.getFieldValue('userName'),
                             phoneNumber:this.form.getFieldValue('phoneNumber'),
-                            credit:this.form.getFieldValue('credit')
+                            credit:10000
                         }
-                        console.log(data)
                         this.set_addManagerParams(data)
                         this.addManager()
                     }
