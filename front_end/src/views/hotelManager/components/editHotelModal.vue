@@ -63,7 +63,7 @@
             <a-form-item label="酒店图片" v-bind="formItemLayout">
                 <p>需手动上传，不上传则不更改</p>
                 <div>
-                    <a-upload :defalut-file-list="fileList" list-type="picture" :remove="handleRemove" :before-upload="beforeUpload">
+                    <a-upload :file-list="fileList" list-type="picture" :remove="handleRemove" :before-upload="beforeUpload">
                         <a-button v-if="fileList.length < 1"> <a-icon type="upload" /> Select File </a-button>
                     </a-upload>
                     <a-button
@@ -142,9 +142,11 @@
                     id: this.info.id,
                     img: this.fileList[0]
                 })
+                this.fileList = []
             },
             cancel(){
                this.set_editHotelModalVisible(false)
+                // this.fileList = []
             },
             handleSubmit(e){
                 e.preventDefault();

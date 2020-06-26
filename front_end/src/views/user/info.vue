@@ -14,7 +14,7 @@
                     <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
 
                         <div v-if="modify">
-                            <a-upload :defalut-file-list="fileList" list-type="picture" :remove="handleRemove" :before-upload="beforeUpload">
+                            <a-upload :file-list="fileList" list-type="picture" :remove="handleRemove" :before-upload="beforeUpload">
                                 <a-button v-if="fileList.length < 1"> <a-icon type="upload" /> Select File </a-button>
                             </a-upload>
                             <a-button
@@ -300,6 +300,7 @@ export default {
         },
         handleUpload(){
             this.updateUserAvatar(this.fileList[0])
+            this.fileList = []
         },
     }
 }

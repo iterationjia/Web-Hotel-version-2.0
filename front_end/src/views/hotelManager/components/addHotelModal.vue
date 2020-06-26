@@ -6,6 +6,7 @@
         okText="确定"
         @cancel="cancel"
         @ok="handleSubmit"
+        ddestroyOnClose
     >
         <a-form :form="form" style="margin-top: 30px" v-bind="formItemLayout">
             <a-form-item label="酒店名">

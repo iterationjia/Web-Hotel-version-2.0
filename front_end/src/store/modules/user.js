@@ -87,6 +87,7 @@ const user = {
     actions: {
         login: async ({ state, dispatch, commit }, userData) => {
             const res = await loginAPI(userData)
+            console.log(res)
             if(res){
                 setToken(res)
                 commit('set_userId', res.id)
@@ -104,6 +105,7 @@ const user = {
             return new Promise((resolve, reject) => {
               getUserInfoAPI(state.userId).then(response => {
                 const data = response
+                  setToken(data)
                 if (!data) {
                   reject('登录已过期，请重新登录')
                 }
