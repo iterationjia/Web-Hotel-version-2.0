@@ -14,7 +14,7 @@
                     <a-form-item label="头像" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
 
                         <div v-if="modify">
-                            <a-upload :defalut-file-list="fileList" list-type="picture" :remove="handleRemove" :before-upload="beforeUpload">
+                            <a-upload :file-list="fileList" list-type="picture" :remove="handleRemove" :before-upload="beforeUpload">
                                 <a-button v-if="fileList.length < 1"> <a-icon type="upload" /> Select File </a-button>
                             </a-upload>
                             <a-button
@@ -108,7 +108,7 @@
                         <!--评价-->
                         <a-divider type="vertical" v-else-if="record.orderState == '已退房'"></a-divider>
                         <span v-if="record.orderState == '已退房'">
-                            <template v-if="record.star==0">
+                            <template v-if="record.star==null">
                                 <a-button type="default" size="small" @click="commentModal(record.id,record.hotelId)">评价</a-button>
                             </template>
                             <template v-if="record.star>0">
@@ -300,6 +300,7 @@ export default {
         },
         handleUpload(){
             this.updateUserAvatar(this.fileList[0])
+            this.fileList = []
         },
     }
 }
